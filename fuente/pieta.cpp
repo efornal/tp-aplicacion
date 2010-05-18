@@ -1,4 +1,5 @@
 #include <CImg.h>
+#include <commons.h>
 
 using namespace cimg_library;
 using namespace std;
@@ -10,8 +11,8 @@ int main( int argc, char **argv ) {
     CImgDisplay disp;
     CImg<double> img (filename);
 
-    img.display(disp);
-
+    segmentar(img).display(disp);
+    
     while ( (!disp.is_closed() &&  !disp.is_keyQ()) ) {
         disp.wait();
     }
