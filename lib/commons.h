@@ -4,11 +4,8 @@ using namespace cimg_library;
 
 template<class T>
 CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) {
-
-	int nro_cuadros = (img.width() / ancho) * (img.height() / alto);
 	int cont = 0;
 	CImgList<T> cuadros;
-
 	for (int y = 0; y < img.height() && y + alto < img.height(); y += alto) {
 		for (int x = 0; x < img.width() && x + ancho < img.width(); x += ancho) {
 			cuadros.insert(
@@ -16,7 +13,6 @@ CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) {
 					cont++);
 		}
 	}
-
 	return cuadros;
 }
 
@@ -88,5 +84,5 @@ CImg<T> detectar_bordes(CImg<T> objetivo, float orden = 1.0, float frec_corte =
 	 * @orden: orden del filtro Butterworth que se aplicara sobre @objetivo - por defecto 1.0
 	 * @frec_corte: frecuencia de corte del filtro Butterworth - por defecto 10.0
 	 * */
-	return aplicar_PA_Butter <T> (objetivo, orden, frec_corte);
+	return aplicar_PA_Butter<T> (objetivo, orden, frec_corte);
 }
