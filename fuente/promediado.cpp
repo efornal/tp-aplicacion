@@ -18,14 +18,26 @@ int main(int argc, char **argv) {
 	 cimg_option ("-frec_corte", 70.0, "frec. corte del filtro butter");*/
 	CImgList<double> lista;
 	CImg<double> tmp;
-	for (int i = 1; i < argc; i++) {
+	CImg<double> match(argv[1]);
+	match = detectar_bordes(match, 2.0, 70.0).normalize(0,1.0);
+	for (int i = 2; i < argc; i++) {
 		tmp.assign(argv[i]);
-		lista.push_back(detectar_bordes(tmp, 2.0, 70.0));
+		lista.push_back(detectar_bordes(tmp, 2.0, 70.0).normalize(0,1.0));
 	}
+	CImg<double> prom = promedio(lista);
+	CImgList<double> lista_segmentada = segmentar(match, 40, 40);
 
-	CImgDisplay disp(promedio(lista), "promediado");
+	CImgList<double> prom_segmentada = segmentar(prom, 40, 40);
+	/*	CImgList<double> p_l(prom);
+	 CImgList<double> m_l(match);*/
+	prom.print();
+	match.print();
+	printf("Error = %f\n", prom.MSE(match));
 
-	while (!disp.is_closed()){
+	CImgDisplay disp(prom, "promediado");
+	CImgDisplay di(match, "match");
+	match.display();
+	while (!disp.is_closed()) {
 		disp.wait();
 	}
 

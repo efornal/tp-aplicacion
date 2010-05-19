@@ -1,1 +1,2 @@
-En el script de promediado aparecen bordes fantasmas por el promediado de las imagnes la imagen promediadda o resutlada tiene bordes espurios
+1- En el script de promediado aparecen bordes fantasmas por el promediado de las imagnes la imagen promediadda o resutlada tiene bordes espurios
+2- porque da menor el error  cuando la calculo con una imagen que no tiene nada que ver con una mas o menos parecida
