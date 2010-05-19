@@ -105,17 +105,14 @@ CImg<T> promedio(CImgList<T> lista_imagenes) {
 			lista_imagenes(0).spectrum();
 
 	for (unsigned int i = 1; i < tam_lista; i++) {
-		/*fixme: aca faltaba el tipo de datos? como le funciono antes?*/
 		// valido que las imágenes a comparar tengan las mismas dimensiones ( x, y, c )
 		if (lista_imagenes(i).width() != w || lista_imagenes(i).height() != h
 				|| lista_imagenes(i).spectrum() != d)
 			//return NULL; // caracoles, no explotará la cosa acá?
 			//->fixme: comento esto porque me patea si retornas null
-			promediada += lista_imagenes(i) / 2.0;
-		/*fixme: cambio el /tam_lista.. para mi esta mal... deberia quedar como
-		 lo puse aca... si esta incorrecto modifiquen y borren comentarios a
-		 medida que se van solventando... :)*/
+			promediada += lista_imagenes(i);
 	}
+	promediada/=(double) tam_lista;
 	return promediada;
 }
 

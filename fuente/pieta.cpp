@@ -31,7 +31,6 @@ int main(int argc, char **argv) {
 
 	//promedio de una lista de imagenes:
 	CImgDisplay disp_promedio(promedio(lista), "promedio de lista de imagenes");
-
 	//deteccion de los bordes:
 	CImgDisplay disp_bordes(detectar_bordes(img, orden, frec_corte),
 			"bordes de imagen");
