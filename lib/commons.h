@@ -49,7 +49,8 @@ CImg<T> filtrar(CImg<T> imagen, CImg<T> H) {
 template<class T>
 CImg<T> get_PA_Butter(int dimx, int dimy, float frec_corte = 10.0, float orden =
 		1.0) {
-	//genera un filtro pasa altos butterworth de dimx x dimy con frec corte =10 por defecto y orden 1.0 por defecto
+	/*genera un filtro pasa altos butterworth de dimx x dimy con frec corte =10
+	 *  por defecto y orden 1.0 por defecto*/
 	float distancia;
 	float mediox = dimx / 2.0;
 	float medioy = dimy / 2.0;
@@ -65,7 +66,8 @@ CImg<T> get_PA_Butter(int dimx, int dimy, float frec_corte = 10.0, float orden =
 template<class T>
 CImg<T> aplicar_PA_Butter(CImg<T> imagen, float orden = 1.0, float frec_corte =
 		10.0) {
-	/* aplica un filtro pasa Altos Butterwortch con frecuencia de corte: frec_corte y orden = orden.
+	/* aplica un filtro pasa Altos Butterwortch con frecuencia de corte:
+	 *  frec_corte y orden = orden.
 	 * Por defecto: frec_corte=10 y orden=1
 	 * Devuelve la imagen filtrada para ser mostrada.
 	 */
@@ -78,11 +80,16 @@ CImg<T> aplicar_PA_Butter(CImg<T> imagen, float orden = 1.0, float frec_corte =
 template<class T>
 CImg<T> detectar_bordes(CImg<T> objetivo, float orden = 1.0, float frec_corte =
 		10.0) {
-	/* funcion wrapper que devuelve la imagen filtrada con los bordes de una imagen mediante un filtro
-	 * Pasa altos del tipo Butterworth
+	/* funcion wrapper que devuelve la imagen filtrada con los bordes de una
+	 * imagen mediante un filtro Pasa altos del tipo Butterworth
+	 *
 	 * @objetivo: imagen sobre la cual se aplica el filtro
-	 * @orden: orden del filtro Butterworth que se aplicara sobre @objetivo - por defecto 1.0
-	 * @frec_corte: frecuencia de corte del filtro Butterworth - por defecto 10.0
+	 *
+	 * @orden: orden del filtro Butterworth que se aplicara sobre @objetivo
+	 *  - por defecto 1.0
+	 *
+	 * @frec_corte: frecuencia de corte del filtro Butterworth - por defecto
+	 *  10.0
 	 * */
 	return aplicar_PA_Butter<T> (objetivo, orden, frec_corte);
 }
@@ -97,19 +104,25 @@ CImg<T> promedio(CImgList<T> lista_imagenes) {
 	unsigned w = lista_imagenes(0).width(), h = lista_imagenes(0).height(), d =
 			lista_imagenes(0).spectrum();
 
-	for (unsigned int i = 1; i < tam_lista; i++) { //fixme: aca faltaba el tipo de datos? como le funciono antes?
+	for (unsigned int i = 1; i < tam_lista; i++) {
+		/*fixme: aca faltaba el tipo de datos? como le funciono antes?*/
 		// valido que las imágenes a comparar tengan las mismas dimensiones ( x, y, c )
 		if (lista_imagenes(i).width() != w || lista_imagenes(i).height() != h
 				|| lista_imagenes(i).spectrum() != d)
-			//return NULL; // caracoles, no explotará la cosa acá? ->fixme: comento esto porque me patea si retornas null
-			promediada += lista_imagenes(i) / 2.0; //fixme: cambio el /tam_lista.. para mi esta mal... deberia quedar como lo puse aca... si esta incorrecto modifiquen y borren comentarios a medida que se van solventando... :)
+			//return NULL; // caracoles, no explotará la cosa acá?
+			//->fixme: comento esto porque me patea si retornas null
+			promediada += lista_imagenes(i) / 2.0;
+		/*fixme: cambio el /tam_lista.. para mi esta mal... deberia quedar como
+		 lo puse aca... si esta incorrecto modifiquen y borren comentarios a
+		 medida que se van solventando... :)*/
 	}
 	return promediada;
 }
 
 template<class T>
 double calcular_mse(CImgList<T> imagenes, CImgList<T> patrones) {
-	/* funcion que devuelve el error cuadrático medio entre dos listas de imágenes chiquitas
+	/* funcion que devuelve el error cuadrático medio entre dos listas de
+	 * imágenes chiquitas
 	 * @imagenes: imágenes a comparar con los patrones
 	 * @patrones: patrones con los cuales se comparará el MSE
 	 * */
