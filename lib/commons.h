@@ -105,16 +105,23 @@ CImg<T> promedio(CImgList<T> lista_imagenes) {
 		// valido que las imágenes a comparar tengan las mismas dimensiones ( x, y, c )
 		if (lista_imagenes(i).width() != w || lista_imagenes(i).height() != h
 				|| lista_imagenes(i).spectrum() != d)
-			//return NULL; // caracoles, no explotará la cosa acá?
+			return promediada; // caracoles, no explotará la cosa acá?
 			//->fixme: comento esto porque me patea si retornas null
-			promediada += lista_imagenes(i);
+		/*	promediada += lista_imagenes(i);*/
+		cimg_forXYC(promediada,x,y,c){
+			promediada(x,y,c)+=lista_imagenes[i](x,y,c);
+		}
 	}
-	promediada/=(double) tam_lista;
+	cimg_forXYC(promediada,x,y,c){
+		promediada(x,y,c)/=(double) tam_lista;
+	}
+
 	return promediada;
 }
 
 template<class T>
 double calcular_mse(CImgList<T> imagenes, CImgList<T> patrones) {
+
 	/* funcion que devuelve el error cuadrático medio entre dos listas de
 	 * imágenes chiquitas
 	 * @imagenes: imágenes a comparar con los patrones
