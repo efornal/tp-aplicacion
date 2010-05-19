@@ -78,11 +78,28 @@ CImg<T> aplicar_PA_Butter(CImg<T> imagen, float orden = 1.0, float frec_corte =
 template<class T>
 CImg<T> detectar_bordes(CImg<T> objetivo, float orden = 1.0, float frec_corte =
 		10.0) {
-	/* funcion que devuelve la imagen filtrada con los bordes de una imagen mediante un filtro
+	/* funcion wrapper que devuelve la imagen filtrada con los bordes de una imagen mediante un filtro
 	 * Pasa altos del tipo Butterworth
 	 * @objetivo: imagen sobre la cual se aplica el filtro
 	 * @orden: orden del filtro Butterworth que se aplicara sobre @objetivo - por defecto 1.0
 	 * @frec_corte: frecuencia de corte del filtro Butterworth - por defecto 10.0
 	 * */
 	return aplicar_PA_Butter<T> (objetivo, orden, frec_corte);
+}
+
+template<class T>
+CImg<T> promedio(CImgList<T> lista_imagenes) {
+	/* funcion que dada una lista de imagenes retorna el promedio de la mismas
+	 * */
+	//fixme: que alguien revise esta funcion a ver si realemente esta bien... existe una cimglist_for.. pero no estoy seguro que hace...
+	CImg<T> promediada = lista_imagenes[0];
+	int tam_lista = lista_imagenes.size();
+	for (int i = 1; i < tam_lista; i++) {
+		cimg_forXY(promediada,x,y)
+			{
+				promediada(x, y) += lista_imagenes[i](x, y);
+				promediada(x,y)/=2.0;
+			}
+	}
+	return promediada;
 }
