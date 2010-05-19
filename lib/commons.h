@@ -4,30 +4,27 @@ using namespace cimg_library;
 
 template<class T>
 CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) {
-	int cont = 0;
-	CImgList<T> cuadros;
-	for (int y = 0; y < img.height() && y + alto < img.height(); y += alto) {
-		for (int x = 0; x < img.width() && x + ancho < img.width(); x += ancho) {
-			cuadros.insert(
-					img.get_crop(x, y, x + ancho - 1, y + alto - 1, true),
-					cont++);
-		}
-	}
-	return cuadros;
+  CImgList<T> cuadros;
+  for (int y = 0; y < img.height() && y + alto < img.height(); y += alto) {
+    for (int x = 0; x < img.width() && x + ancho < img.width(); x += ancho) {
+      cuadros.push_back( img.get_crop(x, y, x + ancho - 1, y + alto - 1) );
+    }
+  }
+  return cuadros;
 }
 
 template<class T>
 CImg<T> multiplicar(CImg<T> im1, CImg<T> im2, bool normalizar = true) {
-	//multiplica 2 imagenes...
-	CImg<T> imagen(im1.width(), im1.height(), 1, 1);
-	cimg_forXY(im1, x, y)
-		{
-			imagen(x, y) = im1(x, y) * im2(x, y);
-		}
-	if (normalizar)
-		return imagen.normalize();
-	else
-		return imagen;
+  //multiplica 2 imagenes...
+  CImg<T> imagen(im1.width(), im1.height(), 1, 1);
+  cimg_forXY(im1, x, y)
+    {
+      imagen(x, y) = im1(x, y) * im2(x, y);
+    }
+  if (normalizar)
+    return imagen.normalize();
+  else
+    return imagen;
 }
 
 template<class T>
