@@ -1,2 +1,12 @@
-1- En el script de promediado aparecen bordes fantasmas por el promediado de las imagnes la imagen promediadda o resutlada tiene bordes espurios
-2- porque da menor el error  cuando la calculo con una imagen que no tiene nada que ver con una mas o menos parecida
+1- En el script de promediado aparecen bordes fantasmas por el promediado 
+   de las imagnes la imagen promediadda o resutlada tiene bordes espurios
+
+2- porque da menor el error  cuando la calculo con una imagen que no tiene 
+   nada que ver con una mas o menos parecida
+
+3- Aplicar un umbral luego de pasar la imagen por un pasaaltos en frecuencia
+   genera un contraste mayor en la imagen, caracterizado mayormente por bordes.
+   esto tiende mas al objetivo del trabajo, el cual consiste en independizar
+   los bordes del resto de la info de la imagen y usar estos para cotejar.
+   Se podria probar con alta pontecia o alguno que asentúe los bordes y
+   elimine el resto de manera mas adecuada a como se hace con esta forma.
