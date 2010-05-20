@@ -160,3 +160,22 @@ double calcular_mse(CImgList<T> imagenes, CImgList<T> patrones) {
     }
     return mse;
 }
+
+
+/**
+ * Dado un conjunto de imagenes en la lista, genera una base
+ * (imagen) que es la que luego se usará para comparar contra una imagen dada.
+ * @param CImgList<T> Lista con imagenes a procesar
+ * @return CImg<T> Imagen base usada para la comparacion
+ *
+ * La idea es que este procedimiento sea el encargado de realizar
+ * las acciones necesarias (pre-procesos) para que la imagen quede lista
+ * para usar en la comparacion con cualquier otra dada. Es la funcion
+ * de -abstracción- de los procesos aplicados a la misma.
+ */
+template<class T>
+CImg<T> generar_base ( CImgList<T> lista ) {
+    return segmentar( detectar_bordes( promedio( lista ), 2.0, 70.0 ).
+                      normalize( 0, 255 ),
+                      100, 100 ).get_append('x');
+}
