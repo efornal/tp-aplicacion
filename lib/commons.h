@@ -158,7 +158,7 @@ double calcular_mse(CImgList<T> imagenes, CImgList<T> patrones) {
         // el MSE total es simplemente la suma de los mses de cada imagencita
         mse += imagenes(i).MSE(patrones(i));
     }
-    return mse;
+    return mse / (double)patrones.size();
 }
 
 
