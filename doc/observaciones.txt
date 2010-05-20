@@ -1,3 +1,5 @@
+Observaciones:
+
 1- En el script de promediado aparecen bordes fantasmas por el promediado 
    de las imagnes la imagen promediadda o resutlada tiene bordes espurios
 
@@ -8,5 +10,16 @@
    genera un contraste mayor en la imagen, caracterizado mayormente por bordes.
    esto tiende mas al objetivo del trabajo, el cual consiste en independizar
    los bordes del resto de la info de la imagen y usar estos para cotejar.
-   Se podria probar con alta pontecia o alguno que asentúe los bordes y
+   Se podria probar con alta pontecia o alguno que asentï¿½e los bordes y
    elimine el resto de manera mas adecuada a como se hace con esta forma.
+
+Por hacer:
+
+1- En el proceso de comparacion, luego del filtrado pasa altos, hacer un valor absoluto
+   para pasar las frecuencias negativas con las positivas , de modo que aumente 
+   al doble cada componente.
+   Al normalizar luego del filtrado, estamos pasando las negativas como positivas:
+   ej de -255...0...255 a 0..127..255 (por eso el umbral en 127 elimina la parte negativa)
+   Con un valor absoluto hariamos positivas las negativas  y a la vez acentuamos.
+
+- 
