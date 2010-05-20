@@ -172,6 +172,7 @@ double calcular_mse(CImgList<T> imagenes, CImgList<T> patrones) {
  * las acciones necesarias (pre-procesos) para que la imagen quede lista
  * para usar en la comparacion con cualquier otra dada. Es la funcion
  * de -abstracción- de los procesos aplicados a la misma.
+ * TODO: hacer parametros configurables
  */
 template<class T>
 CImg<T> generar_base ( CImgList<T> lista ) {
