@@ -20,7 +20,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
     const char *filename = cimg_option( "-f",
-                                        "imagenes/la-piedad.jpg",
+                                        "../imagenes/la-piedad.jpg",
                                         "ruta archivo imagen" );
     int wc = cimg_option ("-wc", 70, "frec corte");
     int orden = cimg_option ("-orden", 2, "orden");
