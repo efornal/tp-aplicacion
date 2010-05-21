@@ -13,6 +13,19 @@ Observaciones:
    Se podria probar con alta pontecia o alguno que asent�e los bordes y
    elimine el resto de manera mas adecuada a como se hace con esta forma.
 
+4- Cuál debería ser el criterio para decidir la frecuencia de corte al aplicar el pasa-alto?
+
+5- Estaría bueno probar achicando guasamente las imágenes (a un 10% maso) antes de compararlas
+   y ver si los resultados mejoran. Creo que con esta forma nos desharíamos de los
+   detalles que por ahi nos están jodiendo en la comparación.
+
+6- Propongo el sig. método para comparar:
+       1. Aplicar pasa-altos a la imagen a comparar (comp) y la imagen promedio de la base (base)
+       2. Binarizar base con un umbral bajo (20 ponele)
+       3. Multiplicar comp por base
+       4. Sumar los valores de todos los píxeles de la imagen resultante de (3)
+       5. La imagen más parecida será la que maximice el valor en (4)
+
 Por hacer:
 
 1- En el proceso de comparacion, luego del filtrado pasa altos, hacer un valor absoluto
@@ -23,4 +36,5 @@ Por hacer:
    Con un valor absoluto hariamos positivas las negativas  y a la vez acentuamos.
 
 2- Normalizar el MSE entre lista de imágenes que comparan la promediada. Debería
-estar dividida por la cantidad de imágenes.
+   estar dividida por la cantidad de imágenes.
+
