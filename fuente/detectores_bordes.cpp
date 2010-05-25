@@ -2,6 +2,13 @@
  * objetivo:
  * probar el mse con los diferentes detectores de bordes
  * y segmentadas
+ *
+ * pruebas:
+ * ../detectores_bordes -size 20 -seg 10 -ver 1
+ *
+ * conclusion:
+ * en todos los casos da MSE mas alto la imagen diferente!!
+ * 
 */
 #ifdef cimg_use_fftw3
 extern "C" {
@@ -110,9 +117,9 @@ int main(int argc, char **argv) {
         dist_seg_rob(i).resize(300,300);
     }
     if (ver) {
-        prom_seg_rob.display(disp10);
-        pare_seg_rob.display(disp11);
-        dist_seg_rob.display(disp12);
+        prom_seg_rob.display(disp10); disp10.set_title("prom_seg_rob");
+        pare_seg_rob.display(disp11); disp11.set_title("pare_seg_rob");
+        dist_seg_rob.display(disp12); disp12.set_title("dist_seg_rob");
     }
 
     //====================== sobel =======================
@@ -146,9 +153,9 @@ int main(int argc, char **argv) {
         dist_seg_sob(i).resize(300,300);
     }
     if(ver){
-        prom_seg_sob.display(disp13);
-        pare_seg_sob.display(disp14);
-        dist_seg_sob.display(disp15);
+        prom_seg_sob.display(disp13); disp13.set_title("prom_seg_sob");
+        pare_seg_sob.display(disp14); disp14.set_title("pare_seg_sob");
+        dist_seg_sob.display(disp15); disp15.set_title("dist_seg_sob");
     }
 
     //====================== laplaciano_g =======================
@@ -182,9 +189,9 @@ int main(int argc, char **argv) {
         dist_seg_lap(i).resize(300,300);
     }
     if (ver){
-        prom_seg_lap.display(disp16);
-        pare_seg_lap.display(disp17);
-        dist_seg_lap.display(disp18);
+        prom_seg_lap.display(disp16); disp16.set_title("prom_seg_lap");
+        pare_seg_lap.display(disp17); disp17.set_title("pare_seg_lap");
+        dist_seg_lap.display(disp18); disp18.set_title("dist_seg_lap");
     }
 
 
