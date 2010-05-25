@@ -98,6 +98,9 @@ int main(int argc, char **argv) {
             promediada_roberts.MSE( parecida_roberts ) );
     printf( "MSE promedio con distinta (con roberts): %f \n", 
             promediada_roberts.MSE( distinta_roberts ) );
+    printf( "### diferencia:  %f \n", 
+            promediada_roberts.MSE( parecida_roberts ) - 
+            promediada_roberts.MSE( distinta_roberts ) );
 
     promediada_roberts.resize(size,size);
     CImgList<double> prom_seg_rob = segmentar(promediada_roberts , seg, seg);
@@ -109,6 +112,9 @@ int main(int argc, char **argv) {
     printf( "MSE promedio con parecida (con roberts) segmentada: %f \n",
             calcular_mse( prom_seg_rob, pare_seg_rob ) );
     printf( "MSE promedio con distinta (con roberts) segmentada: %f \n", 
+            calcular_mse( prom_seg_rob, dist_seg_rob ) );
+  printf( "### diferencia:  %f \n", 
+            calcular_mse( prom_seg_rob, pare_seg_rob )-
             calcular_mse( prom_seg_rob, dist_seg_rob ) );
 
     for (unsigned i = 0; i < prom_seg_rob.size(); i++) {
@@ -134,6 +140,9 @@ int main(int argc, char **argv) {
             promediada_sobel.MSE( parecida_sobel ) );
     printf( "MSE promedio con distinta (con sobel): %f \n", 
             promediada_sobel.MSE( distinta_sobel ) );
+    printf( "### diferencia:  %f \n", 
+            promediada_sobel.MSE( parecida_sobel ) - 
+            promediada_sobel.MSE( distinta_sobel ) );
 
     promediada_sobel.resize(size,size);
     CImgList<double> prom_seg_sob = segmentar(promediada_sobel , seg, seg);
@@ -145,6 +154,9 @@ int main(int argc, char **argv) {
     printf( "MSE promedio con parecida (con sobel) segmentada: %f \n",
             calcular_mse( prom_seg_sob, pare_seg_sob ) );
     printf( "MSE promedio con distinta (con sobel) segmentada: %f \n", 
+            calcular_mse( prom_seg_sob, dist_seg_sob ) );
+    printf( "### diferencia:  %f \n", 
+            calcular_mse( prom_seg_sob, pare_seg_sob )-
             calcular_mse( prom_seg_sob, dist_seg_sob ) );
 
     for (unsigned i = 0; i < prom_seg_sob.size(); i++) {
@@ -170,6 +182,9 @@ int main(int argc, char **argv) {
             promediada_laplaciano_g.MSE( parecida_laplaciano_g ) );
     printf( "MSE promedio con distinta (con laplaciano_g): %f \n", 
             promediada_laplaciano_g.MSE( distinta_laplaciano_g ) );
+    printf( "### diferencia:  %f \n", 
+            promediada_laplaciano_g.MSE( parecida_laplaciano_g ) - 
+            promediada_laplaciano_g.MSE( distinta_laplaciano_g ) );
 
     promediada_laplaciano_g.resize(size,size);
     CImgList<double> prom_seg_lap = segmentar(promediada_laplaciano_g , seg, seg);
@@ -181,6 +196,9 @@ int main(int argc, char **argv) {
     printf( "MSE promedio con parecida (con laplaciano_g) segmentada: %f \n",
             calcular_mse( prom_seg_lap, pare_seg_lap ) );
     printf( "MSE promedio con distinta (con laplaciano_g) segmentada: %f \n", 
+            calcular_mse( prom_seg_lap, dist_seg_lap ) );
+    printf( "### diferencia:  %f \n", 
+            calcular_mse( prom_seg_lap, pare_seg_lap )-
             calcular_mse( prom_seg_lap, dist_seg_lap ) );
 
     for (unsigned i = 0; i < prom_seg_lap.size(); i++) {
