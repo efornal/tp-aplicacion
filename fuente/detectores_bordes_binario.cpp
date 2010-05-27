@@ -1,10 +1,21 @@
 /**
  * objetivo:
- * probar el mse con los diferentes detectores de bordes
- * y segmentadas, pero con la mascara binaria, no con niveles de grises
+ * probar el mse de la imagen promediada contra una parecida y otra distinta
+ * binarizando las imagenes luego de aplicarseles 
+ * diferentes detectores de bordes.
+ * probar el mse de las mismas segmentadas.
+ *
+ * procedimiento:
+ *  - genera una promediada a partir de las 10 fotos
+ *  - recibe 2 img como parametros: una parecida (img1) a la promediada
+ *    y otra diferente (img2)
+ *  - binariza las 3 imagenes haciendo 0(parte negativa) y 1(parte positiva)
+ *    luego de aplicar un detector de borde (sobel,..laplaciano)
+ *  - luego compara el MSE de la promediada contra la parecida y 
+ *    contra la distinta usando diferentes detectores de borde
  *
  * pruebas:
- * ../detectores_bordes_binario  -size 100 -seg 10 -ver 1
+ * ../detectores_bordes_binario  -size 50 -seg 10 -ver 1
  * 
  * conclusines
  * Con poca diferencia, pero da menos error con la imagen mas parecida
@@ -31,6 +42,7 @@ int main(int argc, char **argv) {
     const char *filename2 = cimg_option( "-f2",
         "../imagenes/trenfrente/prueba/tren_frente10.jpg",
         "ruta archivo imagen" );
+
     int umbral = cimg_option("-umbral" , 127, "umbral threshold");
     int size   = cimg_option("-size" , 100, "tamaño imagen a segmentar");
     int seg    = cimg_option("-seg" , 10, "tamaño cuadritos segmentacion");
@@ -74,6 +86,7 @@ int main(int argc, char **argv) {
         distinta_laplaciano_g(x,y) =  ( distinta_laplaciano_g(x,y) < 0 ) ? 0 : 1;
 
     }
+    //  AL CUETE!!!
     promediada_roberts.normalize(0,1);
     parecida_roberts.normalize(0,1); 
     distinta_roberts.normalize(0,1);
