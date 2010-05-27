@@ -86,18 +86,6 @@ int main(int argc, char **argv) {
         distinta_laplaciano_g(x,y) =  ( distinta_laplaciano_g(x,y) < 0 ) ? 0 : 1;
 
     }
-    //  AL CUETE!!!
-    promediada_roberts.normalize(0,1);
-    parecida_roberts.normalize(0,1); 
-    distinta_roberts.normalize(0,1);
-
-    promediada_sobel.normalize(0,1);
-    parecida_sobel.normalize(0,1); 
-    distinta_sobel.normalize(0,1);
-
-    promediada_laplaciano_g.normalize(0,1);
-    parecida_laplaciano_g.normalize(0,1); 
-    distinta_laplaciano_g.normalize(0,1);
 
     //====================== roberts =======================
     CImgList<double> 
