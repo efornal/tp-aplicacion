@@ -180,3 +180,53 @@ CImg<T> generar_base ( CImgList<T> lista ) {
                       normalize( 0, 255 ),
                       100, 100 ).get_append('x');
 }
+
+/**
+ * generar_base
+ * genera una imagen base con todas las imágenes que encuentre en el directorio
+ * pasado como parámetro.
+ * @param directorio directorio donde buscar las imágenes para generar la base
+ * @return base generada (sin segmentar, por ahora)
+ */
+template<class T>
+CImg<T> generar_base( const char* directorio ) {
+  CImgList<T> lista_imagenes;
+  CImg<T> temp;
+
+  // el "globbing" me permite expandir los asteriscos como cuando hago `ls ./*`
+  // acá lo que hago es expandir la expresión (directorio)/*, y para cada una
+  // de las expansiones matcheo la expresión regular "match", que matchea para
+  // los archivos tipo imagen: .jpg, .jpeg, .JPG, .bmp, et cetera.
+
+  // globbuf es la estructura donde se guardan los resultados del glob.
+  // me interesan 2 de sus miembros: gl_pathc, que contiene el número
+  // de expansiones, y gl_pathv que es un char** con las expansiones mismas
+  glob_t globbuf;
+
+  // match contendrá la expresión regular "compilada" en la llamada a regcomp
+  regex_t match;
+
+  // compilo la expresión regular en el 2do parámetro en match,
+  // el 3er argumento le dice que ignore mayusculas/minusculas
+  // por alguna putísima razón tengo que comentar con \\ los caracteres ()?|
+  regcomp( &match, ".*\\.\\(jpe\\?g\\|bmp\\tif{1,2}\\|png\\|gif\\)$", REG_ICASE );
+
+  // expando directorio/*
+  glob( string(string(directorio)+string("/*")).c_str(), GLOB_MARK, NULL, &globbuf );
+
+  // recorro todas las expansiones
+  for (unsigned i=0; i<globbuf.gl_pathc; i++ ) {
+    // matcheo la expresion regular
+    if( regexec( &match, globbuf.gl_pathv[i], 0, NULL, 0) == 0 ) {
+      // si matchea cargo la imagen en temp y la meto al final de la lista
+      lista_imagenes.push_back( CImg<T>( globbuf.gl_pathv[i] ) );
+    }
+  }
+
+  // libero los cosos auxiliares de glob y regex
+  regfree(&match);
+  globfree(&globbuf);
+
+  // devuelvo la base generada a partir del promedio de las imagenes
+  return promedio( lista_imagenes );
+}
