@@ -48,3 +48,12 @@ Por hacer:
 2- Normalizar el MSE entre lista de imágenes que comparan la promediada. Debería
    estar dividida por la cantidad de imágenes.
 
+3- Histograma conjunto (histogram join?) buscar info
+
+4- Histograma en vertical y horizontal (~proyeccion)  
+   obtener valores estadisticos
+
+5- Por cada cuadradito(binario), contar la cantidad de pixels blancos 
+   y armar un perfil con los mismos. Luego, comparar el perfil de la promediada
+   con las otras.
+   La resta de los perfiles para imagenes parecidas tienede a una recta.
