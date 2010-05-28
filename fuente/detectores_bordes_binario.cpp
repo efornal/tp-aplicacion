@@ -67,7 +67,11 @@ int main(int argc, char **argv) {
         disp13, disp14, disp15,
         disp16, disp17, disp18;
     CImg<double> img1 ( filename1 ), img2( filename2 );
+
     CImgList<double> lista = lista_con_img_chaco_y_un_canal();
+    //CImgList<double> lista = lista_con_img_tren_frente_y_un_canal();
+    //CImgList<double> lista = lista_con_img_tren_perspectiva_y_un_canal();
+
     img1.channel(0); // ver aplicar en todos los canales !
     img2.channel(0); // ver aplicar en todos los canales !
     CImg<double> promediada = promedio(lista);
@@ -125,8 +129,8 @@ int main(int argc, char **argv) {
             promediada_roberts.MSE( parecida_roberts ) );
     printf( "MSE promedio con distinta (con roberts): %f   ## diff: %f \n", 
             promediada_roberts.MSE( distinta_roberts ),
-            promediada_roberts.MSE( parecida_roberts ) - 
-            promediada_roberts.MSE( distinta_roberts ) );
+            promediada_roberts.MSE( distinta_roberts ) - 
+            promediada_roberts.MSE( parecida_roberts ) );
 
     promediada_roberts.resize(size,size);
     CImgList<double> prom_seg_rob = segmentar(promediada_roberts , seg, seg);
@@ -139,8 +143,8 @@ int main(int argc, char **argv) {
             calcular_mse( prom_seg_rob, pare_seg_rob ) );
     printf( "MSE promedio con distinta (con roberts) segmentada: %f   ## diff: %f \n\n", 
             calcular_mse( prom_seg_rob, dist_seg_rob ),
-            calcular_mse( prom_seg_rob, pare_seg_rob )-
-            calcular_mse( prom_seg_rob, dist_seg_rob ) );
+            calcular_mse( prom_seg_rob, dist_seg_rob )-
+            calcular_mse( prom_seg_rob, pare_seg_rob ) );
 
     for (unsigned i = 0; i < prom_seg_rob.size(); i++) {
         prom_seg_rob(i).resize(300,300);
@@ -165,8 +169,8 @@ int main(int argc, char **argv) {
             promediada_sobel.MSE( parecida_sobel ) );
     printf( "MSE promedio con distinta (con sobel): %f   ## diff: %f \n", 
             promediada_sobel.MSE( distinta_sobel ),
-            promediada_sobel.MSE( parecida_sobel ) - 
-            promediada_sobel.MSE( distinta_sobel ) );
+            promediada_sobel.MSE( distinta_sobel ) - 
+            promediada_sobel.MSE( parecida_sobel ) );
 
     promediada_sobel.resize(size,size);
     CImgList<double> prom_seg_sob = segmentar(promediada_sobel , seg, seg);
@@ -179,8 +183,8 @@ int main(int argc, char **argv) {
             calcular_mse( prom_seg_sob, pare_seg_sob ) );
     printf( "MSE promedio con distinta (con sobel) segmentada: %f   ##diff: %f \n\n", 
             calcular_mse( prom_seg_sob, dist_seg_sob ),
-            calcular_mse( prom_seg_sob, pare_seg_sob )-
-            calcular_mse( prom_seg_sob, dist_seg_sob ) );
+            calcular_mse( prom_seg_sob, dist_seg_sob )-
+            calcular_mse( prom_seg_sob, pare_seg_sob ) );
 
     for (unsigned i = 0; i < prom_seg_sob.size(); i++) {
         prom_seg_sob(i).resize(300,300);
@@ -205,8 +209,8 @@ int main(int argc, char **argv) {
             promediada_laplaciano_g.MSE( parecida_laplaciano_g ) );
     printf( "MSE promedio con distinta (con LoG): %f   ## diff: %f \n", 
             promediada_laplaciano_g.MSE( distinta_laplaciano_g ),
-            promediada_laplaciano_g.MSE( parecida_laplaciano_g ) - 
-            promediada_laplaciano_g.MSE( distinta_laplaciano_g ) );
+            promediada_laplaciano_g.MSE( distinta_laplaciano_g ) - 
+            promediada_laplaciano_g.MSE( parecida_laplaciano_g ) );
 
     promediada_laplaciano_g.resize(size,size);
     CImgList<double> prom_seg_lap = segmentar(promediada_laplaciano_g , seg, seg);
@@ -219,8 +223,8 @@ int main(int argc, char **argv) {
             calcular_mse( prom_seg_lap, pare_seg_lap ) );
     printf( "MSE promedio con distinta (con LoG) segmentada: %f   ## diff: %f \n\n", 
             calcular_mse( prom_seg_lap, dist_seg_lap ),
-            calcular_mse( prom_seg_lap, pare_seg_lap )-
-            calcular_mse( prom_seg_lap, dist_seg_lap ) );
+            calcular_mse( prom_seg_lap, dist_seg_lap )-
+            calcular_mse( prom_seg_lap, pare_seg_lap ) );
 
     for (unsigned i = 0; i < prom_seg_lap.size(); i++) {
         prom_seg_lap(i).resize(300,300);
