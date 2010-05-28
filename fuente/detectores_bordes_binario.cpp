@@ -9,17 +9,27 @@
  *  - genera una promediada a partir de las 10 fotos
  *  - recibe 2 img como parametros: una parecida (img1) a la promediada
  *    y otra diferente (img2)
- *  - binariza las 3 imagenes haciendo 0(parte negativa) y 1(parte positiva)
+ *  - binariza las 3 imagenes haciendo el valor absoluto
  *    luego de aplicar un detector de borde (sobel,..laplaciano)
+ *    y a este resultado lo normaliza y aplica un threshold
+ *    NOTA: (procedimiento corregido en consulta)
  *  - luego compara el MSE de la promediada contra la parecida y 
  *    contra la distinta usando diferentes detectores de borde
  *
  * pruebas:
- * ../detectores_bordes_binario  -size 50 -seg 10 -ver 1
- * 
+ * Para comparar, el MSE da valores mas diferenciados si no normalizamos y no aplicamos
+ * umbral, solo el abs():
+ *  ../detectores_bordes_binario -normalizar 0 -umbralar 0
+ *
  * conclusines
- * Con poca diferencia, pero da menos error con la imagen mas parecida
- * que con la diferente.
+ * si usamos normalizado y umbralado:
+ *   Con poca diferencia, pero da menos error con la imagen mas parecida
+ *   que con la diferente.
+ * si no usamos normalizado y umbralado (solo abs)
+ *   la diferencia es significativa
+ *
+ * Tener en cuenta que la poca diferencia, al ser la imagen binaria, 
+ * puede ser en realidad muy significativa.
 */
 #ifdef cimg_use_fftw3
 extern "C" {
@@ -43,10 +53,13 @@ int main(int argc, char **argv) {
         "../imagenes/trenfrente/prueba/tren_frente10.jpg",
         "ruta archivo imagen" );
 
-    int umbral = cimg_option("-umbral" , 127, "umbral threshold");
+    int umbral = cimg_option("-umbral" , 50, "umbral threshold");
     int size   = cimg_option("-size" , 100, "tamaño imagen a segmentar");
     int seg    = cimg_option("-seg" , 10, "tamaño cuadritos segmentacion");
-    int ver    = cimg_option("-ver" , 0, "ver imagenes - plot");
+    int verfil     = cimg_option("-verfil" , 0, "ver imagenes filtradas");
+    int vercuadros = cimg_option("-vercuadros" , 0, "ver imagenes cuadritos");
+    int umbralar   = cimg_option("-umbralar" , 1, "aplicar umbral a las imagenes");
+    int normalizar = cimg_option("-normalizar" , 1, "aplicar normalize a las imagenes");
 
     CImgDisplay disp1, disp2, disp3, disp4, 
         disp5, disp6, disp7,
@@ -55,8 +68,8 @@ int main(int argc, char **argv) {
         disp16, disp17, disp18;
     CImg<double> img1 ( filename1 ), img2( filename2 );
     CImgList<double> lista = lista_con_img_chaco_y_un_canal();
-    img1.channel(0);
-    img2.channel(0);
+    img1.channel(0); // ver aplicar en todos los canales !
+    img2.channel(0); // ver aplicar en todos los canales !
     CImg<double> promediada = promedio(lista);
 
     CImg<double> promediada_roberts = filtrado_roberts(promediada);
@@ -71,20 +84,33 @@ int main(int argc, char **argv) {
     CImg<double> parecida_laplaciano_g   = filtrado_laplaciano_g(img1);
     CImg<double> distinta_laplaciano_g   = filtrado_laplaciano_g(img2);
 
-    // solo tomamos la parte positiva ( ~= threshold)
-    cimg_forXY(promediada_roberts,x,y){
-        promediada_roberts(x,y) = ( promediada_roberts(x,y) < 0 ) ? 0:1;
-        parecida_roberts(x,y) =  ( parecida_roberts(x,y) < 0 ) ? 0 : 1;
-        distinta_roberts(x,y) = ( distinta_roberts(x,y) < 0 ) ? 0 : 1;
+    // normalizado y threshold, el abs ya esta en el filtrado
 
-        promediada_sobel(x,y) = ( promediada_sobel(x,y) < 0 )? 0 : 1;
-        parecida_sobel(x,y) = ( parecida_sobel(x,y) < 0 ) ? 0 : 1;
-        distinta_sobel(x,y) = ( distinta_sobel(x,y) < 0 ) ? 0 : 1;
+    if (normalizar) {
+        promediada_roberts.normalize(0,255);
+        parecida_roberts.normalize(0,255);
+        distinta_roberts.normalize(0,255);
 
-        promediada_laplaciano_g(x,y) = ( promediada_laplaciano_g(x,y) < 0 ) ? 0 : 1;
-        parecida_laplaciano_g(x,y) = ( parecida_laplaciano_g(x,y) < 0 ) ? 0 : 1;
-        distinta_laplaciano_g(x,y) =  ( distinta_laplaciano_g(x,y) < 0 ) ? 0 : 1;
+        promediada_sobel.normalize(0,255);
+        parecida_sobel.normalize(0,255);
+        distinta_sobel.normalize(0,255);
 
+        promediada_laplaciano_g.normalize(0,255);
+        parecida_laplaciano_g.normalize(0,255);
+        distinta_laplaciano_g.normalize(0,255);
+    }
+    if (umbralar) {
+        promediada_roberts.threshold(umbral);
+        parecida_roberts.threshold(umbral);
+        distinta_roberts.threshold(umbral);
+
+        promediada_sobel.threshold(umbral);
+        parecida_sobel.threshold(umbral);
+        distinta_sobel.threshold(umbral);
+
+        promediada_laplaciano_g.threshold(umbral);
+        parecida_laplaciano_g.threshold(umbral);
+        distinta_laplaciano_g.threshold(umbral);
     }
 
     //====================== roberts =======================
@@ -92,14 +118,13 @@ int main(int argc, char **argv) {
         lista1 ( promediada_roberts.get_resize(300,300), 
                  parecida_roberts.get_resize(300,300), 
                  distinta_roberts.get_resize(300,300) );
-    if (ver) lista1.display(disp1);
-    disp1.set_title("promediada - parecida - distinta");
+    if (verfil) lista1.display(disp1);
+    disp1.set_title("roberts: promediada - parecida - distinta");
 
     printf( "MSE promedio con parecida (con roberts): %f \n", 
             promediada_roberts.MSE( parecida_roberts ) );
-    printf( "MSE promedio con distinta (con roberts): %f \n", 
-            promediada_roberts.MSE( distinta_roberts ) );
-    printf( "### diferencia:  %f \n", 
+    printf( "MSE promedio con distinta (con roberts): %f   ## diff: %f \n", 
+            promediada_roberts.MSE( distinta_roberts ),
             promediada_roberts.MSE( parecida_roberts ) - 
             promediada_roberts.MSE( distinta_roberts ) );
 
@@ -112,9 +137,8 @@ int main(int argc, char **argv) {
 
     printf( "MSE promedio con parecida (con roberts) segmentada: %f \n",
             calcular_mse( prom_seg_rob, pare_seg_rob ) );
-    printf( "MSE promedio con distinta (con roberts) segmentada: %f \n", 
-            calcular_mse( prom_seg_rob, dist_seg_rob ) );
-  printf( "### diferencia:  %f \n", 
+    printf( "MSE promedio con distinta (con roberts) segmentada: %f   ## diff: %f \n\n", 
+            calcular_mse( prom_seg_rob, dist_seg_rob ),
             calcular_mse( prom_seg_rob, pare_seg_rob )-
             calcular_mse( prom_seg_rob, dist_seg_rob ) );
 
@@ -123,7 +147,7 @@ int main(int argc, char **argv) {
         pare_seg_rob(i).resize(300,300);
         dist_seg_rob(i).resize(300,300);
     }
-    if (ver) {
+    if (vercuadros) {
         prom_seg_rob.display(disp10); disp10.set_title("prom_seg_rob");
         pare_seg_rob.display(disp11); disp11.set_title("pare_seg_rob");
         dist_seg_rob.display(disp12); disp12.set_title("dist_seg_rob");
@@ -134,14 +158,13 @@ int main(int argc, char **argv) {
         lista5 ( promediada_sobel.get_resize(300,300), 
                  parecida_sobel.get_resize(300,300), 
                  distinta_sobel.get_resize(300,300) );
-    if (ver) lista5.display(disp5);
-    disp5.set_title("promediada - parecida - distinta");
+    if (verfil) lista5.display(disp5);
+    disp5.set_title("sobel: promediada - parecida - distinta");
 
     printf( "MSE promedio con parecida (con sobel): %f \n", 
             promediada_sobel.MSE( parecida_sobel ) );
-    printf( "MSE promedio con distinta (con sobel): %f \n", 
-            promediada_sobel.MSE( distinta_sobel ) );
-    printf( "### diferencia:  %f \n", 
+    printf( "MSE promedio con distinta (con sobel): %f   ## diff: %f \n", 
+            promediada_sobel.MSE( distinta_sobel ),
             promediada_sobel.MSE( parecida_sobel ) - 
             promediada_sobel.MSE( distinta_sobel ) );
 
@@ -154,9 +177,8 @@ int main(int argc, char **argv) {
 
     printf( "MSE promedio con parecida (con sobel) segmentada: %f \n",
             calcular_mse( prom_seg_sob, pare_seg_sob ) );
-    printf( "MSE promedio con distinta (con sobel) segmentada: %f \n", 
-            calcular_mse( prom_seg_sob, dist_seg_sob ) );
-    printf( "### diferencia:  %f \n", 
+    printf( "MSE promedio con distinta (con sobel) segmentada: %f   ##diff: %f \n\n", 
+            calcular_mse( prom_seg_sob, dist_seg_sob ),
             calcular_mse( prom_seg_sob, pare_seg_sob )-
             calcular_mse( prom_seg_sob, dist_seg_sob ) );
 
@@ -165,7 +187,7 @@ int main(int argc, char **argv) {
         pare_seg_sob(i).resize(300,300);
         dist_seg_sob(i).resize(300,300);
     }
-    if(ver){
+    if(vercuadros){
         prom_seg_sob.display(disp13); disp13.set_title("prom_seg_sob");
         pare_seg_sob.display(disp14); disp14.set_title("pare_seg_sob");
         dist_seg_sob.display(disp15); disp15.set_title("dist_seg_sob");
@@ -176,14 +198,13 @@ int main(int argc, char **argv) {
         lista6 ( promediada_laplaciano_g.get_resize(300,300), 
                  parecida_laplaciano_g.get_resize(300,300), 
                  distinta_laplaciano_g.get_resize(300,300) );
-    if (ver) lista6.display(disp6);
-    disp6.set_title("promediada - parecida - distinta");
+    if (verfil) lista6.display(disp6);
+    disp6.set_title("LoG: promediada - parecida - distinta");
 
-    printf( "MSE promedio con parecida (con laplaciano_g): %f \n", 
+    printf( "MSE promedio con parecida (con LoG): %f \n", 
             promediada_laplaciano_g.MSE( parecida_laplaciano_g ) );
-    printf( "MSE promedio con distinta (con laplaciano_g): %f \n", 
-            promediada_laplaciano_g.MSE( distinta_laplaciano_g ) );
-    printf( "### diferencia:  %f \n", 
+    printf( "MSE promedio con distinta (con LoG): %f   ## diff: %f \n", 
+            promediada_laplaciano_g.MSE( distinta_laplaciano_g ),
             promediada_laplaciano_g.MSE( parecida_laplaciano_g ) - 
             promediada_laplaciano_g.MSE( distinta_laplaciano_g ) );
 
@@ -194,11 +215,10 @@ int main(int argc, char **argv) {
     distinta_laplaciano_g.resize(size,size);
     CImgList<double> dist_seg_lap = segmentar(distinta_laplaciano_g , seg, seg);
 
-    printf( "MSE promedio con parecida (con laplaciano_g) segmentada: %f \n",
+    printf( "MSE promedio con parecida (con LoG) segmentada: %f \n",
             calcular_mse( prom_seg_lap, pare_seg_lap ) );
-    printf( "MSE promedio con distinta (con laplaciano_g) segmentada: %f \n", 
-            calcular_mse( prom_seg_lap, dist_seg_lap ) );
-    printf( "### diferencia:  %f \n", 
+    printf( "MSE promedio con distinta (con LoG) segmentada: %f   ## diff: %f \n\n", 
+            calcular_mse( prom_seg_lap, dist_seg_lap ),
             calcular_mse( prom_seg_lap, pare_seg_lap )-
             calcular_mse( prom_seg_lap, dist_seg_lap ) );
 
@@ -207,7 +227,7 @@ int main(int argc, char **argv) {
         pare_seg_lap(i).resize(300,300);
         dist_seg_lap(i).resize(300,300);
     }
-    if (ver){
+    if (vercuadros){
         prom_seg_lap.display(disp16); disp16.set_title("prom_seg_lap");
         pare_seg_lap.display(disp17); disp17.set_title("pare_seg_lap");
         dist_seg_lap.display(disp18); disp18.set_title("dist_seg_lap");
