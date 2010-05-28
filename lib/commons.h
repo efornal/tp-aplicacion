@@ -234,3 +234,88 @@ CImg<T> generar_base( const char* directorio ) {
   // devuelvo la base generada a partir del promedio de las imagenes
   return promedio( lista_imagenes );
 }
+
+/**
+ * sumar_dim
+ * agarra una imagen y la suma a lo largo de una dimensión, i.e. si sumo
+ * a lo largo de x entonces obtendré un vector en y del mismo alto que la imagen
+ * original, donde cada punto en y contendrá el valor de sum(0:ancho,y)
+ * @param imagen la imagen sobre la que calcular la suma
+ * @param dimension la dimensión a sumar, por defecto x, valores posibles: 'xXyY'
+ * @return vector de la suma, con una dimensión menos que la imagen original.
+ * @TODO generalizar para sumar a lo largo de las dimensiones z y c.
+ */
+template<class T>
+CImg<T> sumar_dim ( const CImg<T> imagen, char dimension='x' ) {
+  CImg<T> vector_salida;
+  // si dimension es x, recorro para cada Y y sumo todo X en cada Y
+  if ( dimension== 'x' | dimension=='X' ) {
+    vector_salida.assign( 1, imagen.height(), 1, 1, 0 );
+    cimg_forY( imagen, y ) {
+      vector_salida(0,y) = imagen.get_crop(0,y,imagen.width()-1,y).sum();
+    }
+  }
+  // viceversa si dimensión es X
+  if ( dimension== 'y' | dimension=='Y' ) {
+    vector_salida.assign( imagen.width(), 1, 1, 1, 0 );
+    cimg_forX( imagen, x ) {
+      vector_salida(x,0) = imagen.get_crop(x,0,x,imagen.height()-1).sum();
+    }
+  }
+  return vector_salida;
+}
+
+/**
+ * estadisticas_imagen
+ * calcula una serie de estadísticas sobre la imagen pasada como parámetro, a saber
+ * media y stddev sobre la imagen entera, media y stddev sobre las sumas horizontales
+ * y verticales, media y stddev sobre el histograma de la imagen entera, y sobre las
+ * sumas horiz y vert.
+ * @param imagen la imagen sobre la que se calcularán estas medidas
+ * @return un vector horizontal CImg<double> con los valores en el orden que se
+ *         mencionan ariba.
+ */
+template<class T>
+CImg<double> estadisticas_imagen ( const CImg<T> imagen ) {
+  CImg<double> resultados ( 12,1,1,1,0);
+
+  // calculo las sumas h y v
+  CImg<T> sum_h = sumar_dim<T> ( imagen, 'y' ), sum_v = sumar_dim<T> ( imagen, 'x' );
+
+  // calculo los histogramas de la imagen entera y las sumas
+  CImg<double> histo = imagen.get_normalize(0,255).get_histogram(256,0,255),
+    histo_h = sum_h.normalize(0,255).get_histogram(256,0,255),
+    histo_v = sum_v.normalize(0,255).get_histogram(256,0,255);
+
+  // relleno el vector con resultados. uso sqrt(var) = stddev porque es más
+  // parecido en magnitud a las medias, y mostrando el vector se "ve mejor"
+  resultados(0) = imagen.get_normalize(0,255).mean();
+  resultados(1) = sqrt( imagen.get_normalize(0,255).variance() );
+  resultados(2) = sum_h.mean();
+  resultados(3) = sqrt( sum_h.variance() );
+  resultados(4) = sum_v.mean();
+  resultados(5) = sqrt( sum_v.variance() );
+  resultados(6) = histo.mean();
+  resultados(7) = sqrt( histo.variance() );
+  resultados(8) = histo_h.mean();
+  resultados(9) = sqrt( histo_h.variance() );
+  resultados(10) = histo_v.mean();
+  resultados(11) = sqrt( histo_v.variance() );
+
+  return resultados;
+}
+
+/**
+ * error_estadisticas_imagen
+ * calcula el MSE entre los vectores de estadísticas de dos imágenes.
+ * @param img1, img2 las imágenes a comparar
+ * @return MSE (double) entre los vectores de estadísticas de las imágenes.
+ */
+template<class T>
+double error_estadisticas_imagen ( const CImg<T> img1, const CImg<T> img2,
+				   double normalize_min=0, double normalize_max=255 ) {
+  CImg<double>eimg1 = estadisticas_imagen<double>(img1);
+  CImg<double>eimg2 = estadisticas_imagen<double>(img2);
+  return eimg1.normalize(normalize_min,normalize_max).MSE(
+	       eimg2.normalize(normalize_min,normalize_max) );
+}
