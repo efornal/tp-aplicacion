@@ -1,4 +1,7 @@
 #include <CImg.h>
+#include <string>
+#include <glob.h>
+#include <regex.h>
 
 using namespace cimg_library;
 
@@ -212,7 +215,8 @@ CImg<T> generar_base( const char* directorio ) {
   regcomp( &match, ".*\\.\\(jpe\\?g\\|bmp\\tif{1,2}\\|png\\|gif\\)$", REG_ICASE );
 
   // expando directorio/*
-  glob( string(string(directorio)+string("/*")).c_str(), GLOB_MARK, NULL, &globbuf );
+  glob( std::string( std::string(directorio)+std::string("/*")).c_str(),
+	GLOB_MARK, NULL, &globbuf );
 
   // recorro todas las expansiones
   for (unsigned i=0; i<globbuf.gl_pathc; i++ ) {
