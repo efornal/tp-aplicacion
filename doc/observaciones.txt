@@ -1,3 +1,10 @@
+De Consulta:
+
+1- El filtrado espacial de sobel (y en otros casos?) usar solo
+   en la direccion gx y gy, no gxy o gyx.
+ 
+2- Todos los filtrados (roberts,sobel,..) verlos en valor absoluto.
+
 Observaciones:
 
 1- En el script de promediado aparecen bordes fantasmas por el promediado 
@@ -13,14 +20,17 @@ Observaciones:
    Se podria probar con alta pontecia o alguno que asent�e los bordes y
    elimine el resto de manera mas adecuada a como se hace con esta forma.
 
-4- Cuál debería ser el criterio para decidir la frecuencia de corte al aplicar el pasa-alto?
+4- Cuál debería ser el criterio para decidir la frecuencia de corte al 
+   aplicar el pasa-alto?
 
-5- Estaría bueno probar achicando guasamente las imágenes (a un 10% maso) antes de compararlas
+5- Estaría bueno probar achicando guasamente las imágenes (a un 10% maso) 
+   antes de compararlas
    y ver si los resultados mejoran. Creo que con esta forma nos desharíamos de los
    detalles que por ahi nos están jodiendo en la comparación.
 
 6- Propongo el sig. método para comparar:
-       1. Aplicar pasa-altos a la imagen a comparar (comp) y la imagen promedio de la base (base)
+       1. Aplicar pasa-altos a la imagen a comparar (comp) y la imagen promedio 
+          de la base (base)
        2. Binarizar base con un umbral bajo (20 ponele)
        3. Multiplicar comp por base
        4. Sumar los valores de todos los píxeles de la imagen resultante de (3)
