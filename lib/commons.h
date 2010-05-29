@@ -22,8 +22,8 @@ using namespace cimg_library;
 template<class T>
 CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) {
     CImgList<T> cuadros;
-    for (int y = 0; y < img.height() && y + alto < img.height(); y += alto) {
-        for (int x = 0; x < img.width() && x + ancho < img.width(); x += ancho) {
+    for (int y = 0; y <= img.height() && y + alto <= img.height(); y += alto) {
+        for (int x = 0; x <= img.width() && x + ancho <= img.width(); x += ancho) {
             cuadros.push_back( img.get_crop(x, y, x + ancho - 1, y + alto - 1) );
         }
     }
@@ -318,4 +318,28 @@ double error_estadisticas_imagen ( const CImg<T> img1, const CImg<T> img2,
   CImg<double>eimg2 = estadisticas_imagen<double>(img2);
   return eimg1.normalize(normalize_min,normalize_max).MSE(
 	       eimg2.normalize(normalize_min,normalize_max) );
+}
+
+/**
+ * Cuenta los blancos por cada cuadrito de la lista lo que genera un
+ * perfil, retorna el mismo como imagen
+ * 
+ * @param CImgList<T> imagenes Lista con Imagenes de los cuadritos
+ * @return CImg<unsigned int> Imagen con Perfil de blancos
+ *
+ * Perfil de blancos: Sea la lista con imagenes de los cuadritos,
+ * el perfil de blancos es la imagen formada por la cantidad de pixels
+ * blancos que tenga cada cuadrito.
+ *
+ * Se supone las imagenes de la lista son binarias, por lo que hacer
+ * una suma retorna la cantidad de unos (blancos).
+*/
+template<class T>
+CImg<unsigned int> perfil_blancos( CImgList<T> imagenes ) {
+    CImg<int> perfil(imagenes.size(),1,1,1,0);
+
+    for (int i = 0; i < imagenes.size(); i++ ) {
+        perfil(i) = imagenes(i).sum();
+    }
+    return perfil;
 }
