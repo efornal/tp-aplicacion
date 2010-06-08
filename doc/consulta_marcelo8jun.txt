@@ -1,0 +1,10 @@
+brillo medio
+
+caracteristicas globales.... comparar eso...
+varianza en cada plano y valor medio en cada plano.. en hsi o rgb
+enr gb por cada plano sacar gris medio y desvio....
+
+
+caracteristicas globales y locales
+hace lo de los cuadraditos locales.......
+
