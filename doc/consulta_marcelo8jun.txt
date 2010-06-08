@@ -8,3 +8,7 @@ enr gb por cada plano sacar gris medio y desvio....
 caracteristicas globales y locales
 hace lo de los cuadraditos locales.......
 
+caract. locales con hough
+ver en cada cuadradito si esta horizontal la marco con lago si eta vertical la marco con otraa cosa..
+
+luego juntar todos los metodos y ver que tira
