@@ -343,3 +343,59 @@ CImg<unsigned int> perfil_blancos( CImgList<T> imagenes ) {
     }
     return perfil;
 }
+
+
+/**
+ * Transformada Hough inversa
+ *
+ * tomada de funciones de la catedra
+ */
+template<class T>
+CImg<T> hough_inversa( CImg<T> img ) {
+
+    const double blanco[1] = { 255.f };
+    CImg<double> iHoughI(img);
+    iHoughI.fill(0.0);
+    int M = img.width(), 
+        N = img.height(), 
+        y0, y1;
+
+    //maximo valor posible de radio se da en la diagonal pcipal
+    double max_rho = sqrt(float(pow(N, 2) + pow(M, 2))),
+        step_rho = 2. * max_rho / (N - 1), //paso en eje rho (rho=[-max_rho , max_rho])
+        step_theta = M_PI / (M - 1), //paso en eje theta (M_PI=pi) (theta=[-90,90])
+        rho, theta;
+
+    cimg_forXY(img,t,r) {
+        if ( img(t, r) > 0.5 ) {
+            theta = t * step_theta - M_PI / 2; // mapea [0,M] en [-90,90]
+            rho = r * step_rho - max_rho; // mapea [0,N] en [-max_rho,max_rho]
+            y0 = int(rho / sin(theta));
+            y1 = int(rho / sin(theta) - M / tan(theta));
+            iHoughI.draw_line(0, (int) y0, (int) M, (int) y1, blanco);
+        }
+    }
+    return iHoughI;
+}
+
+/**
+ * solo maximos de la t hough
+ * FIXME: para valores menores que uno no va detectarlos
+ * o va detecta el mismo q esta usando para marcar..
+ * se podria usar valores negativos???
+ */
+template <class T>
+CImg<T> get_solo_maximos( CImg<T> img, int cantidad=1 ) {
+
+    CImg<T> maximos(cantidad,1,1,1,0);
+    CImg<T> aux(img);
+    int cont = 0;
+    for ( int i = 0; i < cantidad; i++ ) {
+        maximos(cont++) = img.max();
+        img.max() = 1;
+    }
+    cimg_forXY(img,x,y){
+        if ( img(x,y) == aux(x,y) ) img(x,y) = 0;
+    }
+    return img;
+}
