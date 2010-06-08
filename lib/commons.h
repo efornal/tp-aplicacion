@@ -346,6 +346,54 @@ CImg<unsigned int> perfil_blancos( CImgList<T> imagenes ) {
 
 
 /**
+ * Transformada Hough directa
+ *
+ * tomada de funciones de la catedra
+ *
+ *                        alto                  alto
+ * escala rho = ---------------------------  = ------
+ *              2 * sqrt{ alto^2 + ancho^2 }   2sqrt{D}
+ *
+ * NOTA: D = sqrt{ alto^2 + ancho^2 }, se multiplica por 2
+ * para armar el acumulador con parte positiva y negativa
+ * 
+ * escala theta = ancho / pi
+
+ * M_PI = valor de pi, puede definirse si no esta como:
+ * ifndef...define M_PI           3.14159265358979323846
+ *
+ */            
+template<class T>
+CImg<T> hough_directa( CImg<T> img ) {
+
+    CImg<double> iHough(img);
+
+    // genera espacio parametrico mediante valores equiespaciados 
+    // de p y rho inicializandolo en cero(acumulador)
+    iHough.fill(0.0); 
+    const unsigned M = img.width(), N = img.height();
+    int r; // radio mapeado en los N pixeles
+
+    // maximo valor posible de radio se da en la diagonal pcipal
+    double max_rho = sqrt(float(pow(N, 2) + pow(M, 2))), 
+        step_rho = 2. * max_rho / (N - 1), //paso en eje rho (rho=[-max_rho , max_rho])
+        step_theta = M_PI / (M - 1), //paso en eje theta (M_PI=pi) (theta=[-90,90])
+        rho, theta;
+    
+    cimg_forXY(img,x,y) {
+        if ( img(x, y) > 0.5 )
+            //calculo rho variando theta en _todo el eje, con x e y fijo
+            for (int t = 0; t < M; t++) { 
+                theta = t * step_theta - M_PI / 2; // mapea [0,M] en [-90,90]
+                rho = x * cos(theta) + y * sin(theta); // calcula rho
+                r = int((rho + max_rho) / step_rho); // mapea [-max_rho , max_rho] en [0,N]
+                iHough(t, r) += 1; // suma el acumulador
+            }
+    }
+    return iHough;
+}
+
+/**
  * Transformada Hough inversa
  *
  * tomada de funciones de la catedra
