@@ -1,5 +1,5 @@
 #include <CImg.h>
-#include <masks.h>
+#include "masks.h"
 
 using namespace std;
 using namespace cimg_library;
@@ -29,4 +29,17 @@ CImg<T> filtrado_sobel( CImg<T> &img ) {
 template<class T>
 CImg<T> filtrado_laplaciano_g( CImg<T> &img ) {
     return img.get_convolve( masks::laplaciano_g() ).abs();
+}
+
+template<class T>
+CImg<T> generar_mascara_promediadora(int dim = 3) {
+	/* Genera una mascara de dimension dim x dim
+	 * del tipo:
+	 * 			|	1	1	1	...dim    |
+	 * 			|	1	1	1	... 1     |  * 1/dim^2
+	 * 			|	1	1	1   ... 1     |
+	 * 			|	1   ........dim x dim |
+	 **/
+	CImg<T> imagen(dim, dim, 1, 1, 1);
+	return imagen * (1.0 / pow(dim, 2.0));
 }
