@@ -22,6 +22,9 @@
  * 	Al parecer el metodo funciona bien! y la difenrencia del MSE 
  *      es grande! fixme: estara algo mal programado
  *      o realmente anda bien y no lo creo?
+ * todo: habria que correrlo para diferentes cantidades de maximos y hacer
+ * una grafica cant. maximos - MSE tanto con una imagen parecida y con una imagen
+ * nada que ver para ver hasta donde tiene sentido seguir aumentandolo..
  * */
 #define cimg_use_fftw3 1
 
