@@ -1,8 +1,21 @@
 /*
- * APLICACION DE LA TRANSF. DE HOUGH. SE GUARDAN UNA CIERTA CANTIDAD DE ACUMULADORES
- * DE LA MATRIZ RHO TITA DE HOUGH (LOS VALORES REALES Y SON DEVUELTOS EN UN VECTOR)
- * PARA LAS IMAGENES A COMPARAR. AQUELLAS QUE PRESENTEN UN MENOR MSE DEBERIA SER LA MAS PARECIDA....
- * ES LO QUE SUPONGO...
+ * Pasos:
+ * Por cada imagen se hace:
+ * 	1- Deteccion de bordes con Gradiente (mascaras de Sobel)
+ *  2- Binarizacion de la imagen con los bordes detectados
+ *  3- Aplicacion de la transf de Hough y obtencion de los N maximos valores de los acumuladores
+ *     (sin limitar tita y rho). N es un parametro a seleccionar - cantmaximos en el codigo
+ *  (La idea es que en la base de datos solo se guarden estos valores en vez de toda la imagen.
+ *
+ *  4- Aplicar el mismo proceso (1 a 3) a la imagen a comparar y comparar con el vector de imagenes base
+ *  5- El de menor MSE en 4 es el mas parecido y por tanto la imagen que "Machea"
+ *
+ * TODO: probar con diferetnes tolearncias de umbral y de cantidad de maximos
+ *       Arreglar las funciones de obtener_maximos y demas que podrian ser optimizadas.
+ *
+ * CONCLUSIONES:
+ * 	Al parecer el metodo funciona bien! y la difenrencia del MSE es grande! fixme: estara algo mal programado
+ *  o realmente anda bien y no lo creo?
  * */
 #define cimg_use_fftw3 1
 
@@ -23,16 +36,17 @@ using namespace cimg_library;
 int main(int argc, char **argv) {
 	const char
 			*filename =
-					cimg_option("-f", "/home/christian/Documentos/universidad/2010/captura/tp-aplicacion/imagenes/trenfrente/tren_frente04.jpg",
-							"ruta archivo imagen");
+					cimg_option("-f1", "./imagenes/trenfrente/tren_frente04.jpg",
+							"ruta archivo imagen de la base de datos a comparar");
 	const char
 			*filename1 =
-					cimg_option("-f", "/home/christian/Documentos/universidad/2010/captura/tp-aplicacion/imagenes/trenfrente/tren_frente03.jpg",
+					cimg_option("-f2", "./imagenes/trenfrente/tren_frente07.jpg",
 							"ruta archivo imagen");
 	const char
 			*filenamedif =
-					cimg_option("-f", "/home/christian/Documentos/universidad/2010/captura/tp-aplicacion/imagenes/mpg20/obj7__1.jpg",
+					cimg_option("-f3", "./imagenes/mpg20/obj7__1.jpg",
 							"ruta archivo imagen");
+
 	const float umbral = atof(cimg_option("-umbral", "20.0", "umbral"));
 	const int
 			direccion =
@@ -49,62 +63,35 @@ int main(int argc, char **argv) {
 	CImg<double> img(filename); //una realizacion de img
 	CImg<double> img1(filename1); //otra realizacion de img
 	CImg<double> imgd(filenamedif); //esto nada que ver...
+
 	//img:
 	CImg<double> img_bordes = aplicar_sobel<double> (img, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
 	CImg<double> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
-	vector<double> posiciones_maximos = obtener_maximos(HOUGH_IMG_BORDES,
-			cant_maximos, direccion, tol_grados);
+
 	CImg<double> acums = obtener_maximos_acumuladores(HOUGH_IMG_BORDES,
 			cant_maximos, direccion, tol_grados);
-	//cout<<endl<<endl<<"acums: "<<acums[0]<<"     "<<acums[1]<<"       "<<acums[2]<<"       "<<endl<<endl;
 
 	//img1:
 	CImg<double> img_bordes1 = aplicar_sobel<double> (img1, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
 	CImg<double> HOUGH_IMG_BORDES1 = hough_directa(img_bordes1); // aplico la transformada
-	vector<double> posiciones_maximos1 = obtener_maximos(HOUGH_IMG_BORDES1,
-			cant_maximos, direccion, tol_grados);
 	CImg<double> acums1 = obtener_maximos_acumuladores(HOUGH_IMG_BORDES1,
 			cant_maximos, direccion, tol_grados);
+
 	//imgd:
 	CImg<double> img_bordesd = aplicar_sobel<double> (imgd, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
 	CImg<double> HOUGH_IMG_BORDESd = hough_directa(img_bordesd); // aplico la transformada
-	vector<double> posiciones_maximosd = obtener_maximos(HOUGH_IMG_BORDESd,
-			cant_maximos, direccion, tol_grados);
 	CImg<double> acumsd = obtener_maximos_acumuladores(HOUGH_IMG_BORDESd,
 			cant_maximos, direccion, tol_grados);
+
+	//Muestro errores en consola:
 	cout << "***************************************************************"
 			<< endl;
+	cout << "error img 1 e img1 (iguales - trivial para verificacion): "
+			<< acums.MSE(acums) << endl;
 	cout << "error img 1 e img2 (parecidas): " << acums.MSE(acums1) << endl;
 	cout << "error img 1 e imgd (diferentes): " << acums.MSE(acumsd) << endl;
 	cout << "error img 2 e imgd (diferentes): " << acums1.MSE(acumsd) << endl;
-	cout << "error img 1 e img1 (iguales): " << acums.MSE(acums1) << endl;
 	cout << "***************************************************************"
 			<< endl;
-	/*	CImg<double> maxs(img); //imagen que voy a usar para dibujar maximos
-	 //luego se lehace la inversa de hough a maxs para ver las lineas
-	 maxs.normalize(0, 255);
-	 maxs.fill(0.0);
-
-	 for (unsigned int i = 0; i < (posiciones_maximos.size() - 1); i += 2) {
-	 cout << "i: " << i << "   i+1: " << i + 1 << endl;
-	 maxs(posiciones_maximos[i], posiciones_maximos[i + 1]) = 255.0;
-	 cout << "maximos (x,y)= (" << posiciones_maximos[i] << ", "
-	 << posiciones_maximos[i + 1] << ")" << endl;
-	 }*/
-	//CImg<double> deteccion = hough_inversa(maxs);
-
-	/*	//muestro
-	 CImgDisplay d1(img, "imagen original");
-	 CImgDisplay d2(img_bordes, "deteccion bordes");
-	 CImgDisplay d3(HOUGH_IMG_BORDES, "Transf. Hough");
-	 CImgDisplay d4(maxs, "maximos detectados");
-	 CImgDisplay disp(deteccion, "inversaHough(maximos)");
-	 //CImgDisplay d5(deteccion_final, "and entre imagen y bordes");
-
-	 CImgDisplay disppp(img);*/
-
-	/*while (!disp.is_closed()) {
-	 disp.wait();
-	 }*/
 	return 0;
 }
