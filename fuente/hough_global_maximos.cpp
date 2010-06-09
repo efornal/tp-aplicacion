@@ -94,11 +94,11 @@ int main(int argc, char **argv) {
 	//Muestro errores en consola:
 	cout << "***************************************************************"
 			<< endl;
-	cout << "error img 1 e img1 (iguales - trivial para verificacion): "
+	cout << "error f1 y f1 (iguales - trivial para verificacion): "
 			<< acums.MSE(acums) << endl;
-	cout << "error img 1 e img2 (parecidas): " << acums.MSE(acums1) << endl;
-	cout << "error img 1 e imgd (diferentes): " << acums.MSE(acumsd) << endl;
-	cout << "error img 2 e imgd (diferentes): " << acums1.MSE(acumsd) << endl;
+	cout << "error f1 y f2 (parecidas): " << acums.MSE(acums1) << endl;
+	cout << "error f1 y f3 (diferentes): " << acums.MSE(acumsd) << endl;
+	cout << "error f2 y f3 (diferentes): " << acums1.MSE(acumsd) << endl;
 	cout << "***************************************************************"
 			<< endl;
 	return 0;
