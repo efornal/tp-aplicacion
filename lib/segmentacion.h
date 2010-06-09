@@ -163,7 +163,7 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 1,
 template<class T>
 CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
 		float umbral = 20.0, int direccion = -99, int tol_grados = 0) {
-	/* Devuelve una imagen de 1 x cant_maximos con los valores caracteristicos
+	/* Devuelve una imagen de cant_maximos x 1 con los valores caracteristicos
 	 * de la imagen pasada como parametro para ser almacenados para
 	 * futuras comparaciones
 	 * Esto iria a una BD
