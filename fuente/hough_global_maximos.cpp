@@ -1,6 +1,7 @@
 /*
  * Pasos:
  * Por cada imagen se hace:
+ *  0- Obtengo canal 0, quantizo en 16 niveles y hago un resize
  * 	1- Deteccion de bordes con Gradiente (mascaras de Sobel)
  *  2- Binarizacion de la imagen con los bordes detectados
  *  3- Aplicacion de la transf de Hough y obtencion de los N maximos 
@@ -43,7 +44,7 @@ int main(int argc, char **argv) {
 			cimg_option("-f1", "./imagenes/trenfrente/tren_frente04.jpg",
 					"ruta archivo imagen de la base de datos a comparar");
 	const char *filename1 =
-			cimg_option("-f2", "./imagenes/trenfrente/tren_frente07.jpg",
+			cimg_option("-f2", "./imagenes/trenfrente/tren_frente03.jpg",
 					"ruta archivo imagen");
 	const char *filenamedif =
 			cimg_option("-f3", "./imagenes/mpg20/obj7__3.jpg",
@@ -57,7 +58,7 @@ int main(int argc, char **argv) {
 	const int
 			cant_maximos =
 					atoi(
-							cimg_option("-cantmaximos", "10", "cantidad de maximos a detectar"));
+							cimg_option("-cantmaximos", "50", "cantidad de maximos a detectar"));
 	int tol_grados = atoi(
 			cimg_option ("-tolgrados", "0", "tolerancia en grados"));
 
@@ -65,9 +66,11 @@ int main(int argc, char **argv) {
 	CImg<double> img(filename); //una realizacion de img
 	CImg<double> img1(filename1); //otra realizacion de img
 	CImg<double> imgd(filenamedif); //esto nada que ver...
-	img.channel(0).quantize(16);
-	img1.channel(0).quantize(16);
-	imgd.channel(0).quantize(16);
+	img.channel(0).quantize(16).resize(100,100);
+	img1.channel(0).quantize(16).resize(100,100);
+	imgd.channel(0).quantize(16).resize(100,100);
+	//fixme: probe hacer un halfresize pero con eso no me andaba bien...
+	// termine haciendo el resize(100,100) pero ahi estaria deformandola...
 
 	//img:
 	CImg<double> img_bordes = aplicar_sobel<double> (img, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
