@@ -39,18 +39,15 @@ using namespace std;
 using namespace cimg_library;
 
 int main(int argc, char **argv) {
-	const char
-			*filename =
-					cimg_option("-f1", "./imagenes/trenfrente/tren_frente04.jpg",
-							"ruta archivo imagen de la base de datos a comparar");
-	const char
-			*filename1 =
-					cimg_option("-f2", "./imagenes/trenfrente/tren_frente07.jpg",
-							"ruta archivo imagen");
-	const char
-			*filenamedif =
-					cimg_option("-f3", "./imagenes/mpg20/obj7__1.jpg",
-							"ruta archivo imagen");
+	const char *filename =
+			cimg_option("-f1", "./imagenes/trenfrente/tren_frente04.jpg",
+					"ruta archivo imagen de la base de datos a comparar");
+	const char *filename1 =
+			cimg_option("-f2", "./imagenes/trenfrente/tren_frente07.jpg",
+					"ruta archivo imagen");
+	const char *filenamedif =
+			cimg_option("-f3", "./imagenes/mpg20/obj7__3.jpg",
+					"ruta archivo imagen");
 
 	const float umbral = atof(cimg_option("-umbral", "20.0", "umbral"));
 	const int
@@ -68,6 +65,9 @@ int main(int argc, char **argv) {
 	CImg<double> img(filename); //una realizacion de img
 	CImg<double> img1(filename1); //otra realizacion de img
 	CImg<double> imgd(filenamedif); //esto nada que ver...
+	img.channel(0).quantize(16);
+	img1.channel(0).quantize(16);
+	imgd.channel(0).quantize(16);
 
 	//img:
 	CImg<double> img_bordes = aplicar_sobel<double> (img, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
