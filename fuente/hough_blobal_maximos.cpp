@@ -3,19 +3,24 @@
  * Por cada imagen se hace:
  * 	1- Deteccion de bordes con Gradiente (mascaras de Sobel)
  *  2- Binarizacion de la imagen con los bordes detectados
- *  3- Aplicacion de la transf de Hough y obtencion de los N maximos valores de los acumuladores
- *     (sin limitar tita y rho). N es un parametro a seleccionar - cantmaximos en el codigo
- *  (La idea es que en la base de datos solo se guarden estos valores en vez de toda la imagen.
+ *  3- Aplicacion de la transf de Hough y obtencion de los N maximos 
+ *     valores de los acumuladores
+ *     (sin limitar tita y rho). N es un parametro a seleccionar - 
+ *     cantmaximos en el codigo
+ *     (La idea es que en la base de datos solo se guarden estos 
+ *     valores en vez de toda la imagen.
  *
- *  4- Aplicar el mismo proceso (1 a 3) a la imagen a comparar y comparar con el vector de imagenes base
+ *  4- Aplicar el mismo proceso (1 a 3) a la imagen a comparar y 
+ *     comparar con el vector de imagenes base
  *  5- El de menor MSE en 4 es el mas parecido y por tanto la imagen que "Machea"
  *
  * TODO: probar con diferetnes tolearncias de umbral y de cantidad de maximos
  *       Arreglar las funciones de obtener_maximos y demas que podrian ser optimizadas.
  *
  * CONCLUSIONES:
- * 	Al parecer el metodo funciona bien! y la difenrencia del MSE es grande! fixme: estara algo mal programado
- *  o realmente anda bien y no lo creo?
+ * 	Al parecer el metodo funciona bien! y la difenrencia del MSE 
+ *      es grande! fixme: estara algo mal programado
+ *      o realmente anda bien y no lo creo?
  * */
 #define cimg_use_fftw3 1
 
