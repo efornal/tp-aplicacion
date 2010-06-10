@@ -1,6 +1,8 @@
 #include <CImg.h>
 #include <vector>
 #include <list>
+#include <iostream>
+#include "CPDSI_segmentacion.h"
 
 using namespace std;
 using namespace cimg_library;
