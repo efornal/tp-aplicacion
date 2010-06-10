@@ -41,10 +41,10 @@ using namespace cimg_library;
 
 int main(int argc, char **argv) {
 	const char *filename =
-			cimg_option("-f1", "./imagenes/trenfrente/tren_frente04.jpg",
+			cimg_option("-f1", "./imagenes/trenfrente/trenfrente04.jpg",
 					"ruta archivo imagen de la base de datos a comparar");
 	const char *filename1 =
-			cimg_option("-f2", "./imagenes/trenfrente/tren_frente03.jpg",
+			cimg_option("-f2", "./imagenes/trenfrente/trenfrente03.jpg",
 					"ruta archivo imagen");
 	const char *filenamedif =
 			cimg_option("-f3", "./imagenes/mpg20/obj7__3.jpg",
