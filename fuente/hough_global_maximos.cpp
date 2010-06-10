@@ -51,16 +51,13 @@ int main(int argc, char **argv) {
 					"ruta archivo imagen");
 
 	const float umbral = atof(cimg_option("-umbral", "20.0", "umbral"));
-	const int
-			direccion =
-					atoi(
-							cimg_option ("-direccionborde", "-99", "direccion borde a buscar - -99 implica todas las direcciones"));
-	const int
-			cant_maximos =
-					atoi(
-							cimg_option("-cantmaximos", "50", "cantidad de maximos a detectar"));
-	int tol_grados = atoi(
-			cimg_option ("-tolgrados", "0", "tolerancia en grados"));
+	const int direccion = 
+            atoi( cimg_option ("-direccionborde", 
+                               "-99", 
+                               "direccion borde a buscar - -99 implica todas las direcciones"));
+	const int cant_maximos =
+            atoi( cimg_option("-cantmaximos", "50", "cantidad de maximos a detectar"));
+	int tol_grados = atoi( cimg_option ("-tolgrados", "0", "tolerancia en grados"));
 
 	//imagen original
 	CImg<double> img(filename); //una realizacion de img
