@@ -169,6 +169,7 @@ CImg<T> obtener_maximos_acumuladores( CImg<T> imagen,
         imagen( maximo_actual[0], maximo_actual[1] ) = 0;
         theta   = maximo_actual[1] * step_theta - M_PI / 2;
         rho     = maximo_actual[0] * step_rho   - max_rho; // mapea [0,N] en [-max_rho,max_rho]
+        // FIXME deben estar rho y theta normalizados a una misma escala
         acum[i] = ( rho, theta ); // guardo valor de rho y theta
     }
     return acum;
