@@ -1,9 +1,13 @@
+#ifndef COMMONS_H
+#include "../lib/commons.h"
+#endif
 #include <CImg.h>
 #include <string>
 #include <glob.h>
 #include <regex.h>
 
 using namespace cimg_library;
+using namespace std;
 
 /**
  * Segmenta una imagen en cuadritos de ancho por alto especificado
