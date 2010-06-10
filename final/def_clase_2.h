@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <iostream>
 #include <CImg.h>
 #include <glob.h>
 #include <regex.h>
@@ -42,7 +43,7 @@ class ComparadorImagenes {
 
   // compara las caracteristicas de img versus la base de datos en la pos idx
   // devuelve el mse entre los dos conjs de caracteristicas
-  double comparar_caracteristicas ( vector<CImg<T> > img, unsigned idx );
+  double comparar_caracteristicas ( vector<CImg<double> > img, unsigned idx );
 
  public:
 
@@ -100,17 +101,18 @@ vector<string> ComparadorImagenes<T>::listar_imagenes( const char* directorio ) 
 // compara las caracteristicas de img versus la base de datos en la pos idx
 // devuelve el mse entre los dos conjs de caracteristicas
 template<class T>
-double ComparadorImagenes<T>::comparar_caracteristicas ( vector<CImg<T> > img,
+double ComparadorImagenes<T>::comparar_caracteristicas ( vector<CImg<double> > img,
 					    unsigned idx ) {
   double resultado = 0;
   for ( unsigned i=0; i<n_caracteristicas; i++ ) {
+    cout<<" i: "<<i<<" idx: "<<idx<<" caractsize: "<<caracteristicas.size()<<" pond: "<<ponderaciones.size()<<endl;
     resultado += ( img[i].MSE( caracteristicas[idx][i] ) * ponderaciones[i] );
   }
   return resultado/(double)n_caracteristicas;
 }
 
 template<class T>
-ComparadorImagenes<T>::ComparadorImagenes() { n_caracteristicas=2; n_imagenes=0; }
+ComparadorImagenes<T>::ComparadorImagenes() { n_caracteristicas=1; n_imagenes=0; ponderaciones.push_back(1.0); }
 
 template<class T>
 ComparadorImagenes<T>::~ComparadorImagenes() { }
@@ -141,13 +143,10 @@ int ComparadorImagenes<T>::calcular_caracteristicas ( ) {
   for ( cont; cont<nombres_imagenes.size(); cont++ ) {
     imagen_temp = CImg<T>( nombres_imagenes[cont].c_str() );
     vector_caracts_temp.clear();
-    
-    
     vector_caracts_temp.push_back( estadisticas_imagen<T>( imagen_temp ) );
-    
     caracteristicas.push_back( vector_caracts_temp );
   }
-  return cont;    
+  return caracteristicas.size();//cont;    
 }
 
 // dada una imagen, encuentra el indice de la que es mas parecida
@@ -157,7 +156,6 @@ int ComparadorImagenes<T>::encontrar_mas_parecida ( CImg<T> imagen ) {
   
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
-  
   vector_caracts_temp.push_back( estadisticas_imagen<T>( imagen ) );
     
   // calculo de la base cual es la mas parecida
