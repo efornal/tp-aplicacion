@@ -20,22 +20,28 @@ using namespace cimg_library;
  * como en ancho.
  */
 template<class T>
-CImgList<T> segmentar(CImg<T> img, int ancho, int alto) ;
+CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) ;
 
 template<class T>
-CImg<T> multiplicar(CImg<T> im1, CImg<T> im2, bool normalizar );
+CImg<T> multiplicar(CImg<T> im1, CImg<T> im2, bool normalizar = true );
 
 template<class T>
 CImg<T> filtrar(CImg<T> imagen, CImg<T> H);
 
 template<class T>
-CImg<T> get_PA_Butter(int dimx, int dimy, float frec_corte, float orden );
+CImg<T> get_PA_Butter(int dimx, int dimy,
+		      float frec_corte = 10.0,
+		      float orden = 1.0 );
 
 template<class T>
-CImg<T> aplicar_PA_Butter(CImg<T> imagen, float orden, float frec_corte );
+CImg<T> aplicar_PA_Butter( CImg<T> imagen,
+			   float orden = 1.0,
+			   float frec_corte = 10.0 );
 
 template<class T>
-CImg<T> detectar_bordes(CImg<T> objetivo, float orden , float frec_corte );
+CImg<T> detectar_bordes( CImg<T> objetivo,
+			 float orden = 1.0,
+			 float frec_corte = 10.0 );
 
 template<class T>
 CImg<T> promedio(CImgList<T> lista_imagenes);
@@ -88,7 +94,7 @@ CImgList<T> generar_base_lista( const char* directorio );
  * @TODO generalizar para sumar a lo largo de las dimensiones z y c.
  */
 template<class T>
-CImg<T> sumar_dim(const CImg<T> imagen, char dimension );
+CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x' );
 
 /**
  * estadisticas_imagen
@@ -110,12 +116,16 @@ CImg<double> estadisticas_imagen(const CImg<T> imagen);
  * @return MSE (double) entre los vectores de estad�sticas de las im�genes.
  */
 template<class T>
-double error_estadisticas_imagen(const CImg<T> img1, const CImg<T> img2,
-				 double normalize_min, double normalize_max );
+double error_estadisticas_imagen(const CImg<T> img1,
+				 const CImg<T> img2,
+				 double normalize_min = 0,
+				 double normalize_max = 255 );
 
 template<class T>
 double error_estadisticas_imagen(const CImgList<T> img1,
-				 const CImgList<T> img2, double normalize_min, double normalize_max );
+				 const CImgList<T> img2,
+				 double normalize_min = 0,
+				 double normalize_max = 255 );
 
 /**
  * Cuenta los blancos por cada cuadrito de la lista lo que genera un
@@ -170,4 +180,4 @@ CImg<T> hough_inversa(CImg<T> img);
  * se podria usar valores negativos???
  */
 template<class T>
-CImg<T> get_solo_maximos(CImg<T> img, int cantidad );
+CImg<T> get_solo_maximos(CImg<T> img, int cantidad = 1 );
