@@ -505,3 +505,32 @@ CImg<T> get_solo_maximos(CImg<T> img, int cantidad = 1) {
 		}
 	return img;
 }
+
+
+/**
+ * Filtra la matriz de hough para valores de theta
+ * igual al especificado (mas/menos una tolerancia).
+ * es decir: Deja solo lineas con un angulo de inclinacion
+ * igual al especificado mas/menos una tolerancia
+ * El angulo debe estar entre +-pi/2, (en radianes)
+*/
+template<class T>
+CImg<T> filtrar_hough_theta( CImg<T> hough,
+                       double u_theta,
+                       double tol_theta) {
+ 
+    int M = hough.width(), 
+        N = hough.height();
+    double theta, step_theta;
+
+    step_theta = M_PI / (M - 1); //paso en eje theta (M_PI=pi) (theta=[-90,90]) */
+
+    cimg_forXY(hough,t,r) {
+        theta = t * step_theta - M_PI / 2;
+        if ( sqrt( pow(theta-u_theta,2) ) <= tol_theta ) {
+        } else {
+            hough(t,r) = 0;
+        }
+    }
+    return hough;
+}
