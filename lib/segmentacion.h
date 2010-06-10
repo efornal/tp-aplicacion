@@ -116,7 +116,6 @@ vector<T> get_pos_max_acumulador(CImg<T> imagen) {
 	vector<T> max;
 	max.push_back(posx);
 	max.push_back(posy);
-	max.push_back(valor);
 	return max;
 }
 
@@ -146,14 +145,14 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 1,
 
 		// busar los maximos
 		imagen.crop(x_con_tol_izq, 0, x_con_tol_der, alto); //ojo estoy  modificando la imagen!
-		imagen.display();
+		//imagen.display();
 	}
 
 	for (int i = 0; i < cantidad; i++) { //hallo la posicion d elos maximos
 		maximo_actual.clear();
 		maximo_actual = get_pos_max_acumulador(imagen);
 		imagen(maximo_actual[0], maximo_actual[1]) = 0; // lo pongo negro en el cacho de imagen para que detecte el proximo maximo
-		acum[i] = (maximo_actual[2]);
+		acum[i] = (maximo_actual[0], maximo_actual[1]); // guardo posx x y posy
 	}
 	return acum;
 }
@@ -182,7 +181,7 @@ CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
 	CImg<T> img_bordes = aplicar_sobel<T> (imagen, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
 	CImg<T> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
 	CImg<T> acums = obtener_maximos_acumuladores(HOUGH_IMG_BORDES,
-			cant_maximos, direccion, tol_grados);
+			cant_maximos, direccion, tol_grados); // deve devolver cant_maximos de rho y tita
 	return acums;
 }
 
