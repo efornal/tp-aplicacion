@@ -120,10 +120,10 @@ vector<T> get_pos_max_acumulador(CImg<T> imagen) {
 }
 
 template<class T>
-CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 1,
+CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 50,
 		int direccion = -99, int tolerancia = 0) {
 	vector<T> maximo_actual;
-	CImg<T> acum(cantidad, 1, 1, 1, 0);
+	CImg<T> acum(cantidad*2, 1, 1, 1, 0);
 	int x_con_tol_izq = 0;
 	int x_con_tol_der = 0;
 	if (direccion != -99) { //busca en direccion especifica
