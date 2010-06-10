@@ -244,7 +244,7 @@ CImg<T> generar_base(const char* directorio) {
  * @return lista de imágenes cargada del directorio 
  */
 template<class T>
-CImgList<T> generar_base( const char* directorio ) {
+CImgList<T> generar_base_lista( const char* directorio ) {
   CImgList<T> lista_imagenes;
   // para entender esto del globbing y las regexps ver la otra generar_base
   glob_t globbuf;
