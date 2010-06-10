@@ -236,6 +236,39 @@ CImg<T> generar_base( const char* directorio ) {
 }
 
 /**
+ * generar_base_lista
+ * genera una lista de imagenes a partir del directorio pasado como param.
+ * @param directorio directorio donde buscar las imágenes
+ * @return lista de imágenes cargada del directorio 
+ */
+template<class T>
+CImgList<T> generar_base( const char* directorio ) {
+  CImgList<T> lista_imagenes;
+  // para entender esto del globbing y las regexps ver la otra generar_base
+  glob_t globbuf;
+
+  regex_t match;
+
+  regcomp( &match, ".*\\.\\(jpe\\?g\\|bmp\\tif{1,2}\\|png\\|gif\\)$", REG_ICASE );
+
+  // expando directorio/*
+  glob( std::string( std::string(directorio)+std::string("/*")).c_str(),
+	GLOB_MARK, NULL, &globbuf );
+
+  for (unsigned i=0; i<globbuf.gl_pathc; i++ ) {
+    if( regexec( &match, globbuf.gl_pathv[i], 0, NULL, 0) == 0 ) {
+      lista_imagenes.push_back( CImg<T>( globbuf.gl_pathv[i] ) );
+    }
+  }
+
+  regfree(&match);
+  globfree(&globbuf);
+
+  // devuelvo la lista con las imagenes cargadas
+  return  lista_imagenes;
+}
+
+/**
  * sumar_dim
  * agarra una imagen y la suma a lo largo de una dimensión, i.e. si sumo
  * a lo largo de x entonces obtendré un vector en y del mismo alto que la imagen
