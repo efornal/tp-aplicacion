@@ -16,18 +16,18 @@
 // #endif
 
 #include <CImg.h>
-#include <filtrado_espacial.h>
-#include <temporales.h>
-#include <commons.h>
+#include "../lib/filtrado_espacial.h"
+#include "../lib/temporales.h"
+#include "../lib/commons.h"
 
 using namespace cimg_library;
 
 int main(int argc, char **argv) {
-  const char *imagen1 = cimg_option( "-img1", "../imagenes/chaco/chaco00.jpg",
+  const char *imagen1 = cimg_option( "-img1", "./imagenes/chaco/chaco00.jpg",
 				     "primera imagen a comparar" );
-  const char *imagen2 = cimg_option( "-img2", "../imagenes/trenfrente/tren_frente01.jpg",
+  const char *imagen2 = cimg_option( "-img2", "./imagenes/trenfrente/tren_frente01.jpg",
 				     "segunda imagen a comparar" );
-  const char *base_dir = cimg_option( "-base", "../imagenes/chaco/",
+  const char *base_dir = cimg_option( "-base", "./imagenes/chaco/",
 				      "directorio con el que generar la base" );
   int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
 
@@ -36,9 +36,9 @@ int main(int argc, char **argv) {
   CImg<double> base = generar_base<double>( base_dir );
 
   // convierto las imágenes a HSV y me quedo con el canal de valor
-  base.RGBtoHSV();
-  img1.RGBtoHSV();
-  img2.RGBtoHSV();
+  base.RGBtoHSI();
+  img1.RGBtoHSI();
+  img2.RGBtoHSI();
   base.channel(2);
   img1.channel(2);
   img2.channel(2);
@@ -50,8 +50,8 @@ int main(int argc, char **argv) {
   printf("mse estadisticas img1-base: %f\n", error_estadisticas_imagen(img1,base) );
   printf("mse estadisticas img2-base: %f\n", error_estadisticas_imagen(img2,base) );
 
-  printf("mse estadisticas img1-base segmentadas: %f \n", error_estadisticas_imagen(l_img1,l_base) );
-  printf("mse estadisticas img2-base segmentadas: %f \n", error_estadisticas_imagen(l_img2,l_base) );
+  printf("mse estadisticas img1-base segmentadas: %f \n", error_estadisticas_imagen<double>(l_img1,l_base) );
+  printf("mse estadisticas img2-base segmentadas: %f \n", error_estadisticas_imagen<double>(l_img2,l_base) );
 
   return 0;
 }

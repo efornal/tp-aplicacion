@@ -19,9 +19,9 @@
  *       Arreglar las funciones de obtener_maximos y demas que podrian ser optimizadas.
  *
  * CONCLUSIONES:
- * 	Al parecer el metodo funciona bien! y la difenrencia del MSE 
- *      es grande! fixme: estara algo mal programado
- *      o realmente anda bien y no lo creo?
+ * todo: habria que correrlo para diferentes cantidades de maximos y hacer
+ * una grafica cant. maximos - MSE tanto con una imagen parecida y con una imagen
+ * nada que ver para ver hasta donde tiene sentido seguir aumentandolo..
  * */
 #define cimg_use_fftw3 1
 
@@ -66,30 +66,23 @@ int main(int argc, char **argv) {
 	CImg<double> img(filename); //una realizacion de img
 	CImg<double> img1(filename1); //otra realizacion de img
 	CImg<double> imgd(filenamedif); //esto nada que ver...
-	img.channel(0).quantize(16).resize(100,100);
-	img1.channel(0).quantize(16).resize(100,100);
-	imgd.channel(0).quantize(16).resize(100,100);
-	//fixme: probe hacer un halfresize pero con eso no me andaba bien...
-	// termine haciendo el resize(100,100) pero ahi estaria deformandola...
+	img.channel(0).quantize(16).resize(100, 100);
+	img1.channel(0).quantize(16).resize(100, 100);
+	imgd.channel(0).quantize(16).resize(100, 100);
+
+
+	CImgList<double> lista(img, img1, imgd);
+	imprimir_lista<double>(comparar_imagenes<double>(img, lista));
 
 	//img:
-	CImg<double> img_bordes = aplicar_sobel<double> (img, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
-	CImg<double> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
-
-	CImg<double> acums = obtener_maximos_acumuladores(HOUGH_IMG_BORDES,
-			cant_maximos, direccion, tol_grados);
-
+	CImg<double> acums = extraer_valores_caracteristicos(img, cant_maximos,
+			umbral, direccion, tol_grados);
 	//img1:
-	CImg<double> img_bordes1 = aplicar_sobel<double> (img1, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
-	CImg<double> HOUGH_IMG_BORDES1 = hough_directa(img_bordes1); // aplico la transformada
-	CImg<double> acums1 = obtener_maximos_acumuladores(HOUGH_IMG_BORDES1,
-			cant_maximos, direccion, tol_grados);
-
+	CImg<double> acums1 = extraer_valores_caracteristicos(img1, cant_maximos,
+			umbral, direccion, tol_grados);
 	//imgd:
-	CImg<double> img_bordesd = aplicar_sobel<double> (imgd, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
-	CImg<double> HOUGH_IMG_BORDESd = hough_directa(img_bordesd); // aplico la transformada
-	CImg<double> acumsd = obtener_maximos_acumuladores(HOUGH_IMG_BORDESd,
-			cant_maximos, direccion, tol_grados);
+	CImg<double> acumsd = extraer_valores_caracteristicos(imgd, cant_maximos,
+			umbral, direccion, tol_grados);
 
 	//Muestro errores en consola:
 	cout << "***************************************************************"
