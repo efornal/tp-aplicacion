@@ -120,69 +120,97 @@ vector<T> get_pos_max_acumulador(CImg<T> imagen) {
 }
 
 template<class T>
-CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 50,
-		int direccion = -99, int tolerancia = 0) {
-	vector<T> maximo_actual;
-	CImg<T> acum(cantidad*2, 1, 1, 1, 0);
-	int x_con_tol_izq = 0;
-	int x_con_tol_der = 0;
-	if (direccion != -99) { //busca en direccion especifica
-		int ancho = imagen.width() - 1;
-		int alto = imagen.height() - 1;
-		int medio = ancho / 2.0; // este va a ser el 0 grados
-		//	cout << "medio" << medio << endl << "         ancho: " << ancho << endl;
-		x_con_tol_izq = medio + ((direccion - tolerancia) * ((ancho - medio)
-				/ 90.0)); //posicion real del plano rho theta donde se quiere
+CImg<T> obtener_maximos_acumuladores( CImg<T> imagen, 
+                                      int cantidad = 50,
+                                      int direccion = -99, 
+                                      int tolerancia = 0) {
+    vector<T> maximo_actual;
+    CImg<T> acum(cantidad*2, 1, 1, 1, 0);
+    int x_con_tol_izq = 0;
+    int x_con_tol_der = 0;
 
-		x_con_tol_der = medio + ((direccion + tolerancia) * ((ancho - medio)
-				/ 90.0)); //posicion real del plano rho theta donde se quiere
+    int M = imagen.width(), 
+        N = imagen.height();
 
-		if (x_con_tol_izq < 0 || x_con_tol_izq > ancho)
-			x_con_tol_izq = 0; //para que no explote porque para -90 tira -1
+    double max_rho = sqrt( float( pow(N, 2) + pow(M, 2) ) ),
+        step_rho   = 2. * max_rho / (N - 1), // paso en eje rho (rho=[-max_rho , max_rho])
+        step_theta = M_PI / (M - 1), // paso en eje theta (M_PI=pi) (theta=[-90,90])
+        rho, theta;
 
-		else if (x_con_tol_der < 0 || x_con_tol_der > ancho)
-			x_con_tol_der = 0; //para que no explote porque para -90 tira -1
+    if (direccion != -99) { //busca en direccion especifica
+        int ancho = imagen.width() - 1;
+        int alto = imagen.height() - 1;
+        int medio = ancho / 2.0; // este va a ser el 0 grados
 
-		// busar los maximos
-		imagen.crop(x_con_tol_izq, 0, x_con_tol_der, alto); //ojo estoy  modificando la imagen!
-		//imagen.display();
-	}
+        //posicion real del plano rho theta donde se quiere
+        x_con_tol_izq = medio + ((direccion - tolerancia) * ((ancho - medio)
+                                                             / 90.0));
 
-	for (int i = 0; i < cantidad; i++) { //hallo la posicion d elos maximos
-		maximo_actual.clear();
-		maximo_actual = get_pos_max_acumulador(imagen);
-		imagen(maximo_actual[0], maximo_actual[1]) = 0; // lo pongo negro en el cacho de imagen para que detecte el proximo maximo
-		acum[i] = (maximo_actual[0], maximo_actual[1]); // guardo posx x y posy
-	}
-	return acum;
+        //posicion real del plano rho theta donde se quiere
+        x_con_tol_der = medio + ((direccion + tolerancia) * ((ancho - medio)
+                                                             / 90.0));
+
+        if (x_con_tol_izq < 0 || x_con_tol_izq > ancho)
+            x_con_tol_izq = 0; //para que no explote porque para -90 tira -1
+
+        else if (x_con_tol_der < 0 || x_con_tol_der > ancho)
+            x_con_tol_der = 0; //para que no explote porque para -90 tira -1
+
+        // busar los maximos
+        imagen.crop(x_con_tol_izq, 0, x_con_tol_der, alto); //ojo estoy  modificando la imagen!
+
+    }
+
+    for (int i = 0; i < cantidad; i++) { //hallo la posicion d elos maximos
+        maximo_actual.clear();
+        maximo_actual = get_pos_max_acumulador(imagen);
+
+        // lo pongo negro en el cacho de imagen para que detecte el proximo maximo
+        imagen( maximo_actual[0], maximo_actual[1] ) = 0;
+        theta   = maximo_actual[1] * step_theta - M_PI / 2;
+        rho     = maximo_actual[0] * step_rho   - max_rho; // mapea [0,N] en [-max_rho,max_rho]
+        acum[i] = ( rho, theta ); // guardo valor de rho y theta
+    }
+    return acum;
 }
 
-/*
+/* Devuelve una imagen de cant_maximos x 1 con los valores caracteristicos
+ * de la imagen pasada como parametro para ser almacenados para
+ * futuras comparaciones
+ * Esto iria a una BD
+ * @param: imagen es la imagen a la cual se le extraen las caracteristicas
+ * @param: cant_maximos es la cantidad de maximos a extraer por defecto 50 maximos
+ * @param: umbral es el valor de umbral para la extraccion de bordes con sobel 
+ * - por defecto en 20.0
+ * @param: direccion =-99 implica extraccion de los maximos en cualquier direccion.
+ * @param: tol_grados es la tolerancia en grados resepecto a direccion. 
+ * solo se aplica cuando direccion!-=-99
  * */
 template<class T>
-CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
-		float umbral = 20.0, int direccion = -99, int tol_grados = 0,
-		bool channel0 = true, int q_levels = 16, int r_size = 100) {
-	/* Devuelve una imagen de cant_maximos x 1 con los valores caracteristicos
-	 * de la imagen pasada como parametro para ser almacenados para
-	 * futuras comparaciones
-	 * Esto iria a una BD
-	 * @param: imagen es la imagen a la cual se le extraen las caracteristicas
-	 * @param: cant_maximos es la cantidad de maximos a extraer por defecto 50 maximos
-	 * @param: umbral es el valor de umbral para la extraccion de bordes con sobel - por defecto en 20.0
-	 * @param: direccion =-99 implica extraccion de los maximos en cualquier direccion.
-	 * @param: tol_grados es la tolerancia en grados resepecto a direccion. solo se aplica cuando direccion!-=-99
-	 * */
-	if (channel0)
-		imagen.channel(0);
+CImg<T> extraer_valores_caracteristicos( CImg<T> imagen, 
+                                         int cant_maximos = 50,
+                                         float umbral = 20.0, 
+                                         int direccion = -99, 
+                                         int tol_grados = 0,
+                                         bool channel0 = true, 
+                                         int q_levels = 16, 
+                                         int r_size = 100) {
+    if (channel0)
+        imagen.channel(0);
 
-	imagen.quantize(q_levels).resize(r_size, r_size); //obtengo canal, cuantizo en 16 niveles y hago un resize
+    //obtengo canal, cuantizo en 16 niveles y hago un resize
+    imagen.quantize(q_levels).resize(r_size, r_size);
 
-	CImg<T> img_bordes = aplicar_sobel<T> (imagen, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
-	CImg<T> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
-	CImg<T> acums = obtener_maximos_acumuladores(HOUGH_IMG_BORDES,
-			cant_maximos, direccion, tol_grados); // deve devolver cant_maximos de rho y tita
-	return acums;
+    //img_bordes es binaria y tiene valores entre 0 y 255...
+    CImg<T> img_bordes = aplicar_sobel<T> (imagen, umbral, true);
+    CImg<T> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
+
+    // deve devolver cant_maximos de rho y tita
+    CImg<T> acums = obtener_maximos_acumuladores( HOUGH_IMG_BORDES,
+                                                 cant_maximos, 
+                                                  direccion, 
+                                                  tol_grados);
+    return acums;
 }
 
 template<class T>

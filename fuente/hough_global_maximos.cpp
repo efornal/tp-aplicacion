@@ -65,8 +65,8 @@ int main(int argc, char **argv) {
 	CImg<double> imgd(filenamedif); //esto nada que ver...
 
 
-	CImgList<double> lista(img, img1, imgd);
-	imprimir_lista<double>(comparar_imagenes<double>(img, lista));
+        CImgList<double> lista(img, img1, imgd);
+        imprimir_lista<double>(comparar_imagenes<double>(img, lista));
 
 	//img:
 	CImg<double> acums = extraer_valores_caracteristicos(img, cant_maximos,
@@ -88,5 +88,6 @@ int main(int argc, char **argv) {
 	cout << "error f2 y f3 (diferentes): " << acums1.MSE(acumsd) << endl;
 	cout << "***************************************************************"
 			<< endl;
+        //lista.display();
 	return 0;
 }
