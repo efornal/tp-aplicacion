@@ -2,6 +2,7 @@
 #define DEF_CLASE_2_H
 
 #include "comparar_estadisticas_2.h"
+#include "../lib/segmentacion.h"
 
 #include <vector>
 #include <string>
@@ -16,17 +17,10 @@ using namespace cimg_library;
       
 template<class T>
 class ComparadorImagenes {
-
- public:
-  struct ExtractorCaracteristicas {
-    string nombre;
-    virtual CImg<double> extraer_caracteristicas( CImg<T> imagen );
-  };
-
  private:
-
   unsigned n_caracteristicas;
   unsigned n_imagenes;
+  unsigned n_clases;
 
   // este tiene tamaño n_caracteristicas
   vector<double> ponderaciones;
@@ -37,6 +31,15 @@ class ComparadorImagenes {
   //este tiene tamaño [n_imagenes]
   vector<string> nombres_imagenes;
 
+  //este tiene tamaño [n_imagenes]
+  vector<int> clases_imagenes;
+
+  // este tiene tamaño [n_clases][n_caracteristicas]
+  vector< vector<CImg<double> > > prototipos;
+
+  // este tiene tamaño [n_clases]
+  vector<string> etiquetas;
+
   // genera una lista vector<string> con todas las imágenes
   // que encuentra en directorio.
   vector<string> listar_imagenes( const char* directorio );
@@ -45,15 +48,15 @@ class ComparadorImagenes {
   // devuelve el mse entre los dos conjs de caracteristicas
   double comparar_caracteristicas ( vector<CImg<double> > img, unsigned idx );
 
+
  public:
+
+  // etiqueta las imagenes segun su nombre de archivo
+  int etiquetar_imagenes ( );
+
 
   ComparadorImagenes();
   ~ComparadorImagenes();
-
-  // agrega el extractor de caracteristicas pasado de parametro
-  // para comparacion
-  // int agregar_extractor( ExtractorCaracteristicas extractor,
-  //			 double ponderacion = 1.0 );
 
   // cargar_imagenes guarda en la lista de archivos de la base
   // las imagenes que encuentra en el directori
@@ -76,6 +79,58 @@ class ComparadorImagenes {
   }
 
 };
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Coonstructor por defecto
+template<class T>
+ComparadorImagenes<T>::ComparadorImagenes() {
+  n_caracteristicas = 2;
+  n_imagenes = 0;
+  ponderaciones.push_back(1.0);
+  ponderaciones.push_back(1.0);
+}
+
+// Destructor
+template<class T>
+ComparadorImagenes<T>::~ComparadorImagenes() {
+}
+
+// etiqueta las imagenes segun su nombre
+template<class T>
+int ComparadorImagenes<T>::etiquetar_imagenes() {
+  regex_t match;
+  regcomp( &match, ".*/\\([abcdefghijklmnopqrstuvwxyz]\\+\\)", REG_ICASE );
+
+  n_clases = 0;
+  string etiq_actual = "";
+
+  // regmatch_t es un struct que contiene los offsets donde matchearon las substrings.
+  // el primer elemento contiene en so el lugar a partir de donde matcheó la
+  // regexp completa, el 2do tiene el comienzo y el fin de donde matcheó el
+  // primer grupo (lo que esta entre parentesis). para devolver el string
+  // correspondiente saco un substring ( so, eo-so ).
+  regmatch_t sub[2];
+
+  // para cada imagen en la lista
+  for (unsigned i=0; i<nombres_imagenes.size(); i++ ) { 
+    // me fijo la "etiqueta" (primera parte del nombre de arch
+    if( regexec( &match, nombres_imagenes[i].c_str(), 2, &sub[0], 0) == 0 ) {
+      etiq_actual = nombres_imagenes[i].substr(sub[1].rm_so,sub[1].rm_eo-sub[1].rm_so);
+      // si nclases == 0 todavia no guarde ninguna clase
+      if ( n_clases == 0 || etiq_actual != etiquetas[n_clases-1] ){
+	etiquetas.push_back( etiq_actual );
+	n_clases++;
+      }
+      clases_imagenes.push_back( n_clases-1 );
+      //cout<<"etiq: "<<nombres_imagenes[i].substr(sub[1].rm_so,sub[1].rm_eo-sub[1].rm_so)<<endl;
+    }
+  }
+
+  regfree(&match);
+  return  clases_imagenes.size();
+}
 
 // genera una lista vector<string> con todas las imágenes
 // que encuentra en directorio.
@@ -105,17 +160,10 @@ double ComparadorImagenes<T>::comparar_caracteristicas ( vector<CImg<double> > i
 					    unsigned idx ) {
   double resultado = 0;
   for ( unsigned i=0; i<n_caracteristicas; i++ ) {
-    cout<<" i: "<<i<<" idx: "<<idx<<" caractsize: "<<caracteristicas.size()<<" pond: "<<ponderaciones.size()<<endl;
     resultado += ( img[i].MSE( caracteristicas[idx][i] ) * ponderaciones[i] );
   }
   return resultado/(double)n_caracteristicas;
 }
-
-template<class T>
-ComparadorImagenes<T>::ComparadorImagenes() { n_caracteristicas=1; n_imagenes=0; ponderaciones.push_back(1.0); }
-
-template<class T>
-ComparadorImagenes<T>::~ComparadorImagenes() { }
 
 // cargar_imagenes guarda en la lista de archivos de la base
 // las imagenes que encuentra en el directori
@@ -144,6 +192,7 @@ int ComparadorImagenes<T>::calcular_caracteristicas ( ) {
     imagen_temp = CImg<T>( nombres_imagenes[cont].c_str() );
     vector_caracts_temp.clear();
     vector_caracts_temp.push_back( estadisticas_imagen<T>( imagen_temp ) );
+    vector_caracts_temp.push_back( extraer_valores_caracteristicos<T>( imagen_temp ) );
     caracteristicas.push_back( vector_caracts_temp );
   }
   return caracteristicas.size();//cont;    
@@ -157,6 +206,7 @@ int ComparadorImagenes<T>::encontrar_mas_parecida ( CImg<T> imagen ) {
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
   vector_caracts_temp.push_back( estadisticas_imagen<T>( imagen ) );
+  vector_caracts_temp.push_back( extraer_valores_caracteristicos<T>( imagen ) );
     
   // calculo de la base cual es la mas parecida
   for ( unsigned k=0; k<caracteristicas.size(); k++ ) {
