@@ -162,7 +162,8 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 1,
  * */
 template<class T>
 CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
-		float umbral = 20.0, int direccion = -99, int tol_grados = 0) {
+		float umbral = 20.0, int direccion = -99, int tol_grados = 0,
+		bool channel0 = true, int q_levels = 16, int r_size = 100) {
 	/* Devuelve una imagen de cant_maximos x 1 con los valores caracteristicos
 	 * de la imagen pasada como parametro para ser almacenados para
 	 * futuras comparaciones
@@ -173,6 +174,10 @@ CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
 	 * @param: direccion =-99 implica extraccion de los maximos en cualquier direccion.
 	 * @param: tol_grados es la tolerancia en grados resepecto a direccion. solo se aplica cuando direccion!-=-99
 	 * */
+	if (channel0)
+		imagen.channel(0);
+
+	imagen.quantize(q_levels).resize(r_size, r_size); //obtengo canal, cuantizo en 16 niveles y hago un resize
 
 	CImg<T> img_bordes = aplicar_sobel<T> (imagen, umbral, true); //img_bordes es binaria y tiene valores entre 0 y 255...
 	CImg<T> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
@@ -184,7 +189,8 @@ CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
 template<class T>
 list<T> comparar_imagenes(CImg<T> imagen, CImgList<T> lista_imagenes,
 		int cant_maximos = 50, float umbral = 20.0, int direccion = -99,
-		int tol_grados = 0) {
+		int tol_grados = 0, bool channel0 = true, int q_levels = 16,
+		int r_size = 100) {
 	/* Devuelve en una lista con el MSE entre una imagen y un conjunto de imagenes
 	 * aplicacndo el metodo de extraer caracteristicas mediante la obtencion de maximos
 	 * de la transformada de Hough
@@ -203,9 +209,10 @@ list<T> comparar_imagenes(CImg<T> imagen, CImgList<T> lista_imagenes,
 	list<T> errores;
 	cimglist_for(lista_imagenes, l) {
 		errores.push_back(extraer_valores_caracteristicos(imagen, cant_maximos,
-				umbral, direccion, tol_grados).MSE(
+				umbral, direccion, tol_grados, channel0, q_levels, r_size).MSE(
 				extraer_valores_caracteristicos(lista_imagenes[l],
-						cant_maximos, umbral, direccion, tol_grados)));
+						cant_maximos, umbral, direccion, tol_grados, channel0,
+						q_levels, r_size)));
 	}
 	return errores;
 }

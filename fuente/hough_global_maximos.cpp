@@ -66,9 +66,6 @@ int main(int argc, char **argv) {
 	CImg<double> img(filename); //una realizacion de img
 	CImg<double> img1(filename1); //otra realizacion de img
 	CImg<double> imgd(filenamedif); //esto nada que ver...
-	img.channel(0).quantize(16).resize(100, 100);
-	img1.channel(0).quantize(16).resize(100, 100);
-	imgd.channel(0).quantize(16).resize(100, 100);
 
 
 	CImgList<double> lista(img, img1, imgd);
