@@ -20,12 +20,6 @@ using namespace cimg_library;
  * como en ancho.
  */
 template<class T>
-<<<<<<< HEAD
-CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) ;
-
-template<class T>
-CImg<T> multiplicar(CImg<T> im1, CImg<T> im2, bool normalizar = true );
-=======
 CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) {
 	CImgList<T> cuadros;
 	for (int y = 0; y <= img.height() && y + alto <= img.height(); y += alto) {
@@ -50,7 +44,6 @@ CImg<T> multiplicar(CImg<T> im1, CImg<T> im2, bool normalizar = true) {
 	else
 		return imagen;
 }
->>>>>>> parent of 8d694fa... separo commons.h en .h y .cpp
 
 template<class T>
 CImg<T> filtrar(CImg<T> imagen, CImg<T> H) {
@@ -69,21 +62,6 @@ CImg<T> filtrar(CImg<T> imagen, CImg<T> H) {
 	return F.get_FFT(true)[0]; //devuelvo la parte real
 }
 template<class T>
-<<<<<<< HEAD
-CImg<T> get_PA_Butter(int dimx, int dimy,
-		      float frec_corte = 10.0,
-		      float orden = 1.0 );
-
-template<class T>
-CImg<T> aplicar_PA_Butter( CImg<T> imagen,
-			   float orden = 1.0,
-			   float frec_corte = 10.0 );
-
-template<class T>
-CImg<T> detectar_bordes( CImg<T> objetivo,
-			 float orden = 1.0,
-			 float frec_corte = 10.0 );
-=======
 CImg<T> get_PA_Butter(int dimx, int dimy, float frec_corte = 10.0, float orden =
 		1.0) {
 	/*genera un filtro pasa altos butterworth de dimx x dimy con frec corte =10
@@ -130,7 +108,6 @@ CImg<T> detectar_bordes(CImg<T> objetivo, float orden = 1.0, float frec_corte =
 	 * */
 	return aplicar_PA_Butter<T> (objetivo, orden, frec_corte);
 }
->>>>>>> parent of 8d694fa... separo commons.h en .h y .cpp
 
 template<class T>
 CImg<T> promedio(CImgList<T> lista_imagenes) {
@@ -267,10 +244,7 @@ CImg<T> generar_base(const char* directorio) {
  * @return lista de imágenes cargada del directorio 
  */
 template<class T>
-<<<<<<< HEAD
-CImgList<T> generar_base_lista( const char* directorio );
-=======
-CImgList<T> generar_base( const char* directorio ) {
+CImgList<T> generar_base_lista( const char* directorio ) {
   CImgList<T> lista_imagenes;
   // para entender esto del globbing y las regexps ver la otra generar_base
   glob_t globbuf;
@@ -295,7 +269,6 @@ CImgList<T> generar_base( const char* directorio ) {
   // devuelvo la lista con las imagenes cargadas
   return  lista_imagenes;
 }
->>>>>>> parent of 8d694fa... separo commons.h en .h y .cpp
 
 /**
  * sumar_dim
@@ -308,9 +281,6 @@ CImgList<T> generar_base( const char* directorio ) {
  * @TODO generalizar para sumar a lo largo de las dimensiones z y c.
  */
 template<class T>
-<<<<<<< HEAD
-CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x' );
-=======
 CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x') {
 	CImg<T> vector_salida;
 	// si dimension es x, recorro para cada Y y sumo todo X en cada Y
@@ -331,7 +301,6 @@ CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x') {
 	}
 	return vector_salida;
 }
->>>>>>> parent of 8d694fa... separo commons.h en .h y .cpp
 
 /**
  * estadisticas_imagen
@@ -382,18 +351,6 @@ CImg<double> estadisticas_imagen(const CImg<T> imagen) {
  * @return MSE (double) entre los vectores de estadï¿½sticas de las imï¿½genes.
  */
 template<class T>
-<<<<<<< HEAD
-double error_estadisticas_imagen(const CImg<T> img1,
-				 const CImg<T> img2,
-				 double normalize_min = 0,
-				 double normalize_max = 255 );
-
-template<class T>
-double error_estadisticas_imagen(const CImgList<T> img1,
-				 const CImgList<T> img2,
-				 double normalize_min = 0,
-				 double normalize_max = 255 );
-=======
 double error_estadisticas_imagen(const CImg<T> img1, const CImg<T> img2,
 		double normalize_min = 0, double normalize_max = 255) {
 	CImg<double> eimg1 = estadisticas_imagen<double> (img1);
@@ -419,7 +376,6 @@ double error_estadisticas_imagen(const CImgList<T> img1,
 	/*return eimg1.normalize(normalize_min,normalize_max).MSE(
 	 eimg2.normalize(normalize_min,normalize_max) );*/
 }
->>>>>>> parent of 8d694fa... separo commons.h en .h y .cpp
 
 /**
  * Cuenta los blancos por cada cuadrito de la lista lo que genera un
@@ -533,9 +489,6 @@ CImg<T> hough_inversa(CImg<T> img) {
  * se podria usar valores negativos???
  */
 template<class T>
-<<<<<<< HEAD
-CImg<T> get_solo_maximos(CImg<T> img, int cantidad = 1 );
-=======
 CImg<T> get_solo_maximos(CImg<T> img, int cantidad = 1) {
 
 	CImg<T> maximos(cantidad, 1, 1, 1, 0);
@@ -552,4 +505,3 @@ CImg<T> get_solo_maximos(CImg<T> img, int cantidad = 1) {
 		}
 	return img;
 }
->>>>>>> parent of 8d694fa... separo commons.h en .h y .cpp
