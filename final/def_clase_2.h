@@ -54,6 +54,8 @@ class ComparadorImagenes {
   // etiqueta las imagenes segun su nombre de archivo
   int etiquetar_imagenes ( );
 
+  // calcula los prototipos
+  int generar_prototipos();
 
   ComparadorImagenes();
   ~ComparadorImagenes();
@@ -124,13 +126,23 @@ int ComparadorImagenes<T>::etiquetar_imagenes() {
 	n_clases++;
       }
       clases_imagenes.push_back( n_clases-1 );
-      //cout<<"etiq: "<<nombres_imagenes[i].substr(sub[1].rm_so,sub[1].rm_eo-sub[1].rm_so)<<endl;
     }
   }
-
+  for ( unsigned w=0; w<etiquetas.size(); w++ ) {
+    cout<<"etiqueta "<<w<<": "<<etiquetas[w]<<endl;
+  }
   regfree(&match);
   return  clases_imagenes.size();
 }
+
+// genera los prototipos correspondientes a las clases
+template<class T>
+int ComparadorImagenes<T>::generar_prototipos ( ) {
+  // "buckets" de características de imagenes segun etiqueta
+  vector< vector< vector<CImg<double> > > > buckets( n_clases );
+  return 0;
+}
+
 
 // genera una lista vector<string> con todas las imágenes
 // que encuentra en directorio.
