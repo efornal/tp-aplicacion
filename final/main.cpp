@@ -5,7 +5,7 @@
 using namespace cimg_library;
 
 int main(int argc, char **argv) {
-  const char *imagen1 = cimg_option( "-img1", "./imagenes/imagenesprueba/fich10.jpg",
+  const char *imagen1 = cimg_option( "-img1", "./imagenes/prueba/fich10.jpg",
 				     "primera imagen a comparar" );
   const char *base_dir = cimg_option( "-base", "./imagenes/base/",
 				      "directorio con el que generar la base" );
