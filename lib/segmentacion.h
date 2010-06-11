@@ -123,7 +123,7 @@ vector<T> get_pos_max_acumulador(CImg<T> imagen) {
 
 template<class T>
 void normalizar(CImg<T> &imagen) {
-    T maximo = imagen.max();
+    T maximo = imagen.abs().max();
 
     cimg_forXY( imagen,x,y ) {
         if (maximo != 0) { //fixme: si es 0 que hacemos?
