@@ -43,10 +43,10 @@ int main(int argc, char **argv) {
 			cimg_option("-f1", "./imagenes/base/credicoop05.jpg",
 					"ruta archivo imagen de la base de datos a comparar");
 	const char *filename1 =
-			cimg_option("-f2", "./imagenes/prueba/credicoop19.jpg",
+			cimg_option("-f2", "./imagenes/prueba/credicoop18.jpg",
 					"ruta archivo imagen");
 	const char *filenamedif =
-			cimg_option("-f3", "./imagenes/base/sanmartinfrente05.jpg",
+			cimg_option("-f3", "./imagenes/base/inali01.jpg",
 					"ruta archivo imagen");
 
 	const float umbral = atof(cimg_option("-umbral", "20.0", "umbral"));
