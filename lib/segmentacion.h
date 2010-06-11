@@ -191,14 +191,14 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 50,
 	acum_rho[i] = rho / max_rho;
 	acum_theta[i] = theta / (M_PI / 2);
   }
-  //normalizar(acum_rho);
-  //normalizar(acum_theta);
+
   int contador = 0;
-  for (int x = 0; x < acum.width() - 1; x++) {
+  for ( int x = 0; x < acum.width() - 1; x+=2 ) {
 	acum[x] = acum_rho[contador]; // guardo valor de rho y theta
 	acum[x + 1] = acum_theta[contador]; // guardo valor de rho y theta
 	contador++;
   }
+
   return acum;
 }
 
