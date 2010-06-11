@@ -48,6 +48,8 @@ class ComparadorImagenes {
   // devuelve el mse entre los dos conjs de caracteristicas
   double comparar_caracteristicas ( vector<CImg<double> > img, unsigned idx );
 
+  double comparar_caracteristicas_proto ( vector<CImg<double> > img, unsigned idx );
+
 
  public:
 
@@ -74,11 +76,19 @@ class ComparadorImagenes {
   // dada una imagen, encuentra el indice de la que es mas parecida
   int encontrar_mas_parecida ( CImg<T> imagen );
 
+  // dada una imagen, LA CLASIFICA!!!!!
+  int clasificar_imagen ( CImg<T> imagen );
 
   // dado un indice de la base, devuelve el nombre
   string nombre ( int indice ) {
     return nombres_imagenes[indice];
   }
+
+  // dado un indice de la base, devuelve el nombre
+  string etiqueta ( int indice ) {
+    return etiquetas[indice];
+  }
+
 
 };
 
@@ -138,11 +148,39 @@ int ComparadorImagenes<T>::etiquetar_imagenes() {
 // genera los prototipos correspondientes a las clases
 template<class T>
 int ComparadorImagenes<T>::generar_prototipos ( ) {
-  // "buckets" de características de imagenes segun etiqueta
-  vector< vector< vector<CImg<double> > > > buckets( n_clases );
+
+  if ( caracteristicas.size() < nombres_imagenes.size() )
+    return -1;
+
+  vector<CImg<double> > proto_temp = caracteristicas[0];
+  unsigned contador_clase;
+
+  for ( unsigned clase=0; clase< n_clases; clase++ ) {
+    proto_temp[0].fill(0.0);
+    proto_temp[1].fill(0.0);
+    contador_clase = 0;
+
+    for( unsigned i=0; i<caracteristicas.size(); i++ ) {
+      if ( clases_imagenes[i] == clase ) {
+	proto_temp[0] += caracteristicas[i][0];
+	proto_temp[1] += caracteristicas[i][1];
+	contador_clase++;
+      }
+    }
+
+    if ( contador_clase > 0 ) {
+      proto_temp[0] /= (double)contador_clase;
+      proto_temp[1] /= (double)contador_clase;
+    }
+
+    //    proto_temp[0].display();
+
+    prototipos.push_back( proto_temp );
+
+  }
+
   return 0;
 }
-
 
 // genera una lista vector<string> con todas las imágenes
 // que encuentra en directorio.
@@ -173,6 +211,17 @@ double ComparadorImagenes<T>::comparar_caracteristicas ( vector<CImg<double> > i
   double resultado = 0;
   for ( unsigned i=0; i<n_caracteristicas; i++ ) {
     resultado += ( img[i].MSE( caracteristicas[idx][i] ) * ponderaciones[i] );
+  }
+  return resultado/(double)n_caracteristicas;
+}
+
+// compara las caracteristicas de img versus LOS PROTOTIPOS!!!
+template<class T>
+double ComparadorImagenes<T>::comparar_caracteristicas_proto ( vector<CImg<double> > img,
+					    unsigned idx ) {
+  double resultado = 0;
+  for ( unsigned i=0; i<n_caracteristicas; i++ ) {
+    resultado += ( img[i].MSE( prototipos[idx][i] ) * ponderaciones[i] );
   }
   return resultado/(double)n_caracteristicas;
 }
@@ -223,6 +272,26 @@ int ComparadorImagenes<T>::encontrar_mas_parecida ( CImg<T> imagen ) {
   // calculo de la base cual es la mas parecida
   for ( unsigned k=0; k<caracteristicas.size(); k++ ) {
     errores[k] = comparar_caracteristicas( vector_caracts_temp, k );
+  }
+    
+  // devuelvo el índice de la más parecida
+  return distance( errores.begin(),
+		   min_element( errores.begin(), errores.end() ));
+}
+
+// dada una imagen, encuentra el indice de la que es mas parecida
+template<class T>
+int ComparadorImagenes<T>::clasificar_imagen ( CImg<T> imagen ) {
+  vector<double> errores( n_clases );
+  
+  // calculo las caracteristicas para esta imagen
+  vector<CImg<T> > vector_caracts_temp;
+  vector_caracts_temp.push_back( estadisticas_imagen<T>( imagen ) );
+  vector_caracts_temp.push_back( extraer_valores_caracteristicos<T>( imagen ) );
+    
+  // calculo de la base cual es la mas parecida
+  for ( unsigned k=0; k<n_clases; k++ ) {
+    errores[k] = comparar_caracteristicas_proto( vector_caracts_temp, k );
   }
     
   // devuelvo el índice de la más parecida
