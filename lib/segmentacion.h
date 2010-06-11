@@ -103,22 +103,22 @@ vector<T> get_pos_max(CImg<T> imagen) {
 
 template<class T>
 vector<T> get_pos_max_acumulador(CImg<T> imagen) {
-	/* Retorna en un vector la posicion del maximo de una imagen;
-	 * */
-	T posx = -1, posy = -1;
-	T valor = -9999;
-	cimg_forXY(imagen, x, y)
-		{
-			if (imagen(x, y) > valor) {
-				posx = x;
-				posy = y;
-				valor = imagen(x, y);
-			}
-		}
-	vector<T> max;
-	max.push_back(posx);
-	max.push_back(posy);
-	return max;
+  /* Retorna en un vector la posicion del maximo de una imagen;
+   * */
+  T posx = -1, posy = -1;
+  T valor = -9999;
+  cimg_forXY(imagen, x, y)
+    {
+      if (imagen(x, y) > valor) {
+	posx = x;
+	posy = y;
+	valor = imagen(x, y);
+      }
+    }
+  vector<T> max;
+  max.push_back(posx);
+  max.push_back(posy);
+  return max;
 }
 
 /**
@@ -131,7 +131,7 @@ void normalizar(CImg<T> &imagen) {
     T maximo = imagen.get_abs().max();
 
     cimg_forXY( imagen,x,y ) {
-        if (maximo != 0) { //fixme: si es 0 que hacemos?
+      if ( maximo > 0.0000001 ) { //fixme: si es 0 que hacemos?
             imagen(x, y) /= (double) maximo;
         }
     }
@@ -189,11 +189,11 @@ CImg<T> obtener_maximos_acumuladores( CImg<T> imagen,
         theta = maximo_actual[1] * step_theta - M_PI / 2;
         rho = maximo_actual[0] * step_rho - max_rho; // mapea [0,N] en [-max_rho,max_rho]
         // FIXME deben estar rho y theta normalizados a una misma escala
-        acum_rho[i] = rho;
-        acum_theta[i] = theta;
+        acum_rho[i] = rho / max_rho ;
+        acum_theta[i] = theta / (M_PI/2) ;
     }
-    normalizar(acum_rho);
-    normalizar(acum_theta);
+    //normalizar(acum_rho);
+    //normalizar(acum_theta);
     int contador = 0;
     for (int x = 0; x < acum.width() - 1; x++) {
         acum[x] = acum_rho[contador]; // guardo valor de rho y theta
@@ -238,6 +238,7 @@ CImg<T> extraer_valores_caracteristicos( CImg<T> imagen,
     // deve devolver cant_maximos de rho y tita
     CImg<T> acums = obtener_maximos_acumuladores(HOUGH_IMG_BORDES,
                                                  cant_maximos, direccion, tol_grados);
+    //acums.display();
     return acums;
 }
 
