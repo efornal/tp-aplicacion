@@ -168,17 +168,20 @@ int ComparadorImagenes<T>::generar_prototipos ( ) {
       }
     }
 
-    if ( contador_clase > 0 ) {
+    if( contador_clase > 0 ) {
       proto_temp[0] /= (double)contador_clase;
       proto_temp[1] /= (double)contador_clase;
     }
-
     //    proto_temp[0].display();
-
     prototipos.push_back( proto_temp );
-
   }
 
+  /* for (unsigned p=0; p<prototipos.size(); p++ ){ */
+  /*   prototipos[p][0].display(); */
+  /*   prototipos[p][1].display(); */
+  /* } */
+
+  //  cout<<"nro protos "<<prototipos.size()<<endl;
   return 0;
 }
 
@@ -220,7 +223,7 @@ template<class T>
 double ComparadorImagenes<T>::comparar_caracteristicas_proto ( vector<CImg<double> > img,
 					    unsigned idx ) {
   double resultado = 0;
-  for ( unsigned i=0; i<n_caracteristicas; i++ ) {
+  for ( unsigned i=0; i<n_caracteristicas-1; i++ ) {
     resultado += ( img[i].MSE( prototipos[idx][i] ) * ponderaciones[i] );
   }
   return resultado/(double)n_caracteristicas;
