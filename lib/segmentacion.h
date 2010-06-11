@@ -121,9 +121,14 @@ vector<T> get_pos_max_acumulador(CImg<T> imagen) {
 	return max;
 }
 
+/**
+ * Normaliza la imagen dividiendo cada valor por el max en absoluto
+ * Obs: El absoluto deberia estar contemplado en 
+ * el calculo de MSE, no aca, por eso es get_abs()
+*/
 template<class T>
 void normalizar(CImg<T> &imagen) {
-    T maximo = imagen.abs().max();
+    T maximo = imagen.get_abs().max();
 
     cimg_forXY( imagen,x,y ) {
         if (maximo != 0) { //fixme: si es 0 que hacemos?
