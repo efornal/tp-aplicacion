@@ -173,21 +173,20 @@ CImg<double> estadisticas_imagen(const CImg<T> imagen) {
 			'x');
 
 	// calculo los histogramas de la imagen entera y las sumas
-	CImg<double> histo =
-			imagen.get_normalize(0, 255).get_histogram(256, 0, 255), histo_h =
-			sum_h.normalize(0, 255).get_histogram(256, 0, 255), histo_v =
-			sum_v.normalize(0, 255).get_histogram(256, 0, 255);
+	CImg<double> histo = imagen.get_normalize(0,1).get_histogram(256, 0, 1),
+	  histo_h = sum_h.normalize(0,1).get_histogram(256, 0, 1),
+	  histo_v = sum_v.normalize(0,1).get_histogram(256, 0, 1);
 
 	// relleno el vector con resultados. uso sqrt(var) = stddev porque es mï¿½s
 	// parecido en magnitud a las medias, y mostrando el vector se "ve mejor"
-	resultados(0) = imagen.get_normalize(0, 255).mean();
-	resultados(1) = sqrt(imagen.get_normalize(0, 255).variance());
-	resultados(2) = sum_h.mean();
-	resultados(3) = sqrt(sum_h.variance());
-	resultados(4) = sum_v.mean();
-	resultados(5) = sqrt(sum_v.variance());
-	resultados(6) = histo.mean();
-	resultados(7) = sqrt(histo.variance());
+	resultados(0) = imagen.get_normalize(0,1).mean();
+	resultados(1) = sqrt(imagen.get_normalize(0,1).variance());
+	resultados(2) = sum_h.get_normalize(0,1).mean();
+	resultados(3) = sqrt(sum_h.get_normalize(0,1).variance());
+	resultados(4) = sum_v.get_normalize(0,1).mean();
+	resultados(5) = sqrt(sum_v.get_normalize(0,1).variance());
+	resultados(6) = histo.mean() / (double)histo.sum();
+	resultados(7) = sqrt(histo.variance() / (double)histo.sum());
 	resultados(8) = histo_h.mean();
 	resultados(9) = sqrt(histo_h.variance());
 	resultados(10) = histo_v.mean();
