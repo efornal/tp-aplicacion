@@ -33,7 +33,6 @@ extern "C" {
 
 #include <iostream>
 #include <CImg.h>
-#include "../lib/CPDSI_segmentacion.h"
 #include "../lib/segmentacion.h"
 
 using namespace std;
@@ -41,13 +40,13 @@ using namespace cimg_library;
 
 int main(int argc, char **argv) {
 	const char *filename =
-			cimg_option("-f1", "./imagenes/trenfrente/trenfrente04.jpg",
+			cimg_option("-f1", "./imagenes/base/credicoop10.jpg",
 					"ruta archivo imagen de la base de datos a comparar");
 	const char *filename1 =
-			cimg_option("-f2", "./imagenes/trenfrente/trenfrente03.jpg",
+			cimg_option("-f2", "./imagenes/prueba/credicoop19.jpg",
 					"ruta archivo imagen");
 	const char *filenamedif =
-			cimg_option("-f3", "./imagenes/mpg20/obj7__3.jpg",
+			cimg_option("-f3", "./imagenes/base/sanmartinfrente04.jpg",
 					"ruta archivo imagen");
 
 	const float umbral = atof(cimg_option("-umbral", "20.0", "umbral"));

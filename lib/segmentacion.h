@@ -122,12 +122,23 @@ vector<T> get_pos_max_acumulador(CImg<T> imagen) {
 }
 
 template<class T>
+CImg<T> normalizar( CImg<T> &imagen ) {
+    T maximo = imagen.max();
+    
+    cimg_forXY( imagen,x,y ) {
+        imagen(x,y) /= (double)maximo;
+    }
+}
+
+template<class T>
 CImg<T> obtener_maximos_acumuladores( CImg<T> imagen, 
                                       int cantidad = 50,
                                       int direccion = -99, 
                                       int tolerancia = 0) {
     vector<T> maximo_actual;
-    CImg<T> acum(cantidad*2, 1, 1, 1, 0);
+    CImg<T> acum( cantidad*2, 1, 1, 1, 0 );
+    CImg<T> acum_rho( cantidad, 1, 1, 1, 0 );
+    CImg<T> acum_theta( cantidad, 1, 1, 1, 0 );
     int x_con_tol_izq = 0;
     int x_con_tol_der = 0;
 
@@ -172,7 +183,16 @@ CImg<T> obtener_maximos_acumuladores( CImg<T> imagen,
         theta   = maximo_actual[1] * step_theta - M_PI / 2;
         rho     = maximo_actual[0] * step_rho   - max_rho; // mapea [0,N] en [-max_rho,max_rho]
         // FIXME deben estar rho y theta normalizados a una misma escala
-        acum[i] = ( rho, theta ); // guardo valor de rho y theta
+        acum_rho[i]   = rho;
+        acum_theta[i] = theta;
+    }
+    normalizar( acum_rho );
+    normalizar( acum_theta );
+    int contador = 0;
+    for ( int x=0; x < acum.width()-1; x++ ) {
+        acum[x]   = acum_rho[contador]; // guardo valor de rho y theta
+        acum[x+1] = acum_theta[contador]; // guardo valor de rho y theta
+        contador++;
     }
     return acum;
 }
@@ -208,9 +228,10 @@ CImg<T> extraer_valores_caracteristicos( CImg<T> imagen,
     CImg<T> img_bordes = aplicar_sobel<T> (imagen, umbral, true);
     CImg<T> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
 
+    HOUGH_IMG_BORDES.display();
     // deve devolver cant_maximos de rho y tita
     CImg<T> acums = obtener_maximos_acumuladores( HOUGH_IMG_BORDES,
-                                                 cant_maximos, 
+                                                  cant_maximos, 
                                                   direccion, 
                                                   tol_grados);
     return acums;
