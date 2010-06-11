@@ -193,7 +193,7 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 50,
   }
 
   int contador = 0;
-  for ( int x = 0; x < acum.width() - 1; x+=2 ) {
+  for (int x = 0; x < acum.width() - 1; x += 2) {
 	acum[x] = acum_rho[contador]; // guardo valor de rho y theta
 	acum[x + 1] = acum_theta[contador]; // guardo valor de rho y theta
 	contador++;
@@ -223,10 +223,10 @@ CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
 	{
 	  imagen(x, y, 0, 0) += imagen(x, y, 0, 1) + imagen(x, y, 0, 2);
 	  imagen(x, y, 0, 0) /= 3.0;
-	}
+	} //promedio los 3 canales rgb y lo guardo en el canal 0
 
   if (channel0) {
-	imagen.channel(0);
+	imagen.channel(0); //solo tengo en cuenta el canal0
   }
 
   imagen.resize(r_size, r_size);
@@ -238,6 +238,9 @@ CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
   //HOUGH_IMG_BORDES.display();
   // deve devolver cant_maximos de rho y tita
   HOUGH_IMG_BORDES.resize(40, 40);
+  /* se hace el resize sobre la imagen transformada en el espacio de hough para que
+   * sea mas general...
+   */
 
   CImg<T> acums = obtener_maximos_acumuladores(HOUGH_IMG_BORDES, cant_maximos,
 	  direccion, tol_grados);
