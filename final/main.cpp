@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
 				     "primera imagen a comparar" );
   const char *imagen2 = cimg_option( "-img2", "./imagenes/trenfrente/tren_frente01.jpg",
 				     "segunda imagen a comparar" );
-  const char *base_dir = cimg_option( "-base", "./imagenes/chaco/",
+  const char *base_dir = cimg_option( "-base", "./imagenes/base/",
 				      "directorio con el que generar la base" );
   int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
 
@@ -17,6 +17,8 @@ int main(int argc, char **argv) {
 
   int t = comp.cargar_imagenes( base_dir );
   printf( "Se han cargado %d imagenes en la base.\n", t );
+
+  comp.etiquetar_imagenes();
 
   t = comp.calcular_caracteristicas ();
   printf( "Se han calculado %d caracteristicas de las imagenes de la base.\n", t );
