@@ -452,7 +452,8 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
     ultima = n_caracteristicas;
 
   vector<double> errores(n_clases);
-
+  CImg<double> errores_img(n_clases,1,1,1,0);
+  printf("clases:%d \n",n_clases);
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
   vector_caracts_temp.push_back(estadisticas_imagen<T> (imagen));
@@ -462,8 +463,9 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
   for (unsigned k = 0; k < n_clases; k++) {
     errores[k] = comparar_caracteristicas_proto( vector_caracts_temp, k,
 						 primera, ultima );
+    errores_img(k)=errores[k];
   }
-
+  errores_img.display();
   // devuelvo el índice del MSE mínimo encontrado
   return distance( errores.begin(), min_element(errores.begin(),errores.end()));
 }
