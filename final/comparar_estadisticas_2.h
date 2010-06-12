@@ -154,6 +154,24 @@ CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x') {
 	return vector_salida;
 }
 
+double media ( const CImg<double> &histog ) {
+  unsigned x,y;
+  double media = 0;
+  cimg_forXY(histog, x, y) {
+    media += histog(x,y)*(double)(x+y);
+  }
+  return media/(double)(histog.width()*histog.height());
+}
+
+double stddev ( const CImg<double> &histog ) {
+  unsigned x,y;
+  double stddev=0, mu = (double)media(histog)*(double)(histog.width()*histog.height());
+  cimg_forXY(histog, x, y) {
+    stddev += (double)histog(x,y)*abs((double)(x+y)-mu);
+  }
+  return stddev/(double)(histog.width()*histog.height());
+}
+
 /**
  * estadisticas_imagen
  * calcula una serie de estadï¿½sticas sobre la imagen pasada como parï¿½metro, a saber
@@ -173,9 +191,13 @@ CImg<double> estadisticas_imagen(const CImg<T> imagen) {
 			'x');
 
 	// calculo los histogramas de la imagen entera y las sumas
-	CImg<double> histo = imagen.get_normalize(0,1).get_histogram(256, 0, 1),
-	  histo_h = sum_h.normalize(0,1).get_histogram(256, 0, 1),
-	  histo_v = sum_v.normalize(0,1).get_histogram(256, 0, 1);
+	CImg<double> histo = imagen.get_normalize(0,255).get_histogram(256),
+	  histo_h = sum_h.normalize(0,255).get_histogram(256),
+	  histo_v = sum_v.normalize(0,255).get_histogram(256);
+
+	histo /= (double)(imagen.width()*imagen.height());
+	histo_h /= (double)(sum_h.width()*sum_h.height());
+	histo_v /= (double)(sum_v.width()*sum_v.height());
 
 	// relleno el vector con resultados. uso sqrt(var) = stddev porque es mï¿½s
 	// parecido en magnitud a las medias, y mostrando el vector se "ve mejor"
@@ -185,12 +207,12 @@ CImg<double> estadisticas_imagen(const CImg<T> imagen) {
 	resultados(3) = sqrt(sum_h.get_normalize(0,1).variance());
 	resultados(4) = sum_v.get_normalize(0,1).mean();
 	resultados(5) = sqrt(sum_v.get_normalize(0,1).variance());
-	resultados(6) = histo.mean() / (double)histo.sum();
-	resultados(7) = sqrt(histo.variance() / (double)histo.sum());
-	resultados(8) = histo_h.mean();
-	resultados(9) = sqrt(histo_h.variance());
-	resultados(10) = histo_v.mean();
-	resultados(11) = sqrt(histo_v.variance());
+	resultados(6) = media(histo);
+	resultados(7) = stddev(histo);
+	resultados(8) = media(histo_h);
+	resultados(9) = stddev(histo_h);
+	resultados(10) = media(histo_v);
+	resultados(11) = stddev(histo_v);
 
 	return resultados;
 }
