@@ -524,13 +524,13 @@ int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
                                        string( etiqueta(p) ) +
                                        string( ".jpg" )
                                        ).c_str() );
-    printf("gen prototipo: %s \n ", 
+    printf("gen prototipo: %s \n", 
            string( string( directorio ) + 
                    string( "estadistica_" ) + 
                    string( etiqueta(p) ) +
                    string( ".jpg" )
                    ).c_str() );
-    printf("gen prototipo: %s \n ", 
+    printf("gen prototipo: %s \n", 
            string( string( directorio ) + 
                    string( "hough_" ) + 
                    string( etiqueta(p) ) +
