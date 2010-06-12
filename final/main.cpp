@@ -9,6 +9,9 @@ int main(int argc, char **argv) {
 				     "primera imagen a comparar" );
   const char *base_dir = cimg_option( "-base", "./imagenes/base/",
 				      "directorio con el que generar la base" );
+  const char *prueba_dir = cimg_option( "-prueba", "./imagenes/prueba/",
+				      "directorio con imgs de prueba" );
+
   int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
 
   ComparadorImagenes<double> comp;
@@ -31,6 +34,12 @@ int main(int argc, char **argv) {
 
   t = comp.clasificar_imagen( CImg<double>( imagen1 ) );
   printf( "La imagen es de la clase:\n%s\n", comp.etiqueta( t ).c_str() );
+
+  vector<string> nombres; vector<int> clases;
+  t = comp.clasificar_directorio( prueba_dir, nombres, clases );
+  for (unsigned i=0; i<nombres.size(); i++ )
+    printf( "La imagen %s es de la clase:\n%s\n", nombres[i].c_str(), comp.etiqueta( clases[i] ).c_str() );
+
 
   return 0;
 }
