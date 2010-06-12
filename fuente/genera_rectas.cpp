@@ -31,6 +31,10 @@ int main(int argc, char **argv) {
     const char *filename2 = cimg_option( "-f2",
         "../imagenes/trenfrente/prueba/tren_frente10.jpg",
         "ruta archivo imagen" );
+    const char *filename3 = cimg_option( "-f3",
+        "../imagenes/trenfrente/prueba/tren_frente10.jpg",
+        "ruta archivo imagen" );
+
     int umbral = cimg_option("-umbral" , 127, "umbral threshold");
     int size   = cimg_option("-size" , 100, "tamaño imagen a segmentar");
     int seg    = cimg_option("-seg" , 10, "tamaño cuadritos segmentacion");
@@ -42,11 +46,26 @@ int main(int argc, char **argv) {
         disp10, disp11, disp12,
         disp13, disp14, disp15,
         disp16, disp17, disp18;
-    CImg<double> img1 ( filename1 ), img2( filename2 );
-    CImgList<double> lista = lista_con_img_chaco_y_un_canal();
-    img1.channel(0);
-    img2.channel(0);
-    CImg<double> promediada = promedio(lista);
+    CImg<double> img1 ( filename1 ), img2( filename2 ), img3( filename3 );
+    //    CImgList<double> lista = lista_con_img_chaco_y_un_canal();
+    // img1.channel(0);
+    // img2.channel(0);
+    // img3.channel(0);
+
+  cimg_forXY(img1,x,y) {
+    img1(x, y, 0, 0) += img1(x, y, 0, 1) + img1(x, y, 0, 2);
+    img1(x, y, 0, 0) /= 3.0;
+    img2(x, y, 0, 0) += img2(x, y, 0, 1) + img2(x, y, 0, 2);
+    img2(x, y, 0, 0) /= 3.0;
+    img3(x, y, 0, 0) += img3(x, y, 0, 1) + img3(x, y, 0, 2);
+    img3(x, y, 0, 0) /= 3.0;
+
+  }
+  img1.channel(0);
+  img2.channel(0);
+  img3.channel(0);
+
+    CImg<double> promediada = img3;
 
     CImg<double> promediada_sobel = filtrado_sobel(promediada);
     CImg<double> parecida_sobel   = filtrado_sobel(img1);
@@ -73,29 +92,49 @@ int main(int argc, char **argv) {
     distinta_sobel.resize(size,size);
     CImgList<double> dist_seg_sob = segmentar(distinta_sobel , seg, seg);
 
-    printf( "MSE promedio con parecida (con sobel) segmentada + hough: %f \n",
+    printf( "MSE promedio con parecida (con sobel) segmentada: %f \n",
             calcular_mse( prom_seg_sob, pare_seg_sob ) );
-    printf( "MSE promedio con distinta (con sobel) segmentada + hough: %f \n", 
+    printf( "MSE promedio con distinta (con sobel) segmentada: %f \n", 
             calcular_mse( prom_seg_sob, dist_seg_sob ) );
 
 
     for (unsigned i = 0; i < prom_seg_sob.size(); i++) {
 
+        // prom_seg_sob(i) = 
+        //   hough_directa( get_solo_maximos(prom_seg_sob(i), puntos));
+        // pare_seg_sob(i) = 
+        //   hough_directa( get_solo_maximos(pare_seg_sob(i), puntos));
+        // dist_seg_sob(i) = 
+        //   hough_directa( get_solo_maximos(dist_seg_sob(i), puntos));
+
         prom_seg_sob(i) = 
-            //            get_solo_maximos(
-            hough_directa( get_solo_maximos(prom_seg_sob(i), puntos));
+          hough_directa( get_solo_maximos(prom_seg_sob(i), puntos));
         pare_seg_sob(i) = 
-            //            get_solo_maximos(
-            hough_directa( get_solo_maximos(pare_seg_sob(i), puntos));
+          hough_directa( get_solo_maximos(pare_seg_sob(i), puntos));
         dist_seg_sob(i) = 
-            //            get_solo_maximos(
-            hough_directa( get_solo_maximos(dist_seg_sob(i), puntos));
+          hough_directa( get_solo_maximos(dist_seg_sob(i), puntos));
+
+
+        // prom_seg_sob(i) = 
+        //   hough_inversa(get_solo_maximos( hough_directa( get_solo_maximos(prom_seg_sob(i), puntos)), puntos));
+        // pare_seg_sob(i) = 
+        //   hough_inversa( get_solo_maximos( hough_directa( get_solo_maximos(pare_seg_sob(i), puntos)), puntos));
+        // dist_seg_sob(i) = 
+        //   hough_inversa( get_solo_maximos( hough_directa( get_solo_maximos(dist_seg_sob(i), puntos)), puntos));
+
+        // prom_seg_sob(i) = 
+        //   get_solo_maximos( hough_directa( get_solo_maximos(prom_seg_sob(i), puntos)), puntos);
+        // pare_seg_sob(i) = 
+        //   get_solo_maximos( hough_directa( get_solo_maximos(pare_seg_sob(i), puntos)), puntos);
+        // dist_seg_sob(i) = 
+        //   get_solo_maximos( hough_directa( get_solo_maximos(dist_seg_sob(i), puntos)), puntos);
+
         
     }
 
-    printf( "MSE promedio con parecida (con sobel) segmentada: %f \n",
+    printf( "MSE promedio con parecida (con sobel) segmentada - hough: %f \n",
             calcular_mse( prom_seg_sob, pare_seg_sob ) );
-    printf( "MSE promedio con distinta (con sobel) segmentada: %f \n", 
+    printf( "MSE promedio con distinta (con sobel) segmentada - hough: %f \n", 
             calcular_mse( prom_seg_sob, dist_seg_sob ) );
     printf( "## diferencia: %f \n", 
             calcular_mse( prom_seg_sob, dist_seg_sob ) -
