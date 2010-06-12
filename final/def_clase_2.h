@@ -48,13 +48,13 @@ class ComparadorImagenes {
   // compara las caracteristicas de img versus la base de datos en la pos idx
   // devuelve el mse entre los dos conjs de caracteristicas
   double comparar_caracteristicas( vector<CImg<double> > caracs, unsigned idx,
-				   int primera=0, int ultima=n_caracteristicas);
+				   int primera, int ultima);
 
   // compara las caracteristicas de img versus el prototipo idx
   // devuelve el mse entre los conjs de caracteristicas de la img y proto
   double comparar_caracteristicas_proto( vector<CImg<double> > caracs,
-					 unsigned idx, int primera=0,
-					 int ultima=n_caracteristicas);
+					 unsigned idx, int primera,
+					 int ultima);
 
  public:
 
@@ -86,8 +86,8 @@ class ComparadorImagenes {
   int clasificar_imagen(CImg<T> imagen, int primera, int ultima);
 
   // dado un directorio, clasifica todas las imágenes
-  int clasificar_directorio( const char* directorio, vector<string> nombres,
-			     vector<int> clases, int primera, int ultima );
+  int clasificar_directorio( const char* directorio, vector<string> &nombres,
+			     vector<int> &clases, int primera, int ultima );
 
   // dado un indice de la base, devuelve el nombre
   string nombre(int indice) {
@@ -289,7 +289,9 @@ vector<string> ComparadorImagenes<T>::listar_imagenes(const char* directorio) {
 template<class T>
 double ComparadorImagenes<T>::comparar_caracteristicas (
                     vector<CImg<double> > caracs, unsigned idx,
-		    unsigned primera=0, unsigned ultima=n_caracteristicas ) {
+		    int primera = 0, int ultima = -1 ) {
+  if ( ultima < 0 )
+    ultima = n_caracteristicas;
 
   // valido que el vector de caracteristicas tenga el elemento idx
   if ( prototipos.size() - 1 < idx || n_caracteristicas < 1 )
@@ -322,7 +324,9 @@ double ComparadorImagenes<T>::comparar_caracteristicas (
 template<class T>
 double ComparadorImagenes<T>::comparar_caracteristicas_proto (
                     vector<CImg<double> > caracs, unsigned idx,
-		    unsigned primera=0, unsigned ultima=n_caracteristicas ) {
+		    int primera = 0, int ultima = -1 ) {
+  if ( ultima < 0 )
+    ultima = n_caracteristicas;
 
   // valido que exista el prototipo idx y que n_caracteristicas > 0
   if ( prototipos.size() - 1 < idx || n_caracteristicas < 1 )
@@ -408,7 +412,10 @@ int ComparadorImagenes<T>::calcular_caracteristicas ( ) {
 template<class T>
 int ComparadorImagenes<T>::encontrar_mas_parecida(CImg<T> imagen,
 						  int primera=0,
-						  int ultima=n_caracteristicas){
+						  int ultima=-1 ) {
+  if ( ultima < 0 )
+    ultima = n_caracteristicas;
+
   vector<double> errores(caracteristicas.size());
 
   // calculo las caracteristicas para esta imagen
@@ -436,12 +443,14 @@ int ComparadorImagenes<T>::encontrar_mas_parecida(CImg<T> imagen,
  * @param imagen la imagen dato.
  * @param primera la priemra caracteristica a tener en cuenta, por defecto 0
  * @param ultima la ultima c13a tener en cuenta, por defecto n_caracteristicas
- * @return el índice de la imagen que se encontró más parecida.
+ * @return el índice del prototipoque mejor representa la imagen (clase).
  */
-// dada una imagen, encuentra el indice de la que es mas parecida
 template<class T>
-int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen, int primera = 0,
-					      int ultima = n_caracteristicas ) {
+int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
+					      int primera=0, int ultima=-1 ) {
+  if ( ultima < 0 )
+    ultima = n_caracteristicas;
+
   vector<double> errores(n_clases);
 
   // calculo las caracteristicas para esta imagen
@@ -457,6 +466,38 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen, int primera = 0,
 
   // devuelvo el índice del MSE mínimo encontrado
   return distance( errores.begin(), min_element(errores.begin(),errores.end()));
+}
+
+/**
+ * clasificar_directorio()
+ * Clasifica todas las imágenes encontradas en directorio llamando a
+ * clasificar_imagen con los parametros extra primera, ultima. Los nombres de
+ * las imágenes encontradas se guardan en el vector nombres, y su clasificacion
+ * respectiva en clases, ambos vectores pasados por referencia.
+ * @param directorio el directorio donde buscar imágenes.
+ * @param primera la priemra caracteristica a tener en cuenta, por defecto 0
+ * @param ultima la ultima c13a tener en cuenta, por defecto n_caracteristicas
+ * @return el número de imágenes clasificadas.
+ */
+template<class T>
+int ComparadorImagenes<T>::clasificar_directorio( const char* directorio,
+			   vector<string> &nombres, vector<int> &clases,
+			   int primera = 0, int ultima = -1 ) {
+  if ( ultima < 0 )
+    ultima = n_caracteristicas;
+
+  // reseteo vectores pasados por referencia
+  clases.clear();
+  nombres = listar_imagenes( directorio );
+
+  CImg<T> img_temp;
+
+  for ( unsigned i=0; i<nombres.size(); i++ ) {
+    img_temp = CImg<T>( nombres[i].c_str() );
+    clases.push_back( clasificar_imagen( img_temp, primera, ultima ));
+  }
+
+  return clases.size();
 }
 
 #endif // definicion de DEF_CLASE_2_H
