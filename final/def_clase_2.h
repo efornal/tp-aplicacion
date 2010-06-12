@@ -89,6 +89,9 @@ class ComparadorImagenes {
   int clasificar_directorio( const char* directorio, vector<string> &nombres,
 			     vector<int> &clases, int primera, int ultima );
 
+  // guarda los prototipos generados en archivos tipo imagenes
+  int guardar_prototipos( const char* directorio );
+
   // dado un indice de la base, devuelve el nombre
   string nombre(int indice) {
     return nombres_imagenes[indice];
@@ -502,4 +505,40 @@ int ComparadorImagenes<T>::clasificar_directorio( const char* directorio,
   return clases.size();
 }
 
+/**
+ * genera prototipos
+ * TODO: comentar
+*/
+template<class T>
+int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
+
+  for (unsigned p=0; p<prototipos.size(); p++ ){
+
+    prototipos[p][0].save_jpeg( string( string( directorio ) + 
+                                       string( "estadistica_" ) + 
+                                       string( etiqueta(p) ) +
+                                       string( ".jpg" )
+                                       ).c_str() );
+    prototipos[p][1].save_jpeg( string( string( directorio ) + 
+                                       string( "hough_" ) + 
+                                       string( etiqueta(p) ) +
+                                       string( ".jpg" )
+                                       ).c_str() );
+    printf("gen prototipo: %s \n ", 
+           string( string( directorio ) + 
+                   string( "estadistica_" ) + 
+                   string( etiqueta(p) ) +
+                   string( ".jpg" )
+                   ).c_str() );
+    printf("gen prototipo: %s \n ", 
+           string( string( directorio ) + 
+                   string( "hough_" ) + 
+                   string( etiqueta(p) ) +
+                   string( ".jpg" )
+                   ).c_str() );
+
+  }
+
+  return 0;
+}
 #endif // definicion de DEF_CLASE_2_H

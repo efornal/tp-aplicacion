@@ -6,6 +6,8 @@ using namespace cimg_library;
 int main(int argc, char **argv) {
   const char *base_dir = cimg_option( "-base", "./imagenes/base/",
 				      "directorio con el que generar la base" );
+  const char *proto_dir = cimg_option( "-proto", "./imagenes/prototipos/",
+				      "directorio donde se guardaran los prototipos" );
 
   int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
 
@@ -24,19 +26,9 @@ int main(int argc, char **argv) {
   if ( t==0 )
     printf( "Se han generado los prototipos correctamente.\n" );
 
-
-
-  // // t = comp.encontrar_mas_parecida( CImg<double>( imagen1 ) );
-  // // printf( "La imagen mas parecida es:\n%s\n", comp.nombre( t ).c_str() );
-
-  // t = comp.clasificar_imagen( CImg<double>( imagen1 ) );
-  // printf( "La imagen es de la clase:\n%s\n", comp.etiqueta( t ).c_str() );
-
-  // vector<string> nombres; vector<int> clases;
-  // t = comp.clasificar_directorio( prueba_dir, nombres, clases );
-  // for (unsigned i=0; i<nombres.size(); i++ )
-  //   printf( "La imagen %s es de la clase:\n%s\n", nombres[i].c_str(), comp.etiqueta( clases[i] ).c_str() );
-
+  t = comp.guardar_prototipos( proto_dir );
+  if ( t==0 )
+    printf( "Se han guardado los prototipos correctamente.\n" );
 
   return 0;
 }
