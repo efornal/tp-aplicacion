@@ -6,6 +6,7 @@
 #ifndef COMPARAR_ESTADISTICAS_2_H
 #define COMPARAR_ESTADISTICAS_2_H
 
+#include <iostream>
 #include <CImg.h>
 #include <string>
 #include <glob.h>
@@ -134,24 +135,25 @@ CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) {
  */
 template<class T>
 CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x') {
-	CImg<T> vector_salida;
-	// si dimension es x, recorro para cada Y y sumo todo X en cada Y
-	if (dimension == 'x' | dimension == 'X') {
-		vector_salida.assign(1, imagen.height(), 1, 1, 0);
-		cimg_forY( imagen, y ) {
-			vector_salida(0, y)
-					= imagen.get_crop(0, y, imagen.width() - 1, y).sum();
-		}
-	}
-	// viceversa si dimensiï¿½n es X
-	if (dimension == 'y' | dimension == 'Y') {
-		vector_salida.assign(imagen.width(), 1, 1, 1, 0);
-		cimg_forX( imagen, x ) {
-			vector_salida(x, 0)
-					= imagen.get_crop(x, 0, x, imagen.height() - 1).sum();
-		}
-	}
-	return vector_salida;
+  CImg<T> vector_salida;
+  // si dimension es x, recorro para cada Y y sumo todo X en cada Y
+  if (dimension == 'x' | dimension == 'X') {
+    vector_salida.assign(1, imagen.height(), 1, 1, 0);
+    cimg_forY( imagen, y ) {
+      vector_salida(0, y) = imagen.get_crop(0, y, imagen.width()-1, y).sum();
+    }
+    vector_salida /= imagen.width();
+  }
+  // viceversa si dimensiï¿½n es X
+  if (dimension == 'y' | dimension == 'Y') {
+    vector_salida.assign(imagen.width(), 1, 1, 1, 0);
+    cimg_forX( imagen, x ) {
+      vector_salida(x, 0)
+	= imagen.get_crop(x, 0, x, imagen.height()-1).sum();
+    }
+    vector_salida /= imagen.height();
+  }
+  return vector_salida;
 }
 
 double media ( const CImg<double> &histog ) {
@@ -170,6 +172,29 @@ double stddev ( const CImg<double> &histog ) {
     stddev += (double)histog(x,y)*abs((double)(x+y)-mu);
   }
   return stddev/(double)(histog.width()*histog.height());
+}
+
+// devuelve la mediana (coordenada-x donde se da el percentil 50)
+template<class T>
+T mediana ( const CImg<T> & histo ) {
+  T sum = histo.sum(), acum = (T)0;
+  unsigned x = 0;
+  while ( acum < (sum/2.0) ) {
+    acum += histo(x);
+    x++;
+  }
+  return (T)x;
+}
+
+// calcula la desviación absoluta respecto de la media M
+template<class T>
+T absdev ( const CImg<T> & histo, T M ) {
+  unsigned x = 0;
+  T absdev = 0;
+  for ( x; x< histo.width(); x++ ) {
+    absdev += abs( histo(x) - M );
+  }
+  return absdev/(T)histo.width();
 }
 
 /**
@@ -191,28 +216,38 @@ CImg<double> estadisticas_imagen(const CImg<T> imagen) {
 			'x');
 
 	// calculo los histogramas de la imagen entera y las sumas
-	CImg<double> histo = imagen.get_normalize(0,255).get_histogram(256),
-	  histo_h = sum_h.normalize(0,255).get_histogram(256),
-	  histo_v = sum_v.normalize(0,255).get_histogram(256);
+	CImg<double> histo = imagen.get_resize(16,16).get_histogram(256),
+	  histo_h = sum_h.get_histogram(256),
+	  histo_v = sum_v.get_histogram(256);
 
-	histo /= (double)(imagen.width()*imagen.height());
-	histo_h /= (double)(sum_h.width()*sum_h.height());
-	histo_v /= (double)(sum_v.width()*sum_v.height());
+	//	cout << "tam histo "<<histo.width()<<" x "<<histo.height()<<endl;
+
+	//histo.normalize(0,255);//display();
+
+	/* histo /= (double)(imagen.width()*imagen.height()/256.0); */
+	/* histo_h /= (double)(sum_h.width()*sum_h.height()/256.0);  */
+	/* histo_v /= (double)(sum_v.width()*sum_v.height()/256.0); */
+
+	histo.display();
+	histo_h.display();
+	histo_v.display();
 
 	// relleno el vector con resultados. uso sqrt(var) = stddev porque es mï¿½s
 	// parecido en magnitud a las medias, y mostrando el vector se "ve mejor"
-	resultados(0) = imagen.get_normalize(0,1).mean();
-	resultados(1) = sqrt(imagen.get_normalize(0,1).variance());
-	resultados(2) = sum_h.get_normalize(0,1).mean();
-	resultados(3) = sqrt(sum_h.get_normalize(0,1).variance());
-	resultados(4) = sum_v.get_normalize(0,1).mean();
-	resultados(5) = sqrt(sum_v.get_normalize(0,1).variance());
-	resultados(6) = media(histo);
-	resultados(7) = stddev(histo);
-	resultados(8) = media(histo_h);
-	resultados(9) = stddev(histo_h);
-	resultados(10) = media(histo_v);
-	resultados(11) = stddev(histo_v);
+
+
+	resultados(0) = imagen.mean();
+	resultados(1) = mediana(histo);
+	resultados(2) = absdev(histo, resultados(1));
+	resultados(3) = sum_h.mean();
+	resultados(4) = mediana(sum_h);
+	resultados(5) = absdev(sum_h, resultados(4));
+	resultados(6) = sum_v.mean();
+	resultados(7) = mediana(histo_v);
+	resultados(8) = absdev(histo_v,resultados(7));
+	resultados(9) = 0;
+	resultados(10) = 0;
+	resultados(11) = 0;
 
 	return resultados;
 }
