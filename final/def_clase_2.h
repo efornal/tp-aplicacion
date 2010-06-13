@@ -18,10 +18,7 @@ using namespace cimg_library;
 template<class T>
 class ComparadorImagenes {
 
- private:
-  unsigned n_caracteristicas;
-  unsigned n_imagenes;
-  unsigned n_clases;
+ public:
 
   // este tiene tamaño n_caracteristicas
   vector<double> ponderaciones;
@@ -57,6 +54,9 @@ class ComparadorImagenes {
 					 int ultima);
 
  public:
+  unsigned n_caracteristicas;
+  unsigned n_imagenes;
+  unsigned n_clases;
 
   // etiqueta las imagenes segun su nombre de archivo
   int etiquetar_imagenes();
