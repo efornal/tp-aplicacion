@@ -1,13 +1,16 @@
+//#include "../lib/commons.h"
 #include <CImg.h>
 #include "def_clase_2.h"
 
 using namespace cimg_library;
 
 int main(int argc, char **argv) {
+  const char *filename = cimg_option( "-f", "./imagenes/prueba/fich10.jpg",
+				     "primera imagen a comparar" );
   const char *base_dir = cimg_option( "-base", "./imagenes/base/",
 				      "directorio con el que generar la base" );
-  const char *proto_dir = cimg_option( "-proto", "./imagenes/prototipos/",
-				      "directorio donde se guardaran los prototipos" );
+  const char *prueba_dir = cimg_option( "-prueba", "./imagenes/prueba/",
+				      "directorio con imgs de prueba" );
 
   int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
 
@@ -26,9 +29,18 @@ int main(int argc, char **argv) {
   if ( t==0 )
     printf( "Se han generado los prototipos correctamente.\n" );
 
-  t = comp.guardar_prototipos( proto_dir );
-  if ( t==0 )
-    printf( "Se han guardado los prototipos correctamente.\n" );
 
-  return 0;
+
+  CImg<double> img(filename);
+  vector<CImg<double> > caract(  comp.n_imagenes );
+  CImg<double> caract_img = estadisticas_imagen( img );
+
+  for (int i=0; i <  comp.n_clases; i++ ) {
+    
+    printf("MSE %s \t\t %f \n",  
+           string(comp.etiqueta(i)).c_str(),
+           caract_img.MSE( comp.caracteristicas[i][0] ) );
+    //comp.caracteristicas[i][1].display();
+  }
+
 }

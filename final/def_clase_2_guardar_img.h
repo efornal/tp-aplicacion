@@ -18,7 +18,10 @@ using namespace cimg_library;
 template<class T>
 class ComparadorImagenes {
 
- public:
+ private:
+  unsigned n_caracteristicas;
+  unsigned n_imagenes;
+  unsigned n_clases;
 
   // este tiene tamaño n_caracteristicas
   vector<double> ponderaciones;
@@ -54,9 +57,6 @@ class ComparadorImagenes {
 					 int ultima);
 
  public:
-  unsigned n_caracteristicas;
-  unsigned n_imagenes;
-  unsigned n_clases;
 
   // etiqueta las imagenes segun su nombre de archivo
   int etiquetar_imagenes();
@@ -82,8 +82,12 @@ class ComparadorImagenes {
   // dada una imagen, encuentra el indice de la que es mas parecida
   int encontrar_mas_parecida(CImg<T> imagen, int primera, int ultima);
 
+
   // dada una imagen, la clasifica según MSE contra los prototipos
   int clasificar_imagen(CImg<T> imagen, int primera, int ultima);
+
+  // dada una imagen, la clasifica según MSE contra los prototipos
+  int clasificar_la_imagen(CImg<T> imagen, const char* directorio, int primera, int ultima);
 
   // dado un directorio, clasifica todas las imágenes
   int clasificar_directorio( const char* directorio, vector<string> &nombres,
@@ -264,6 +268,7 @@ vector<string> ComparadorImagenes<T>::listar_imagenes(const char* directorio) {
   for (unsigned i = 0; i < globbuf.gl_pathc; i++) {
     if (regexec(&match, globbuf.gl_pathv[i], 0, NULL, 0) == 0) {
       lista_imagenes.push_back(string(globbuf.gl_pathv[i]));
+            printf("arch. %s \n",string(globbuf.gl_pathv[i]).c_str());
     }
   }
   regfree(&match);
@@ -435,6 +440,8 @@ int ComparadorImagenes<T>::encontrar_mas_parecida(CImg<T> imagen,
   return distance( errores.begin(), min_element(errores.begin(),errores.end()));
 }
 
+
+
 /**
  * clasificar_imagen()
  * Dada una imagen pasada como parámetro en imagen, busca el prototipo que más
@@ -474,6 +481,69 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
 }
 
 /**
+ * clasificar_imagen()
+ * Dada una imagen pasada como parámetro en imagen, busca el prototipo que más
+ * se parece a la misma y devuelve el índice de tal prototipo.
+ * El razonamiento es que la imagen minimizará el el MSE contra el prototipo que
+ * modela (generaliza) su clase/etiqueta.
+ * Los parámetros primera y ultima indican las características que serán tenidas
+ * en cuenta (igual que en comparar_imagenes).
+ * @param imagen la imagen dato.
+ * @param primera la priemra caracteristica a tener en cuenta, por defecto 0
+ * @param ultima la ultima c13a tener en cuenta, por defecto n_caracteristicas
+ * @return el índice del prototipoque mejor representa la imagen (clase).
+ */
+template<class T>
+int ComparadorImagenes<T>::clasificar_la_imagen( CImg<T> imagen, const char* directorio,
+					      int primera=0, int ultima=-1 ) {
+  if ( ultima < 0 )
+    ultima = n_caracteristicas;
+
+
+  int i = 0;
+  vector<string> lista_estadisticas = 
+    listar_imagenes( string( string(directorio) + string("estadistica/") ).c_str() );
+  vector<string> lista_hough = 
+    listar_imagenes( string( string(directorio) + string("hough/") ).c_str() );
+
+  n_clases = lista_estadisticas.size();
+  vector<double> errores(n_clases);
+  CImg<double> errores_img(n_clases,1,1,1,0);
+  printf("clases:%d \n",n_clases);
+
+  // calculo las caracteristicas para esta imagen
+    vector<CImg<T> > vector_caracts_temp;
+  /* /\* vector_caracts_temp.push_back(estadisticas_imagen<T> (imagen)); *\/ */
+  /* /\* vector_caracts_temp.push_back(extraer_valores_caracteristicos<T> (imagen)); *\/ */
+  
+  for (i=0; i < lista_estadisticas.size(); i++){
+    printf (":::%d %s \n",i,string( lista_estadisticas[i]).c_str() );
+    printf (":::%d %s \n",i,string( lista_hough[i]).c_str() );
+
+    CImg<double> img1( string( lista_estadisticas[i]).c_str() ),
+      img2 ( string(lista_hough[i]).c_str() );
+    img1-=100;
+    img2-=100;
+    vector_caracts_temp.push_back(img1);
+    vector_caracts_temp.push_back(img2);
+    img1.display();
+    img2.display();
+  }
+ 
+
+  // calculo el MSE contra todos los prototipos que tengo
+  for (unsigned k = 0; k < n_clases-1; k++) {
+
+    errores[k] = comparar_caracteristicas_proto( vector_caracts_temp, k,
+        					 primera, ultima );
+    errores_img(k)=errores[k];
+  }
+  errores_img.display();
+  // devuelvo el índice del MSE mínimo encontrado
+  return distance( errores.begin(), min_element(errores.begin(),errores.end()));
+}
+
+/**
  * clasificar_directorio()
  * Clasifica todas las imágenes encontradas en directorio llamando a
  * clasificar_imagen con los parametros extra primera, ultima. Los nombres de
@@ -499,7 +569,7 @@ int ComparadorImagenes<T>::clasificar_directorio( const char* directorio,
 
   for ( unsigned i=0; i<nombres.size(); i++ ) {
     img_temp = CImg<T>( nombres[i].c_str() );
-    clases.push_back( clasificar_imagen( img_temp, primera, ultima ));
+    clases.push_back( clasificar_imagen( img_temp, directorio, primera, ultima ));
   }
 
   return clases.size();
@@ -514,25 +584,25 @@ int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
 
   for (unsigned p=0; p<prototipos.size(); p++ ){
 
-    prototipos[p][0].save_jpeg( string( string( directorio ) + 
-                                       string( "estadistica_" ) + 
+    (prototipos[p][0]+100).save_jpeg( string( string( directorio ) + 
+                                       string( "estadistica/" ) + 
                                        string( etiqueta(p) ) +
                                        string( ".jpg" )
                                        ).c_str() );
-    prototipos[p][1].save_jpeg( string( string( directorio ) + 
-                                       string( "hough_" ) + 
+    (prototipos[p][1]+100).save_jpeg( string( string( directorio ) + 
+                                       string( "hough/" ) + 
                                        string( etiqueta(p) ) +
                                        string( ".jpg" )
                                        ).c_str() );
     printf("gen prototipo: %s \n", 
            string( string( directorio ) + 
-                   string( "estadistica_" ) + 
+                   string( "estadistica/" ) + 
                    string( etiqueta(p) ) +
                    string( ".jpg" )
                    ).c_str() );
     printf("gen prototipo: %s \n", 
            string( string( directorio ) + 
-                   string( "hough_" ) + 
+                   string( "hough/" ) + 
                    string( etiqueta(p) ) +
                    string( ".jpg" )
                    ).c_str() );
