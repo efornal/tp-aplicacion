@@ -128,21 +128,24 @@ G_y = \left[
 \right]$$
 \caption{Operador Gradiente de Sobel}
 \end{figure}
-Tras estos pasos se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de \resalt{no se como poner acá lo de la tol. de los grados}
-Finalmente se obtienen las coordenadas de \resalt{los 100 máximos en realidad máximo es uno solo pero es como los 100 subsiguientes} ($\rho$ y $\theta$ del espacio Transf. de Hough) con las cuales se forma el vector de características representativo de la imagen.
+Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de \resalt{no se como poner acá lo de la tol. de los grados}
+Finalmente, se obtienen las coordenadas de \resalt{los 100 máximos en realidad máximo es uno solo pero es como los 100 subsiguientes} ($\rho$ y $\theta$ del espacio Transf. de Hough) con las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
 \includegraphics[scale=0.35]{../diagramas/procesohough.ps} 
 \caption{"Proceso de la imagen mediante el método por T. de Hough}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Método estadístico}
+acá describir el método que hizo mauro..histogramas y demás....
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \section{Experimentos y resultados}
-blablabla
+Para las pruebas se procedió a evaluar el desempeño de ambos métodos, en primera instancia por separados y luego, conjuntamente.
+\subsection{Descripción de la Base de datos de imágenes}
+Se trabajó con imágenes que fueron adquiridas en la ciudad de Santa Fe, mediante un Dispositivo Móvil con una resolución de 640x480 pixels. Se construyo una base de datos de las mismas sobre un total de cinco edificios, tomando trece realizaciones de cada uno de ellos (diez con el propósito de usarlas como prototipo y tres para las prueba con los algoritmos). Cabe aclarar que cada conjunto de imágenes de los cinco edificios fueron tomadas en condiciones ambientales similares y con la cámara en la misma posición respecto del objetivo. \resalt{arreglar esto}.
 %Partiendo de una implementación base de un juego de carrera de autos, 
 %%que rebautizamos
 %%como ``Fuzzy Driver'',
@@ -168,8 +171,6 @@ blablabla
 %\label{fig1}
 %\end{figure}
 %%
-\subsection{Descripción de la Base de datos de imágenes}
-Las imágenes sobre las cuál se aplicaron los algoritmos, fueron tomadas en la ciudad de Santa Fe, mediante un Dispositivo Móvil con una resolución de 640x480 pixels. Se construyo una base de datos de imágenes sobre seis edificios, tomando trece realizaciones de cada uno de ellos (diez con el propósito de usarlas como prototipo y tres para la prueba con los algoritmos).
 %El módulo de dirección lee las entradas
 %\mono{dis\-tan\-cia\_fron\-tal\_iz\-quier\-da}, \mono{dis\-tan\-cia\_fron\-tal\_de\-re\-cha},
 %\mono{dis\-tan\-cia\_la\-te\-ral\_iz\-quier\-da}, y \mono{dis\-tan\-cia\_la\-te\-ral\_de\-re\-cha},
@@ -203,8 +204,16 @@ Las imágenes sobre las cuál se aplicaron los algoritmos, fueron tomadas en la 
 %\label{fig3}
 %\end{figure}
 %%
-\subsection{Descripción de pruebas}
-blablabla
+\subsection{Vectores característicos y prototipos}
+Sobre diez de las trece imágenes de cada edificio, se aplicó el método de al Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edifico. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
+\subsection{Descripción de las pruebas}
+Por cada método se calculo el MSE o error cuadratico medio definido en \ref{mse} entre los cinco prototipos y las quince imágenes de pruebas, para finalmente obtener la tasa de reconocimiento mediante \ref{tasareconocimiento}
+\begin{equation}
+poner formula del error cuadratico medio\label{mse}
+\end{equation}
+\begin{equation}
+\% reconocimiento = \frac{\# aciertos}{15} \label{tasareconocimiento}
+\end{equation}
 %Para obtener las reglas nos hemos basado en proposiciones en lenguaje natural,
 %como puede ser ``si la distancia medida por los dos sensores frontales es máxima, y
 %la velocidad actual es media, entonces pisar a fondo el acelerador''. 
