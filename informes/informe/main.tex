@@ -96,7 +96,7 @@ Se desarrollaron dos algoritmos diferentes para la resolución del problema.
 %
 %De esta forma podemos obtener para una entrada $x$ la salida $y$ del sistema [1].
 \subsection*{Método mediante Transformada de Hough}
-Como se puede observar en la \resalt{figura x}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente para la detección de bordes se aplica el operador gradiente de sobel \ref{sob} y se umbraliza con la función definida en \ref{umbral}.
+Como se puede observar en la \resalt{figura x}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
 \begin{equation}\label{umbral}
 f(x) = \left\{
 \begin{array}{l@{,\quad}l}
@@ -110,7 +110,6 @@ f(x) = \left\{
 \nabla f \approx \mid G_x \mid + \mid G_y \mid \label{sob}
 \end{equation}
 %
-\resalt{arreglar esto aca arriba que no se que pasa con los numeros}
 \begin{figure}
 $$
 G_x = \left[
