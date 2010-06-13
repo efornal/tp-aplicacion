@@ -96,7 +96,7 @@ Se desarrollaron dos algoritmos diferentes para la resolución del problema.
 %
 %De esta forma podemos obtener para una entrada $x$ la salida $y$ del sistema [1].
 \subsection*{Método mediante Transformada de Hough}
-Como se puede observar en la \resalt{figura x}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
+Como se puede observar en la \resalt{figura x}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
 \begin{equation}\label{umbral}
 f(x) = \left\{
 \begin{array}{l@{,\quad}l}
@@ -128,12 +128,13 @@ G_y = \left[
 \right]$$
 \caption{Operador Gradiente de Sobel}
 \end{figure}
-Con el objetivo de lograr una imagen binaria, se umbraliza asignandole el valor 0 a los pixels cuyo valor de intensidad es menor a \resalt{cuanto}, mientras que a los demás se le asigna el valor 1. Tras estos pasos se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de \resalt{no se como poner acá lo de la tol. de los grados}
+Tras estos pasos se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de \resalt{no se como poner acá lo de la tol. de los grados}
 Finalmente se obtienen las coordenadas de \resalt{los 100 máximos en realidad máximo es uno solo pero es como los 100 subsiguientes} ($\rho$ y $\theta$ del espacio Transf. de Hough) con las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
-\includegraphics[scale=0.3]{../diagramas/procesohough.ps} 
+\includegraphics[scale=0.35]{../diagramas/procesohough.ps} 
 \caption{"Proceso de la imagen mediante el método por T. de Hough}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Método estadístico}
 %
 %
