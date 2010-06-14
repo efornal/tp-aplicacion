@@ -213,11 +213,33 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 50,
  * @param: direccion =-99 implica extraccion de los maximos en cualquier direccion.
  * @param: tol_grados es la tolerancia en grados resepecto a direccion. 
  * solo se aplica cuando direccion!-=-99
+ *
+ * pruebas:
+ * probe modificar en HSI haciendo:
+ *   imagen.normalize(0,1);
+ *   imagen.RGBtoHSI();
+ *   cimg_forXY(imagen,x,y) {
+ *     imagen(x,y,0,1) = 1;
+ *     //imagen(x,y,0,2) = 0.5;
+ *   }
+ *   imagen.HSItoRGB();
+ *  imagen.normalize(0,255);
+ * pero no aporta mejora considerable. chaco.
  * */
 template<class T>
 CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
     float umbral = 20.0, int direccion = -99, int tol_grados = 0,
     bool channel0 = true, int q_levels = 16, int r_size = 200) {
+
+  //---------------- retocado HSI
+  /* imagen.normalize(0,1); */
+  /* imagen.RGBtoHSI(); */
+  /* cimg_forXY(imagen,x,y) { */
+  /*   imagen(x,y,0,1) = 1.0;    //imagen(x,y,0,2) = 0.5;  */
+  /* } */
+  /* imagen.HSItoRGB(); */
+  /* imagen.normalize(0,255); */
+  //----------------------- no aporta mucho
 
   cimg_forXY(imagen,x,y)
 	{
@@ -231,8 +253,9 @@ CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
 
   imagen.resize(r_size, r_size);
   //img_bordes es binaria y tiene valores entre 0 y 255...
-  //imagen.display();
+
   CImg<T> img_bordes = aplicar_sobel<T> (imagen, umbral, true);
+  //img_bordes.display("sobel");
   CImg<T> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
 
   //HOUGH_IMG_BORDES.display();
