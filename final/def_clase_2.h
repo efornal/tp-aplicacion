@@ -462,7 +462,7 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
 
   vector<double> errores(n_clases);
   CImg<double> errores_img(n_clases,1,1,1,0);
-  printf("clases:%d \n",n_clases);
+
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
   vector_caracts_temp.push_back(estadisticas_imagen<T> (imagen));
