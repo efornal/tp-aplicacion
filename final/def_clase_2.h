@@ -569,16 +569,8 @@ double ComparadorImagenes<T>::error_clasificacion( const char* directorio,
 
   if ( nombres.size() != etiqs.size() ) {
     cerr<<"ERRORRRRRRRRR hubo archivos que no matchearon.\n";
-    return 0.0;
+    return -1.0;
   }
-
-  cout<<"etiqs ";
-  for ( unsigned i=0; i< etiqs.size(); i++ )
-    cout<<" "<<etiqs[i];
-
-  cout<<"\nclases ";
-  for ( unsigned i=0; i< clases.size(); i++ )
-    cout<<" "<<clases[i];
 
   for ( unsigned i=0; i<etiqs.size(); i++ ) {
     //cout<<"etiqs "<<etiqs[i]<<" etiquet "<<etiqueta(i)<<endl;

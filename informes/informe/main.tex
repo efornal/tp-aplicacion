@@ -76,6 +76,7 @@ En principio y ya que no es el objetivo de este trabajo hacer un análisis profu
 Se desarrollaron dos algoritmos diferentes para la resolución del problema.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Método mediante Transformada de Hough}
+\resalt{ponemos lo que esta en la wikipedia sobre la transf de hough???}
 Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
 \begin{equation}
 \nabla f \approx \mid G_x \mid + \mid G_y \mid \label{sob}
@@ -118,7 +119,7 @@ Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las
 \label{procesohough}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Método estadístico}
+\subsection*{Método mediante estadística de los histogramas}
 acá describir el método que hizo mauro..histogramas y demás....
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimentos y resultados}
@@ -130,8 +131,9 @@ Se trabajó con imágenes que fueron adquiridas en la ciudad de Santa Fe, median
 \subsection{Vectores característicos y prototipos}
 Sobre diez de las trece imágenes de cada edificio, se aplicó el método de al Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edifico. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Descripción de las pruebas}
-Por cada método se calculo el MSE o error cuadratico medio definido en \ref{mse} entre los cinco prototipos y las quince imágenes de pruebas, para finalmente obtener la tasa de reconocimiento mediante \ref{tasareconocimiento}
+Por cada método se calculo el MSE o error cuadrático medio definido en \ref{mse} entre los cinco prototipos y las quince imágenes de pruebas, para finalmente obtener la tasa de reconocimiento mediante \ref{tasareconocimiento}
 \begin{equation}
 MSE=\ldots \label{mse}
 \end{equation}

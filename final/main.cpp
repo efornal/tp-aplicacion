@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
 				     "primera imagen a comparar" );
   const char *base_dir = cimg_option( "-base", "./imagenes/iniciales/",
 				      "directorio con el que generar la base" );
-  const char *prueba_dir = cimg_option( "-prueba", "./imagenes/pruebas_iniciales/",
+  const char *prueba_dir = cimg_option( "-prueba", "./imagenes/prueba_extrema/",
 				      "directorio con imgs de prueba" );
 
   int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
   printf( "Se han calculado %d caracteristicas de las imagenes de la base.\n", t );
 
   comp.ponderacion(0) = 1.0;
-  comp.ponderacion(1) = 1.0;
+  comp.ponderacion(1) = 0.0;
   printf("ponderaciones: %f %f\n", comp.ponderacion(0), comp.ponderacion(1) );
 
   t = comp.generar_prototipos();
@@ -40,9 +40,9 @@ int main(int argc, char **argv) {
   //  printf( "La imagen es de la clase:\n%s\n", comp.etiqueta( t ).c_str() );
 
   vector<string> nombres; vector<int> clases;
-  // t = comp.clasificar_directorio( prueba_dir, nombres, clases );
-  // for (unsigned i=0; i<nombres.size(); i++ )
-  //   printf( "%s: %s\n", nombres[i].c_str(), comp.etiqueta( clases[i] ).c_str());
+   t = comp.clasificar_directorio( prueba_dir, nombres, clases );
+   for (unsigned i=0; i<nombres.size(); i++ )
+     printf( "%s: %s\n", nombres[i].c_str(), comp.etiqueta( clases[i] ).c_str());
 
   double err = comp.error_clasificacion( prueba_dir );
   printf( "ERRORRR Clasificación: %f\n", err );
