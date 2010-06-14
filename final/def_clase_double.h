@@ -173,7 +173,7 @@ int ComparadorImagenes::calcular_caracteristicas ( ) {
     imagen_temp = CImg<double>( nombres_imagenes[cont].c_str() );
     vector_caracts_temp.clear();
     for ( k=0; k<extractores.size(); k++ ) {
-      vector_caracts_temp.push_back( extractores[k].extraer_caracteristicas( imagen_temp ) );
+      //      vector_caracts_temp.push_back( extractores[k].extraer_caracteristicas( imagen_temp ) );
     }
     caracteristicas.push_back( vector_caracts_temp );
   }
@@ -188,7 +188,7 @@ int ComparadorImagenes::encontrar_mas_parecida ( CImg<double> imagen ) {
   // calculo las caracteristicas para esta imagen
   vector<CImg<double> > vector_caracts_temp;
     for ( unsigned k=0; k<extractores.size(); k++ ) {
-      vector_caracts_temp.push_back( extractores[k].extraer_caracteristicas( imagen ) );
+      //      vector_caracts_temp.push_back( extractores[k].extraer_caracteristicas( imagen ) );
     }
     
     // calculo de la base cual es la mas parecida
