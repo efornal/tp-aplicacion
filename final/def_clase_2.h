@@ -572,8 +572,16 @@ double ComparadorImagenes<T>::error_clasificacion( const char* directorio,
     return 0.0;
   }
 
+  cout<<"etiqs ";
+  for ( unsigned i=0; i< etiqs.size(); i++ )
+    cout<<" "<<etiqs[i];
+
+  cout<<"\nclases ";
+  for ( unsigned i=0; i< clases.size(); i++ )
+    cout<<" "<<clases[i];
+
   for ( unsigned i=0; i<etiqs.size(); i++ ) {
-    cout<<"etiqs "<<etiqs[i]<<" etiquet "<<etiqueta(i)<<endl;
+    //cout<<"etiqs "<<etiqs[i]<<" etiquet "<<etiqueta(i)<<endl;
     if ( etiqs[i] != etiqueta( clases[i]) )
       error += 1.0;
   }
