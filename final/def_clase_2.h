@@ -18,7 +18,7 @@ using namespace cimg_library;
 template<class T>
 class ComparadorImagenes {
 
- public:
+ /* public: */
 
   // este tiene tamaño n_caracteristicas
   vector<double> ponderaciones;
@@ -102,6 +102,9 @@ class ComparadorImagenes {
     return etiquetas[indice];
   }
 
+  // devuelve una ref al iesimo del vector de ponderaciones
+  double & ponderacion( unsigned i );
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -110,7 +113,7 @@ class ComparadorImagenes {
 /**
  * ComparadorImagenes()
  * Constructor por defecto.
- */ 
+ */
 template<class T>
 ComparadorImagenes<T>::ComparadorImagenes() {
   n_caracteristicas = 2;
@@ -541,6 +544,15 @@ int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
   }
 
   return 0;
+}
+
+/**
+ * ponderaciones()
+ * devuelve una referencia al elem i del vector de ponderaciones
+ */
+template<class T>
+double & ComparadorImagenes<T>::ponderacion( unsigned i ) {
+    return ponderaciones[i];
 }
 
 #endif // definicion de DEF_CLASE_2_H
