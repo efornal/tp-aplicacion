@@ -534,3 +534,20 @@ CImg<T> filtrar_hough_theta( CImg<T> hough,
     }
     return hough;
 }
+
+/**
+ * TODO: commentar
+ */
+CImg<double> acura( CImg<double> img, int size=10 ) {
+
+  // promediado canales RGB
+  cimg_forXY(img,x,y) {
+    img(x, y, 0, 0) += img(x, y, 0, 1) + img(x, y, 0, 2);
+    img(x, y, 0, 0) /= 3.0;
+  }
+  img.channel(0);
+  
+  filtrado_sobel( img );
+
+  return img.resize( size, size );
+}

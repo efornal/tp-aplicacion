@@ -3,6 +3,7 @@
 
 #include "comparar_estadisticas_2.h"
 #include "../lib/segmentacion.h"
+#include "../lib/filtrado_espacial.h"
 
 #include <vector>
 #include <string>
@@ -392,6 +393,8 @@ int ComparadorImagenes<T>::calcular_caracteristicas ( ) {
     vector_caracts_temp.push_back( estadisticas_imagen<T>(imagen_temp) );
     vector_caracts_temp.push_back(
 			  extraer_valores_caracteristicos<T>(imagen_temp) );
+    vector_caracts_temp.push_back( acura<T>(imagen_temp) );
+
     // finalmente inserto el vector de características generado
     // en el vector de (vectores de) caractarísticas global.
     caracteristicas.push_back(vector_caracts_temp);

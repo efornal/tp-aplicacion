@@ -317,3 +317,69 @@ void imprimir_lista(list<T> lista) {
 	  << endl;
 
 }
+
+
+/**
+ * solo maximos de la t hough
+ * FIXME: para valores menores que uno no va detectarlos
+ * o va detecta el mismo q esta usando para marcar..
+ * se podria usar valores negativos???
+ */
+template <class T>
+CImg<T> get_solo_maximos( CImg<T> img, int cantidad=1 ) {
+
+    CImg<T> maximos(cantidad,1,1,1,0);
+    CImg<T> aux(img);
+    int cont = 0;
+    for ( int i = 0; i < cantidad; i++ ) {
+        maximos(cont++) = img.max();
+        img.max() = 1;
+    }
+    cimg_forXY(img,x,y){
+        if ( img(x,y) == aux(x,y) ) img(x,y) = 0;
+    }
+    return img;
+}
+
+
+/**
+ * TODO: commentar
+ */
+template<class T>
+CImg<T> acura( CImg<T> img, int size=100, int seg=20 ) {
+
+  // promediado canales RGB
+  cimg_forXY(img,x,y) {
+    img(x, y, 0, 0) += img(x, y, 0, 1) + img(x, y, 0, 2);
+    img(x, y, 0, 0) /= 3.0;
+  }
+  img.channel(0);
+  
+  img = filtrado_sobel( img );
+
+  img.resize( size, size );
+  //return img; //---- hasta aca intento 1
+
+
+
+  // -----------------
+  /* CImgList<T> segmentada = segmentar( img , seg, seg ); */
+  /* CImg<T> result( segmentada.size(),1,1,1,0 ); */
+  /* for (unsigned i = 0; i < segmentada.size(); i++) { */
+  /*   //result(i,0) =  segmentada(i).variance(); */
+  /*   result(i,0) =  get_solo_maximos( segmentada(i),50).variance(); */
+  /* } */
+  /* return result;  */
+  //---- hasta aca intento 2 (incluye 1)
+
+  // -----------------
+  CImgList<T> segmentada = segmentar( img , seg, seg );
+  return segmentada.get_append('x');
+  //---- hasta aca intento 3 (incluye  solo 1)
+
+
+  /* prom_seg_sob(i) =  */
+  /*         hough_directa( get_solo_maximos(prom_seg_sob(i), puntos)); */
+
+  
+}
