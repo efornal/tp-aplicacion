@@ -134,7 +134,8 @@ CImgList<T> segmentar(CImg<T> img, int ancho = 20, int alto = 20) {
  * @TODO generalizar para sumar a lo largo de las dimensiones z y c.
  */
 template<class T>
-CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x') {
+CImg<T> sumar_dim( const CImg<T> imagen, char dimension = 'x',
+		   bool promediar = false) {
   CImg<T> vector_salida;
   // si dimension es x, recorro para cada Y y sumo todo X en cada Y
   if (dimension == 'x' | dimension == 'X') {
@@ -142,16 +143,17 @@ CImg<T> sumar_dim(const CImg<T> imagen, char dimension = 'x') {
     cimg_forY( imagen, y ) {
       vector_salida(0, y) = imagen.get_crop(0, y, imagen.width()-1, y).sum();
     }
-    vector_salida /= imagen.width();
+    if ( promediar )
+      vector_salida /= imagen.width();
   }
   // viceversa si dimensiï¿½n es X
   if (dimension == 'y' | dimension == 'Y') {
     vector_salida.assign(imagen.width(), 1, 1, 1, 0);
     cimg_forX( imagen, x ) {
-      vector_salida(x, 0)
-	= imagen.get_crop(x, 0, x, imagen.height()-1).sum();
+      vector_salida(x, 0) = imagen.get_crop(x, 0, x, imagen.height()-1).sum();
     }
-    vector_salida /= imagen.height();
+    if ( promediar )
+      vector_salida /= imagen.height();
   }
   return vector_salida;
 }
@@ -197,6 +199,21 @@ T absdev ( const CImg<T> & histo, T M ) {
   return absdev/(T)histo.width();
 }
 
+template<class T>
+CImg<T> obtener_cuadrante( const CImg<T> &imagen, int cuadrante ) {
+  switch(cuadrante) {
+  case 1: return imagen.get_crop( imagen.width()/2, imagen.height()/2,
+				  imagen.width(), imagen.height() );
+  case 2: return imagen.get_crop( 0, imagen.height()/2,
+				  imagen.width()/2, imagen.height() );
+  case 3: return imagen.get_crop( 0, 0,
+				  imagen.width()/2, imagen.height()/2 );
+  case 4: return imagen.get_crop( imagen.width()/2, 0,
+				  imagen.width(), imagen.height()/2 );
+  }
+  return imagen;
+}
+
 /**
  * estadisticas_imagen
  * calcula una serie de estadï¿½sticas sobre la imagen pasada como parï¿½metro, a saber
@@ -208,48 +225,70 @@ T absdev ( const CImg<T> & histo, T M ) {
  *         mencionan ariba.
  */
 template<class T>
-CImg<double> estadisticas_imagen(const CImg<T> imagen) {
-	CImg<double> resultados(12, 1, 1, 1, 0);
+CImg<double> estadisticas_imagen(const CImg<T> &imagen, int cuadrante = 0) {
+  CImg<double> resultados;
+  if ( cuadrante == 0)
+    resultados.assign(45, 1, 1, 1, 0);
+  else
+    resultados.assign(9, 1, 1, 1, 0);
 
-	// calculo las sumas h y v
-	CImg<T> sum_h = sumar_dim<T> (imagen, 'y'), sum_v = sumar_dim<T> (imagen,
-			'x');
+  CImg<T> img2 = obtener_cuadrante(imagen, cuadrante);
 
-	// calculo los histogramas de la imagen entera y las sumas
-	CImg<double> histo = imagen.get_resize(16,16).get_histogram(256),
-	  histo_h = sum_h.get_histogram(256),
-	  histo_v = sum_v.get_histogram(256);
+  // achico la imagen a un tamaño normalizado, para que sus sumas horizontal y
+  // vertical tengan el mismo tamaño. El histograma de la imagen general también
+  // deberé calcularlo sobre una versión escalada de la imagen.
+  unsigned dim_menor, dim_norm, dim_norm2;
+  if ( img2.width() > img2.height() )
+    dim_menor = img2.height();
+  else
+    dim_menor = img2.width();
+  dim_norm = floor(sqrt(dim_menor));
+  dim_norm2 = pow(dim_norm,2);
 
-	//	cout << "tam histo "<<histo.width()<<" x "<<histo.height()<<endl;
+  // acomodo la img para que quede cuadrada
+  img2.resize( dim_norm2, dim_norm2, -100, -100, 3);
 
-	//histo.normalize(0,255);//display();
+  // calculo los perfiles horiz y vert.
+  CImg<T> sum_h = sumar_dim<T> (img2, 'y', true),
+    sum_v = sumar_dim<T> (img2, 'x', true);
 
-	/* histo /= (double)(imagen.width()*imagen.height()/256.0); */
-	/* histo_h /= (double)(sum_h.width()*sum_h.height()/256.0);  */
-	/* histo_v /= (double)(sum_v.width()*sum_v.height()/256.0); */
+  // achico ahora a norm*norm
+  img2.resize( dim_norm, dim_norm, -100, -100, 3);
 
-	histo.display();
-	histo_h.display();
-	histo_v.display();
+  // ahora las 3 imágenes sum_h, sum_v y cuadrada tiene todas el mismo número
+  // de pixeles, lo que hace a sus respectivos histogramas equiparables
 
-	// relleno el vector con resultados. uso sqrt(var) = stddev porque es mï¿½s
-	// parecido en magnitud a las medias, y mostrando el vector se "ve mejor"
+  // calculo los histogramas de la imagen entera y las sumas
+  CImg<double> histo = img2.get_histogram(256), // / (double)dim_norm,
+    histo_h = sum_h.get_histogram(256), // / (double)dim_norm,
+    histo_v = sum_v.get_histogram(256); // / (double)dim_norm;
 
+  resultados(0) = img2.mean();
+  resultados(1) = mediana(histo);
+  resultados(2) = absdev(histo, resultados(1)); 
+  resultados(3) = sum_h.mean();
+  resultados(4) = mediana(sum_h);
+  resultados(5) = absdev(sum_h, resultados(4));
+  resultados(6) = sum_v.mean();
+  resultados(7) = mediana(histo_v);
+  resultados(8) = absdev(histo_v,resultados(7));
 
-	resultados(0) = imagen.mean();
-	resultados(1) = mediana(histo);
-	resultados(2) = absdev(histo, resultados(1));
-	resultados(3) = sum_h.mean();
-	resultados(4) = mediana(sum_h);
-	resultados(5) = absdev(sum_h, resultados(4));
-	resultados(6) = sum_v.mean();
-	resultados(7) = mediana(histo_v);
-	resultados(8) = absdev(histo_v,resultados(7));
-	resultados(9) = 0;
-	resultados(10) = 0;
-	resultados(11) = 0;
+  resultados /= (double) dim_norm2;
 
-	return resultados;
+  // si cuadrante=0, agrego al vector de resultados los datos de cada cuadrante
+  if ( cuadrante == 0 ) {
+    unsigned idx = 9, x = 0;
+    CImg<double> temp;
+    for ( unsigned i=1; i<5; i++ ) {
+      temp = estadisticas_imagen( imagen, i );
+      cimg_forX( temp, x ) {
+	resultados(x+idx) = temp(x);
+      }
+      idx += 9;
+    }
+  }
+
+  return resultados;
 }
 
 /**
