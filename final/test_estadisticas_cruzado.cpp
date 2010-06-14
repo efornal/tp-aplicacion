@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
       printf("MSE %s -> %s \t\t\t %f \n",  
              string(comp.etiqueta(i)).c_str(),
              string(comp.etiqueta(j)).c_str(),
-             caract_pruebas[i].MSE( comp.caracteristicas[j][0] ) );
+             caract_pruebas[i].MSE( comp.prototipos[j][0] ) );
       //comp.caracteristicas[i][1].display();
     }
   }
