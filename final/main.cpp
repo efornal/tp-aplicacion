@@ -25,6 +25,10 @@ int main(int argc, char **argv) {
   t = comp.calcular_caracteristicas ();
   printf( "Se han calculado %d caracteristicas de las imagenes de la base.\n", t );
 
+  comp.ponderacion(0) = 3.0;
+  comp.ponderacion(1) = 4.0;
+  printf("ponderaciones: %f %f\n", comp.ponderacion(0), comp.ponderacion(1) );
+
   t = comp.generar_prototipos();
   if ( t==0 )
     printf( "Se han generado los prototipos correctamente.\n" );
@@ -39,6 +43,7 @@ int main(int argc, char **argv) {
   t = comp.clasificar_directorio( prueba_dir, nombres, clases );
   for (unsigned i=0; i<nombres.size(); i++ )
     printf( "%s: %s\n", nombres[i].c_str(), comp.etiqueta( clases[i] ).c_str());
+
 
   return 0;
 }
