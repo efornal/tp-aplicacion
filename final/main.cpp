@@ -40,10 +40,12 @@ int main(int argc, char **argv) {
   //  printf( "La imagen es de la clase:\n%s\n", comp.etiqueta( t ).c_str() );
 
   vector<string> nombres; vector<int> clases;
-  t = comp.clasificar_directorio( prueba_dir, nombres, clases );
-  for (unsigned i=0; i<nombres.size(); i++ )
-    printf( "%s: %s\n", nombres[i].c_str(), comp.etiqueta( clases[i] ).c_str());
+  // t = comp.clasificar_directorio( prueba_dir, nombres, clases );
+  // for (unsigned i=0; i<nombres.size(); i++ )
+  //   printf( "%s: %s\n", nombres[i].c_str(), comp.etiqueta( clases[i] ).c_str());
 
+  double err = comp.error_clasificacion( prueba_dir );
+  printf( "ERRORRR Clasificación: %f\n", err );
 
   return 0;
 }
