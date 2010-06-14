@@ -58,10 +58,6 @@ conjunto, para una base de datos de prueba de unas pocas imágenes.
 Identificación/reconocimiento de edificios, \eng{building recognition},
 histograma, extracción de características, transformada de Hough, clasificación.
 \end{keywords}
-\nocite{*}
-\bibliographystyle{tfmpd}
-\bibliography{tfmpd}
-\end{document}
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -131,21 +127,22 @@ f(x) = \left\{
 \end{equation}
 %
 \begin{figure}
-$$
-G_x = \left[
+\begin{align*}
+& G_x = \left[
 \begin{array}{ccc}
 -1 & -2 & -1\\
  0 & 0 & 0 \\
  1 & 2 & 1
 \end{array}
-\right] 
-G_y = \left[
+\right]
+&G_y = \left[
 \begin{array}{ccc}
 -1 & 0 & 1\\
  -2 & 0 & 2 \\
  -1 & 0 & 1
 \end{array}
-\right]$$
+\right]
+\end{align*}
 \caption{Operador Gradiente de Sobel}
 \end{figure}
 Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de \resalt{no se como poner acá lo de la tol. de los grados}
