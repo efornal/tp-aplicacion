@@ -213,11 +213,33 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 50,
  * @param: direccion =-99 implica extraccion de los maximos en cualquier direccion.
  * @param: tol_grados es la tolerancia en grados resepecto a direccion. 
  * solo se aplica cuando direccion!-=-99
+ *
+ * pruebas:
+ * probe modificar en HSI haciendo:
+ *   imagen.normalize(0,1);
+ *   imagen.RGBtoHSI();
+ *   cimg_forXY(imagen,x,y) {
+ *     imagen(x,y,0,1) = 1;
+ *     //imagen(x,y,0,2) = 0.5;
+ *   }
+ *   imagen.HSItoRGB();
+ *  imagen.normalize(0,255);
+ * pero no aporta mejora considerable. chaco.
  * */
 template<class T>
 CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
     float umbral = 20.0, int direccion = -99, int tol_grados = 0,
     bool channel0 = true, int q_levels = 16, int r_size = 200) {
+
+  //---------------- retocado HSI
+  /* imagen.normalize(0,1); */
+  /* imagen.RGBtoHSI(); */
+  /* cimg_forXY(imagen,x,y) { */
+  /*   imagen(x,y,0,1) = 1.0;    //imagen(x,y,0,2) = 0.5;  */
+  /* } */
+  /* imagen.HSItoRGB(); */
+  /* imagen.normalize(0,255); */
+  //----------------------- no aporta mucho
 
   cimg_forXY(imagen,x,y)
 	{
@@ -231,8 +253,9 @@ CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 50,
 
   imagen.resize(r_size, r_size);
   //img_bordes es binaria y tiene valores entre 0 y 255...
-  //imagen.display();
+
   CImg<T> img_bordes = aplicar_sobel<T> (imagen, umbral, true);
+  //img_bordes.display("sobel");
   CImg<T> HOUGH_IMG_BORDES = hough_directa(img_bordes); // aplico la transformada
 
   //HOUGH_IMG_BORDES.display();
@@ -293,4 +316,70 @@ void imprimir_lista(list<T> lista) {
   cout << endl << "******************************************************"
 	  << endl;
 
+}
+
+
+/**
+ * solo maximos de la t hough
+ * FIXME: para valores menores que uno no va detectarlos
+ * o va detecta el mismo q esta usando para marcar..
+ * se podria usar valores negativos???
+ */
+template <class T>
+CImg<T> get_solo_maximos( CImg<T> img, int cantidad=1 ) {
+
+    CImg<T> maximos(cantidad,1,1,1,0);
+    CImg<T> aux(img);
+    int cont = 0;
+    for ( int i = 0; i < cantidad; i++ ) {
+        maximos(cont++) = img.max();
+        img.max() = 1;
+    }
+    cimg_forXY(img,x,y){
+        if ( img(x,y) == aux(x,y) ) img(x,y) = 0;
+    }
+    return img;
+}
+
+
+/**
+ * TODO: commentar
+ */
+template<class T>
+CImg<T> acura( CImg<T> img, int size=100, int seg=20 ) {
+
+  // promediado canales RGB
+  cimg_forXY(img,x,y) {
+    img(x, y, 0, 0) += img(x, y, 0, 1) + img(x, y, 0, 2);
+    img(x, y, 0, 0) /= 3.0;
+  }
+  img.channel(0);
+  
+  img = filtrado_sobel( img );
+
+  img.resize( size, size );
+  //return img; //---- hasta aca intento 1
+
+
+
+  // -----------------
+  /* CImgList<T> segmentada = segmentar( img , seg, seg ); */
+  /* CImg<T> result( segmentada.size(),1,1,1,0 ); */
+  /* for (unsigned i = 0; i < segmentada.size(); i++) { */
+  /*   //result(i,0) =  segmentada(i).variance(); */
+  /*   result(i,0) =  get_solo_maximos( segmentada(i),50).variance(); */
+  /* } */
+  /* return result;  */
+  //---- hasta aca intento 2 (incluye 1)
+
+  // -----------------
+  CImgList<T> segmentada = segmentar( img , seg, seg );
+  return segmentada.get_append('x');
+  //---- hasta aca intento 3 (incluye  solo 1)
+
+
+  /* prom_seg_sob(i) =  */
+  /*         hough_directa( get_solo_maximos(prom_seg_sob(i), puntos)); */
+
+  
 }
