@@ -19,7 +19,7 @@ using namespace cimg_library;
 template<class T>
 class ComparadorImagenes {
 
- /* public: */
+  public:
 
   // este tiene tamaño n_caracteristicas
   vector<double> ponderaciones;
