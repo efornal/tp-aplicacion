@@ -74,45 +74,13 @@ En principio y ya que no es el objetivo de este trabajo hacer un análisis profu
 %
 \section{Método propuesto}
 Se desarrollaron dos algoritmos diferentes para la resolución del problema.
-%Una FAM es un sistema borroso que codifica \emph{mapeos} o transformaciones entre
-%conjuntos borrosos. 
-%
-%El tipo de FAM más simple es aquella que mapea la regla $(A_i,B_i)$, la cual asocia
-%el conjunto borroso $p-$dimensional $B_i$ con el conjunto $n-$dimensonal $A_i$.
-%En general, un sistema FAM $F: I^n \rightarrow I^p$ codifica una serie de $m$ reglas
-%$(A_1,B_1),\ldots,(A_m,B_m)$.
-%
-%Como cada conjunto representa una cantidad en lenguaje corriente, el conjunto de
-%reglas en la FAM se define en torno a una asociación lngüística simple, por ejemplo,
-%$($FRESCO$,$BAJO$)$ podría indicar una relación temperatura $\rightarrow$ nivel del
-%calefactor.
-%
-%%\resalt{TODO: indicar cuál es la relación entre $A$ y los $A_i$.}
-%
-%Dada una entrada real $x$ al sistema, obtendremos una serie de valores de
-%pertenencia $\mu_{A_{i}}(x), 0\leq\mu_{A_{i}}\leq1$, para cada conjunto de entrada $A_i$, que en la
-%FAM activa cada regla en diferentes grados;
-%al evaluar la regla $(A_i,B_i)$, se obtiene $B'_i$,
-%una versión de $B_i$ parcialmente activado.
-%Cuanto mayor sea el valor $\mu_{A_{i}}(x)$, más parecido será $B'_i$ a $B_i$.
-%
-%El conjunto $B$ de salida se obtiene mediante un promedio ponderado de los
-%conjuntos parcialmente activados $B'_1,B'_2,\ldots,B'_m$:
-%\begin{equation}
-%B=w_1B'_1+\cdots+w_mB'_m
-%\end{equation}
-%donde $w_i$ es un grado certeza, o frecuencia, de la asociación $(A_i,B_i)$.
-%En la práctica, se \emph{defuzzifica} comúnmente la salida $B$ a un único
-%valor real $y$ mediante el método de los centroides, según
-%\begin{equation}
-%y=\frac{\sum_{i=1}^{m}{a_ic_i}}{\sum_{i=1}^{m}{a_i}}
-%\end{equation}
-%donde $a_i,c_i$ son el área y centroide, respectivamente, del conjunto $B'_i$ parcialmente
-%activado.
-%
-%De esta forma podemos obtener para una entrada $x$ la salida $y$ del sistema [1].
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Método mediante Transformada de Hough}
-Como se puede observar en la \resalt{figura x}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
+Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
+\begin{equation}
+\nabla f \approx \mid G_x \mid + \mid G_y \mid \label{sob}
+\end{equation}
+%
 \begin{equation}\label{umbral}
 f(x) = \left\{
 \begin{array}{l@{,\quad}l}
@@ -122,9 +90,6 @@ f(x) = \left\{
 \right.
 \end{equation}
 %
-\begin{equation}
-\nabla f \approx \mid G_x \mid + \mid G_y \mid \label{sob}
-\end{equation}
 %
 \begin{figure}
 \begin{align*}
@@ -149,80 +114,22 @@ Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente
 Finalmente, se obtienen las coordenadas de \resalt{los 100 máximos en realidad máximo es uno solo pero es como los 100 subsiguientes} ($\rho$ y $\theta$ del espacio Transf. de Hough) con las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
 \includegraphics[scale=0.25]{../diagramas/procesohough} 
-\caption{"Proceso de la imagen mediante el método por T. de Hough}
+\caption{"Proceso de la imagen mediante el método por T. de Hough"}
+\label{procesohough}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Método estadístico}
 acá describir el método que hizo mauro..histogramas y demás....
-%
-%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimentos y resultados}
 Para las pruebas se procedió a evaluar el desempeño de ambos métodos, en primera instancia por separados y luego, conjuntamente.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Descripción de la Base de datos de imágenes}
 Se trabajó con imágenes que fueron adquiridas en la ciudad de Santa Fe, mediante un Dispositivo Móvil con una resolución de 640x480 pixels. Se construyo una base de datos de las mismas sobre un total de cinco edificios, tomando trece realizaciones de cada uno de ellos (diez con el propósito de usarlas como prototipo y tres para las prueba con los algoritmos). Cabe aclarar que cada conjunto de imágenes de los cinco edificios fueron tomadas en condiciones ambientales similares y con la cámara en la misma posición respecto del objetivo. \resalt{arreglar esto}.
-%Partiendo de una implementación base de un juego de carrera de autos, 
-%%que rebautizamos
-%%como ``Fuzzy Driver'',
-%la extendimos codificando una serie de \emph{sensores} montados en
-%el auto, que devuelven un ``voltaje'' en un rango $\in [0,1]$, los cuales sensan
-%la distancia a otros autos, en línea recta: emiten una señal de $1V$ cuando
-%la distancia es máxima, y de $0V$ cuando es mínima (hay algo ``tocando'').
-%Hemos elegido este rango de valores con el propósito de obtener generalidad.
-%
-%Los sensores frontales se ubican justo al lado de los faros del auto, de tal
-%forma que están orientados hacia adelante, y se ubica además un sensor a la 
-%derecha y otro a la izquierda, apuntando a los laterales.
-%Los sensores laterales trabajan en un rango de distancias distinto al de los
-%frontales, y suponemos que son capaces de detectar, además de autos, la
-%banquina de la pista.
-%
-%El controlador consiste en dos módulos FAM, uno  comanda la dirección
-%del volante, y el otro la aceleración y frenado, como se ve en la figura 1.
-%%
-%\begin{figure}[tbhp]
-%%\centerline{\includegraphics[width=7cm]{img/diag-modulos}}
-%\caption{Diagrama funcional del controlador.}
-%\label{fig1}
-%\end{figure}
-%%
-%El módulo de dirección lee las entradas
-%\mono{dis\-tan\-cia\_fron\-tal\_iz\-quier\-da}, \mono{dis\-tan\-cia\_fron\-tal\_de\-re\-cha},
-%\mono{dis\-tan\-cia\_la\-te\-ral\_iz\-quier\-da}, y \mono{dis\-tan\-cia\_la\-te\-ral\_de\-re\-cha},
-%de los respactivos sensores, las fuzzifica, aplica las reglas FAM y
-%calcula el valor de salida \mono{di\-rec\-ción\_vo\-lan\-te}, que está en el rango
-%$[-1,1]$. El actuador tornea el volante a la izquierda cuando el valor
-%es negativo, a la derecha cuando es positivo, lo mantiene centrado cuando
-%el voltaje de salida es 0.
-%
-%El módulo de aceleración y frenado tiene las entradas \mono{ve\-lo\-ci\-dad\_ac\-tual},
-%\mono{dis\-tan\-cia\_fron\-tal\_máxi\-ma}, y \mono{dis\-tan\-cia\_fron\-tal\_mí\-ni\-ma}, donde
-%estas dos últimas son la máxima y mínima medida en los sensores frontales. De
-%esta manera se logra simetría en las decisiones en este módulo. Las salidas
-%son dos, \mono{aceleración} y \mono{frenado}, ambas variando de 0 a 1, donde 0
-%indica no pisar el pedal, y 1, pisarlo a fondo.
-%
-%Para obtener las salidas de ambas FAM se utiliza el método de defuzzificación
-%por centroides, como se describió antes, y los conjuntos de salida son como
-%se ve en la figura \ref{fig3}. Los conjuntos de fuzzificación para las 
-%entradas se pueden ver en la figura \ref{fig2}. 
-%%
-%\begin{figure}[tbhp]
-%%\centerline{\includegraphics[width=6cm]{img/conj-entradas}}
-%\caption{Conjuntos borrosos para fuzzificación de las entradas.}
-%\label{fig2}
-%\end{figure}
-%%
-%\begin{figure}[tbhp]
-%%\centerline{\includegraphics[width=6cm]{img/conj-salidas}}
-%\caption{Conjuntos borrosos para defuzzificación de las salidas.}
-%\label{fig3}
-%\end{figure}
-%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Vectores característicos y prototipos}
 Sobre diez de las trece imágenes de cada edificio, se aplicó el método de al Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edifico. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Descripción de las pruebas}
 Por cada método se calculo el MSE o error cuadratico medio definido en \ref{mse} entre los cinco prototipos y las quince imágenes de pruebas, para finalmente obtener la tasa de reconocimiento mediante \ref{tasareconocimiento}
 \begin{equation}
@@ -231,16 +138,6 @@ MSE=\ldots \label{mse}
 \begin{equation}
 \% reconocimiento = \frac{\# aciertos}{15} \label{tasareconocimiento}
 \end{equation}
-%Para obtener las reglas nos hemos basado en proposiciones en lenguaje natural,
-%como puede ser ``si la distancia medida por los dos sensores frontales es máxima, y
-%la velocidad actual es media, entonces pisar a fondo el acelerador''. 
-%
-%La codificación utilizada es la de correlación-mínimo, la regla $(A_1\y A_2\y A_3,B_2)$
-%se activa una cantidad $a$ dada por
-%\begin{equation}
-%a=\T{mín}(a_1(x),a_2(x),a_3(x))
-%\end{equation}
-%donde $a_i$ indica el grado de activación del conjunto $A_i$. 
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -252,7 +149,6 @@ MSE=\ldots \label{mse}
 \hline  &  \\ 
 \hline 
 \end{tabular} 
-
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -265,105 +161,8 @@ blablabla
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-%La evaluación del controlador borroso se realizó utilizando dos conjuntos de reglas
-%y comparando su performance con la de jugadores humanos.
-%
-%En el primer conjunto de reglas borrosas (CR1) utilizado se pretende describir un comportamiento similar al de
-%de un jugador humano que intenta esquivar a los demás coches en la pista con la menor
-%disminución posible en la velocidad. 
-%
-%Mediante modificaciones en dichas reglas se logró un segundo conjunto de
-%reglas (CR2) que modela el comportamiento de un conductor conservador que intenta
-%esquivar al resto de los coches evitando velocidades altas y movimientos pronunciados. 
-%
-%Los parámetros evaluados fueron: la cantidad de colisiones, la distancia total recorrida en píxeles 
-%y el tiempo fuera de pista.
-%Se realizaron simulaciones de 3 minutos cada una utilizando una combinación de 5 y 10 competidores
-%simultáneos (máximo) manejados por un controlador difuso (CD) igual al del coche principal, y también otros con movimiento 
-%vertical uniforme (MVU) a su velocidad máxima. En todos los casos la velocidad máxima
-%de los competidores se eligió de forma aleatoria
-%entre 300 y 700 píxeles por segundo, mientras que la del coche principal fue fija
-%y de 500 píxeles por segundo.
-
-%Para evaluar la distancia total recorrida se utilizo el producto de la velocidad instantánea por el diferencial de tiempo
-%transcurrido en intervalos pequeños.
-
-%original  Se consideró al coche principal como fuera de la pista cuando un porcentaje del mismo mayor al 30\%
-% se encontraba fuera de la misma.
-%maurete modif
-%Se consideró al coche principal como fuera de la pista cuando más del 30\% de éste se encontraba fuera de la misma.
-%%
-%Para cada una de las pruebas de los controladores se realizaron 3 simulaciones y se promediaron sus resultados.
-%Para obtener medidas de la performance de jugadores humanos (JH) se promediaron los tiempos
-%de dos jugadores.
-%
-%\begin{figure}[tbhp]
-%%\centerline{\includegraphics[width=5cm]{img/evaluacion}}
-%\caption{Resultados de la evaluacion del controlador borroso para (a) cantidad de colisiones,
-% (b) distancia recorrida,  (c) tiempo fuera de la pista.}
-%\label{evaluacion}
-%\end{figure}
-%
-%En la figura \ref{evaluacion}(a) pueden observarse los resultados obtenidos respecto a la cantidad de colisiones. 
-%En todos los casos, éstas aumentaron con un mayor número de competidores. En general, se registraron menos colisiones con los
-%competidores MVU. Con 10 competidores el CR1 mostró una cantidad de colisiones levemente menor que los JH.
-%En todos los casos el CR2 logró en general una mejor performance.
-%
-%La distancia recorrida total (figura \ref{evaluacion} (b)) fue, en todos los casos, mayor con los JH.
-%El CR2 registró las menores distancias, y en la totalidad de los casos se registraron mayores distancias con competidores
-%MVU y con un menor número de competidores.
-%
-%Al medir el tiempo fuera de pista (figura \ref{evaluacion} (c)),
-%con 10 competidores, CR2 y JH registraron tiempos similares. En todos los
-%casos el CR1 registró los mayores tiempos fuera de pista. Con 5 competidores los tiempos registrados fueron
-%menores que con 10 competidores, y las diferencias más marcados, siendo JH el que menor tiempo fuera de pista registró
-%y el conjunto de reglas 2 con tiempos un poco mayores.
-%
-%La implementación rudimentaria de los sensores resulta el principal cuello de botella a la hora de obtener
-%entradas de calidad para la FAM, y trunca las posibilidades a la hora de plantear las reglas del controlador borroso.
-%El jugador humano es capaz de percibir dichas entradas y además utilizarla para realizar procesos
-%de razonamiento muy complejos y difíciles de modelar, que le permiten obtener respuestas mucho mejor ajustadas
-%al resultado que se espera lograr.
-%
-%Además, existen otros factores como el juicio de valor que puede hacerse
-%respecto a una situación determinada. Por ejemplo si se trata de rebasar
-%un auto pero el único lugar es saliendo de la pista, puede elegir
-%rebasarlo por la banquina para no perder velocidad, o no esquivarlo y frenar para no chocarlo.
-%A pesar de ello, la performance obtenida por el controlador es equiparable en varios aspectos a la de un jugador humano
-%medianamente experimentado. 
-%
-%Finalmente, en la figura \ref{evaluacion}(a) se observa un bajo número de colisiones para el CR2,
-%excepto en el caso de 5 competidores MVU donde dicho valor es drásticamente alto.
-%Esto puede ser atribuido una situación puntual que representa una limitación inherente a la implementación de los sensores.
-%Dicha situación ocurre cuando se intenta rebasar un auto cercano a la banquina por la misma dirección de esta última.
-%Las reglas que dicen que el coche debe esquivar y que no debe salir de la pista se contradicen y éste nunca puede rebasar
-%al competidor y continúa chocándolo repetidamente desde atrás en cada intento.
-%
-%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
 \section{Conclusiones}
 blablabla
-%Hemos presentado un... sistema de control borroso para un piloto automático en un videojuego
-%de carrera de autos sencillo. El uso de FAMs permite la especificación de las reglas
-%en forma directa mediante proposiciones lingüístcas. 
-%El rendimiento del controlador fue bueno, considerando la sencillez de especificación
-%de las reglas y la muy baja complejidad de los sensores, los resultados han sido comparables
-%a los de un jugador humano.
-%
-%Este modelo de controlador puede ser fácilmente implementable para manejar los competidores
-%en un juego de carreras más complejo, dotando a éste de mayor parecido con la realidad, ya
-%que simula bastante bien conductores humanos. Se deberá considerar en este caso la implementación
-%de, al menos, un sensor de velocidad lateral y mejorar la disposición y número de sensores frontales.
-%
-%Los sensores utilizados en la
-%implementación no difieren en mucho de detectores reales disponibles en el mercado,
-%sin embargo, se deberán agregar sensores más complejos, muy posiblemente algún clasificador
-%mediante una red neuronal y elaborar reglas con criterios
-%minuciosamente verificados antes de llevar un controlador de este tipo a una implementación
-%en un automóvil real, ya que evitar colisiones o salirse de pista no es una opción en el
-%mundo real.
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
