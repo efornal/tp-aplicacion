@@ -90,6 +90,11 @@ class ComparadorImagenes {
   int clasificar_directorio( const char* directorio, vector<string> &nombres,
 			     vector<int> &clases, int primera, int ultima );
 
+  double error_clasificacion( const char* directorio, int primera , int ultima);
+
+  int etiquetas_de_nombre_arch( const vector<string> &noms,
+				vector<string> & etiqs );
+
   // guarda los prototipos generados en archivos tipo imagenes
   int guardar_prototipos( const char* directorio );
 
@@ -509,6 +514,70 @@ int ComparadorImagenes<T>::clasificar_directorio( const char* directorio,
   }
 
   return clases.size();
+}
+
+/**
+ * etiquetas_de_nombre_arch()
+ * detecta las etiquetas (categoría, clasificación, tipo, ...) de las imágenes
+ * según su nombre de archivo, que tendrá que tener formato <etiqueta>XXXXX,
+ * donde <etiqueta> tiene sólo letras, y a partir del primer caracter que no sea
+ * una letra, se ignora.
+ * Las etiquetas detectadas se guardan en el vector<sting> etiquetas, y en el
+ * vector clases_imagenes<int> se guarda en la posición Q el índice I, indicando
+ * que la Q-ésima imagen tiene la I-ésima etiqueta.
+ * @return: el número de imágenes al que se ha asignado etiqueta.
+ */
+template<class T>
+int ComparadorImagenes<T>::etiquetas_de_nombre_arch( const vector<string> &noms,
+						     vector<string> & etiqs ) {
+  etiqs.clear();
+  regex_t match;
+  regcomp(&match, ".*/\\([abcdefghijklmnopqrstuvwxyz]\\+\\)", REG_ICASE );
+  regmatch_t sub[2];
+  for (unsigned i = 0; i < noms.size(); i++) {
+    if (regexec(&match, noms[i].c_str(), 2, &sub[0], 0) == 0) {
+      etiqs.push_back( noms[i].substr(sub[1].rm_so, sub[1].rm_eo-sub[1].rm_so));
+    }
+  }
+  regfree(&match);
+  return etiqs.size();
+}
+
+/**
+ * error_clasificacion()
+ * Clasifica todas las imágenes encontradas en directorio llamando a
+ * clasificar_imagen con los parametros extra primera, ultima. Los nombres de
+ * las imágenes encontradas se guardan en el vector nombres, y su clasificacion
+ * respectiva en clases, ambos vectores pasados por referencia.
+ * @param directorio el directorio donde buscar imágenes.
+ * @param primera la priemra caracteristica a tener en cuenta, por defecto 0
+ * @param ultima la ultima c13a tener en cuenta, por defecto n_caracteristicas
+ * @return el número de imágenes clasificadas.
+ */
+template<class T>
+double ComparadorImagenes<T>::error_clasificacion( const char* directorio,
+			   int primera = 0, int ultima = -1 ) {
+
+  vector<string> nombres;
+  vector<string> etiqs;
+  vector<int> clases;
+  double error = 0.0;
+
+  int n = clasificar_directorio( directorio, nombres, clases, primera, ultima);
+
+  etiquetas_de_nombre_arch ( nombres, etiqs );
+
+  if ( nombres.size() != etiqs.size() ) {
+    cerr<<"ERRORRRRRRRRR hubo archivos que no matchearon.\n";
+    return 0.0;
+  }
+
+  for ( unsigned i=0; i<etiqs.size(); i++ ) {
+    cout<<"etiqs "<<etiqs[i]<<" etiquet "<<etiqueta(i)<<endl;
+    if ( etiqs[i] != etiqueta( clases[i]) )
+      error += 1.0;
+  }
+  return error / (double) etiqs.size();
 }
 
 /**
