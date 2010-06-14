@@ -73,12 +73,51 @@ CImg<T> get_sobel_y() {
   return hy;
 }
 
+//sobel diagonal:
+template<class T>
+CImg<T> get_sobel_x_diagonal() {
+	//genera una mascara de sobel en la direccion x diagonal 45 grados
+	CImg<T> hx(3, 3, 1, 1, 0);
+	hx(0, 0) = 0.0;
+	hx(0, 1) = 1.0;
+	hx(0, 2) = 2.0;
+
+	hx(1, 0) = -1.0;
+	hx(1, 1) = 0.0;
+	hx(1, 2) = 1.0;
+
+	hx(2, 0) = -2.0;
+	hx(2, 1) = -1.0;
+	hx(2, 2) = 0.0;
+	return hx;
+}
+
+template<class T>
+CImg<T> get_sobel_y_diagonal() {
+	//genera una mascara de sobel en la direccion y -45 grados
+	CImg<T> hy(3, 3, 1, 1, 0);
+	hy(0, 0) = -2.0;
+	hy(0, 1) = -1.0;
+	hy(0, 2) = 0.0;
+
+	hy(1, 0) = -1.0;
+	hy(1, 1) = 0.0;
+	hy(1, 2) = 1.0;
+
+	hy(2, 0) = 0.0;
+	hy(2, 1) = 1.0;
+	hy(2, 2) = 2.0;
+	return hy;
+}
+
 template<class T>
 CImg<T> aplicar_sobel(CImg<T> imagen, float umbral = 40.0, bool binaria = true) {
   /*aplica una mascara de sobel a la imagen y devuelve el resultado
    * */
-  return segmentar(imagen, get_sobel_x<T> (), get_sobel_y<T> (), umbral,
-	  binaria);
+  return segmentar(imagen, get_sobel_x<T> (), get_sobel_y<T> (), umbral, binaria);
+  /* return segmentar(imagen, get_sobel_x_diagonal<T> (), get_sobel_y_diagonal<T> (), umbral, */
+  /*         binaria); */
+
 }
 
 template<class T>

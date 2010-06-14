@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 				     "primera imagen a comparar" );
   const char *base_dir = cimg_option( "-base", "./imagenes/base/",
 				      "directorio con el que generar la base" );
-  const char *pruebas_dir = cimg_option( "-pruebas", "./imagenes/pruebas/",
+  const char *pruebas_dir = cimg_option( "-prueba", "./imagenes/pruebas/",
 				      "directorio con imgs de prueba" );
 
   int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
