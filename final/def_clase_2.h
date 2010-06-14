@@ -468,7 +468,7 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
 						 primera, ultima );
     errores_img(k)=errores[k];
   }
-  errores_img.display();
+  //  errores_img.display();
   // devuelvo el índice del MSE mínimo encontrado
   return distance( errores.begin(), min_element(errores.begin(),errores.end()));
 }
@@ -506,9 +506,10 @@ int ComparadorImagenes<T>::clasificar_directorio( const char* directorio,
 }
 
 /**
- * genera prototipos
- * TODO: comentar
-*/
+ * guardar_prototipos()
+ * guarda los prototipos generados a disco
+ * @FIXME no anda!!!!!!!
+ */
 template<class T>
 int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
 
@@ -541,4 +542,5 @@ int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
 
   return 0;
 }
+
 #endif // definicion de DEF_CLASE_2_H

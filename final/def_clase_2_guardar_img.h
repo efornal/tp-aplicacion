@@ -526,8 +526,8 @@ int ComparadorImagenes<T>::clasificar_la_imagen( CImg<T> imagen, const char* dir
     img2-=100;
     vector_caracts_temp.push_back(img1);
     vector_caracts_temp.push_back(img2);
-    img1.display();
-    img2.display();
+    //    img1.display();
+    //    img2.display();
   }
  
 
@@ -538,7 +538,7 @@ int ComparadorImagenes<T>::clasificar_la_imagen( CImg<T> imagen, const char* dir
         					 primera, ultima );
     errores_img(k)=errores[k];
   }
-  errores_img.display();
+  //  errores_img.display();
   // devuelvo el índice del MSE mínimo encontrado
   return distance( errores.begin(), min_element(errores.begin(),errores.end()));
 }
