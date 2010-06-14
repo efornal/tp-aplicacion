@@ -18,9 +18,8 @@
 \fi
 #2}}
 
-\bibitem{Kosko}
-B.~Kosko, \emph{Neural networks and fuzzy systems: a dynamical systems approach
-  to machine intelligence}.\hskip 1em plus 0.5em minus 0.4em\relax
-  Prentice-Hall, 1992.
+\bibitem{gonzalez+woods}
+R.~C.Gonzalez y R.~E.Woods, \emph{Digital Image Processing}.\hskip 1em plus
+  0.5em minus 0.4em\relax Prentice-Hall, 2001.
 
 \end{thebibliography}

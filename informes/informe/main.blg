@@ -1,7 +1,7 @@
 This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: main.aux
 The style file: tfmpd.bst
-Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 140733193391032.
 Database file #1: tfmpd.bib
 -- SABI2005.bst version 0.10
 -- http://www.ctan.org/tex-archive/macros/latex/contrib/supported/IEEEtran/
@@ -9,37 +9,37 @@ Database file #1: tfmpd.bib
 Done.
 You've used 1 entry,
             3957 wiz_defined-function locations,
-            798 strings with 7128 characters,
-and the built_in function-call counts, 408 in all, are:
-= -- 20
-> -- 4
+            796 strings with 7088 characters,
+and the built_in function-call counts, 455 in all, are:
+= -- 23
+> -- 9
 < -- 0
-+ -- 2
-- -- 1
-* -- 16
-:= -- 85
++ -- 4
+- -- 2
+* -- 20
+:= -- 88
 add.period$ -- 2
 call.type$ -- 1
 change.case$ -- 0
 chr.to.int$ -- 0
 cite$ -- 1
-duplicate$ -- 27
-empty$ -- 47
-format.name$ -- 1
-if$ -- 78
+duplicate$ -- 30
+empty$ -- 49
+format.name$ -- 3
+if$ -- 89
 int.to.chr$ -- 0
 int.to.str$ -- 1
-missing$ -- 5
+missing$ -- 6
 newline$ -- 23
 num.names$ -- 1
-pop$ -- 16
+pop$ -- 20
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 30
+skip$ -- 33
 stack$ -- 0
 substring$ -- 0
-swap$ -- 13
+swap$ -- 16
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 4
