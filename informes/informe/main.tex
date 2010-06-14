@@ -20,7 +20,8 @@
 %\include{conf/comandos}
 %
 \begin{document}
-\title{Reconocimiento de edificios y monumentos}
+\title{Identificación de edificios y monumentos a partir de fotografías
+tomadas con dispositivos móviles}
 \author{Fornal Esteban, Pfarher Christian, Torrez Mauro\\
 \textit{Trabajo práctico final de ``Procesamiento Digital de
 Imágenes'', II-FICH-UNL.}}
@@ -32,7 +33,21 @@ Imágenes'', II-FICH-UNL.}}
 %
 %
 \begin{abstract}
-El objetivo de este trabajo consiste en la identificación de edificios y monumentos, a partir de imágenes obtenidas mediante un dispositivo móvil de características estándar en el mercado. Para dicho propósito se plantearán dos métodos diferentes, uno mediante extracción de características en el espacio de la Transformada de Hough y otro basado en medidas estadísticas, comparando a cada uno de ellos por separado y finalmente, evaluando el desempeño de la utilización de ambos conjuntamente.
+%% El objetivo de este trabajo consiste en la identificación de edificios y
+%% monumentos, a partir de imágenes obtenidas mediante un dispositivo móvil de
+%% características estándar en el mercado. Para dicho propósito se plantearán dos
+%% métodos diferentes, uno mediante extracción de características en el espacio de
+%% la Transformada de Hough y otro basado en medidas estadísticas, comparando a
+%% cada uno de ellos por separado y finalmente, evaluando el desempeño de la
+%% utilización de ambos conjuntamente.
+Se presenta un método para la identificación de edificios y monumentos , a
+partir de fotografías tomadas con la cámara de un dispositivo móvil.
+Para la identificación se extrae un vector de características de la imagen,
+que es almacenado en una base de datos para su consulta.
+Se presentan dos métodos para la extracción de características en la imagen, uno
+basado en la transformada de Hough y otro que utiliza estadísticas de los
+histogramas. Se evalúa el desempeño utilizando ambos métodos por separado y en
+conjunto, para una base de datos de prueba de unas pocas imágenes.
 \end{abstract}
 %
 %
@@ -40,8 +55,13 @@ El objetivo de este trabajo consiste en la identificación de edificios y monume
 %
 %
 \begin{keywords}
-Identificación de edificios, detección de edificios, \eng{building recognition}, identificación de monumentos
+Identificación/reconocimiento de edificios, \eng{building recognition},
+histograma, extracción de características, transformada de Hough, clasificación.
 \end{keywords}
+\nocite{*}
+\bibliographystyle{tfmpd}
+\bibliography{tfmpd}
+\end{document}
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
