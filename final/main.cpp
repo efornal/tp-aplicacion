@@ -25,8 +25,8 @@ int main(int argc, char **argv) {
   t = comp.calcular_caracteristicas ();
   printf( "Se han calculado %d caracteristicas de las imagenes de la base.\n", t );
 
-  comp.ponderacion(0) = 3.0;
-  comp.ponderacion(1) = 4.0;
+  comp.ponderacion(0) = 1.0;
+  comp.ponderacion(1) = 1.0;
   printf("ponderaciones: %f %f\n", comp.ponderacion(0), comp.ponderacion(1) );
 
   t = comp.generar_prototipos();
