@@ -35,10 +35,10 @@ Imágenes'', II-FICH-UNL.}}
 \begin{abstract}
 %% El objetivo de este trabajo consiste en la identificación de edificios y
 %% monumentos, a partir de imágenes obtenidas mediante un dispositivo móvil de
-%% características estándar en el mercado. Para dicho propósito se plantearán dos
-%% métodos diferentes, uno mediante extracción de características en el espacio de
-%% la Transformada de Hough y otro basado en medidas estadísticas, comparando a
-%% cada uno de ellos por separado y finalmente, evaluando el desempeño de la
+%% características estándar en el mercado. Para dicho propósito se plantearán
+%% métodos diferentes, uno mediante extracción de características en el espacio
+%% de la Transformada de Hough y otro basado en medidas estadísticas, comparando
+%% a cada uno de ellos por separado y finalmente, evaluando el desempeño de la
 %% utilización de ambos conjuntamente.
 Se presenta un método para la identificación de edificios y monumentos, a
 partir de fotografías tomadas con la cámara de un dispositivo móvil.
@@ -85,14 +85,42 @@ técnicas diferentes:
 \item extracción de características por transformada de Hough, y
 \item extracción de características por estadísticas del histograma.
 \end{enumerate}
+
+El entrenamiento de la base de datos se realiza obteniendo las características
+para cada imagen, junto con su etiqueta. Para cada etiqueta, se extraen las
+características de las $X$ imágenes etiquetadas con la misma, y se guarda un
+``prototipo'' obtenido de promediar estas características, junto con la
+etiqueta.
+
+La clasificación de las imágenes consiste en encontrar la etiqueta del
+prototipo cuyas características minimicen el error cuadrático medio.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection*{Método mediante Transformada de Hough}
-\resalt{Breve introducción a Hough.}
+\subsection*{Extracción de características mediante Transformada de Hough}
+La transformada de Hough nos permite visualizar, a partir de una imagen de
+bordes, los parámetros de aquellas rectas\footnote{El procedimiento es general,
+sirve para cualquier geometría que se pueda expresar en términos de sus
+parámetros. En este trabajo, utilizamos el espacio de los parámetros de rectas.}
+que son principales en la imagen.
 
-Para la extracción de características 
-Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
+Para la extraccion de características con esta técnica se siguen los siguientes
+pasos:
+\begin{enumerate}
+\item A partir de la imagen original, se obtiene una versión en escala de grises
+      promediando los tres canales RGB, y se la escala a un tamaño normalizado.
+\item Se obtiene una imagen de sólo bordes aplicando el operador gradiente de
+      Sobel (\ref{sob}) y luego se umbraliza según \ref{umbral}.
+\item Con la imagen umbralizada se calcula la transformada de Hough.
+\item Se aplica escalado a la transformada obtenida, llevándola a un tamaño
+      pequeño buscando obtener mayor tolerancia tanto en el parámetro angular
+      $\theta$ como de distancia $\rho$
+\item Se toman $N$ máximos de esta transformada y se guardan en el vector de
+      características las coordenadas $(\rho,\theta)$, mapeadas al rango
+      $[-1,1]$ obteniendo así un vector de $2N$ valores.
+\end{enumerate}
+
+%% Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
 \begin{equation}
 \nabla f \approx \mid G_x \mid + \mid G_y \mid \label{sob}
 \end{equation}
@@ -126,8 +154,8 @@ f(x) = \left\{
 \end{align*}
 \caption{Operador Gradiente de Sobel}
 \end{figure}
-Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.\resalt{no me gusta arreglar}
-Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las cuales se forma el vector de características representativo de la imagen.
+%% Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.\resalt{no me gusta arreglar}
+%% Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
 \includegraphics[scale=0.25]{../diagramas/procesohough} 
 \caption{"Proceso de la imagen mediante el método por T. de Hough"}
@@ -137,7 +165,28 @@ Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection*{Extracción de características por estadísticas del histograma}
-\resalt{describir...}
+A partir de la imagen original, se normaliza su tamaño y se toman 2 ``perfiles de
+intensidad'': uno horizontal, calculado promediando cada columna de la imagen, y
+otro vertical obtenido al promediar cada fila. Se obtiene un histograma para la
+imagen entera y uno para cada perfil, y se guardan en el vector de
+características la media aritmética $m$, mediana $M$ (posición del percentil 50),
+ y desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
+\begin{equation*}
+D_{\T{abs}}=\sum_i |x_i - M|
+\end{equation*}
+Así se han obtenido un vector de 9 valores que caracterizan histogramas de la
+imagen entera.
+
+Luego se subdivide la imagen en cuatro cuadrantes, y se obtienen para cada uno
+las mismas medidas que se calcularon para la imagen entera.
+
+Así se obtiene un vector de 45 caracterśticas a partir de histogramas que se
+guardarán en la base de datos para comparación.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\subsection*{}
+
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
