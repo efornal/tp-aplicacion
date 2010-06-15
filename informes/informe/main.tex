@@ -22,7 +22,7 @@
 \begin{document}
 \title{Identificación de edificios y monumentos a partir de fotografías
 tomadas con dispositivos móviles}
-\author{Fornal Esteban, Pfarher Christian, Torrez Mauro\\
+\author{Esteban C. Fornal, Christian N. Pfarher, Mauro J. Torrez\\
 \textit{Trabajo práctico final de ``Procesamiento Digital de
 Imágenes'', II-FICH-UNL.}}
 \markboth{Procesamiento Digital de Imágenes: TRABAJO FINAL}{}
@@ -73,10 +73,25 @@ En principio y ya que no es el objetivo de este trabajo hacer un análisis profu
 %
 %
 \section{Método propuesto}
-Se desarrollaron dos algoritmos diferentes para la resolución del problema.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+El método que proponemos se basa en la extracción de características de la
+imagen y la comparación de éstas con las de una base de datos.
+Esta base de datos se genera tomando $X$ imágenes representativas del monumento,
+extrayendo sus características y promediándolas para obtener un prototipo
+``generalizado'' del monumento/edificio a detectar.
+
+La extracción de características se realiza en este trabajo mediante dos
+técnicas diferentes:
+\begin{enumerate}
+\item extracción de características por transformada de Hough, y
+\item extracción de características por estadísticas del histograma.
+\end{enumerate}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \subsection*{Método mediante Transformada de Hough}
-\resalt{ponemos lo que esta en la wikipedia sobre la transf de hough???}
+\resalt{Breve introducción a Hough.}
+
+Para la extracción de características 
 Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
 \begin{equation}
 \nabla f \approx \mid G_x \mid + \mid G_y \mid \label{sob}
@@ -118,13 +133,21 @@ Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las
 \caption{"Proceso de la imagen mediante el método por T. de Hough"}
 \label{procesohough}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Método mediante estadística de los histogramas}
-acá describir el método que hizo mauro..histogramas y demás....
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\subsection*{Extracción de características por estadísticas del histograma}
+\resalt{describir...}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
 \section{Experimentos y resultados}
 Para las pruebas se procedió a evaluar el desempeño de ambos métodos, en primera instancia por separados y luego, conjuntamente.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \subsection{Descripción de la Base de datos de imágenes}
 Se trabajó con imágenes que fueron adquiridas en la ciudad de Santa Fe, mediante un Dispositivo Móvil con una resolución de 640x480 pixels. Se construyo una base de datos de las mismas sobre un total de cinco edificios, tomando trece realizaciones de cada uno de ellos (diez con el propósito de usarlas como prototipo y tres para las prueba con los algoritmos). Cabe aclarar que cada conjunto de imágenes de los cinco edificios fueron tomadas en condiciones ambientales similares y con la cámara en la misma posición respecto del objetivo. \resalt{arreglar esto}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
