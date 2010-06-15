@@ -7,12 +7,15 @@
 using namespace cimg_library;
 
 int main(int argc, char **argv) {
-  const double
-	  pon1 =
-	      atof(
-	          cimg_option("-pond_estadisticas", "2.0", "Ponderacion Met. estadisticas"));
-  const double pon2 = atof(
-	  cimg_option("-pond_hough", "0.0", "Ponderacion Met. Hough"));
+  const double pon1 =
+    atof( cimg_option("-pe",
+                      "2.0",
+                      "Ponderacion Met. estadisticas"));
+  const double pon2 =
+    atof( cimg_option("-ph",
+                      "0.0",
+                      "Ponderacion Met. Hough"));
+
   vector<string> base_dir, prueba_dir;
 
   base_dir.push_back("./imagenes/base1/");
@@ -23,6 +26,9 @@ int main(int argc, char **argv) {
 
   base_dir.push_back("./imagenes/base3/");
   prueba_dir.push_back("./imagenes/prueba3/");
+
+  base_dir.push_back("./imagenes/todas_las_bases/");
+  prueba_dir.push_back("./imagenes/todas_las_pruebas/");
 
   vector<double> error;
 
@@ -54,8 +60,8 @@ int main(int argc, char **argv) {
 	vector<int> clases;
 	t = comp.clasificar_directorio(string(prueba_dir[i]).c_str(), nombres,
 	    clases);
-	for (unsigned i = 0; i < nombres.size(); i++)
-	  printf("%s: %s\n", nombres[i].c_str(), comp.etiqueta(clases[i]).c_str());
+	for (unsigned k = 0; k < nombres.size(); k++)
+	  printf("%s: %s\n", nombres[k].c_str(), comp.etiqueta(clases[k]).c_str());
 
 	double err = comp.error_clasificacion(string(prueba_dir[i]).c_str());
 	printf("ERRORRR Clasificación: %f\n", err);
