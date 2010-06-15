@@ -1,18 +1,15 @@
-//#include "../lib/commons.h"
 #include <CImg.h>
 #include "def_clase_2.h"
 
 using namespace cimg_library;
 
 int main(int argc, char **argv) {
-  const char *imagen1 = cimg_option( "-img1", "./imagenes/pruebas_iniciales/fich10.jpg",
+  const char *imagen1 = cimg_option( "-img", "./imagenes/pruebas_iniciales/fich10.jpg",
 				     "primera imagen a comparar" );
-  const char *base_dir = cimg_option( "-base", "./imagenes/iniciales/",
+  const char *base_dir = cimg_option( "-base", "./imagenes/base/",
 				      "directorio con el que generar la base" );
-  const char *prueba_dir = cimg_option( "-prueba", "./imagenes/prueba_extrema/",
+  const char *prueba_dir = cimg_option( "-prueba", "./imagenes/prueba/",
 				      "directorio con imgs de prueba" );
-
-  int tamanio = cimg_option ( "-tam", 20, "lado de recuadro");
 
   ComparadorImagenes<double> comp;
 
