@@ -266,7 +266,7 @@ CImg<T> obtener_maximos_acumuladores(CImg<T> imagen, int cantidad = 50,
  * pero no aporta mejora considerable. chaco.
  * */
 template<class T>
-CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 28,
+CImg<T> extraer_valores_caracteristicos(CImg<T> imagen, int cant_maximos = 30,
     float umbral = 100.0, int direccion = -99, int tol_grados = 0,
     bool channel0 = true, int q_levels = 16, int r_size = 200) {
 
