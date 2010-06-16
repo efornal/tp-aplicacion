@@ -32,6 +32,8 @@ int main(int argc, char **argv) {
   vector<double> error;
   vector<double> eje_x;
   double err = 0;
+  error.clear();
+  eje_x.clear();
 
 // ============== calculo para hough ================
 
@@ -81,6 +83,11 @@ int main(int argc, char **argv) {
 
   }
 
+
+  printf("\n ----------- Tabla de resultados ----------- \n");
+  for(int r=0; r< error.size(); r++ ){
+    printf("umbral: %f \t\t error: %f \n", eje_x[r], error[r] );
+  }
 
   // estilos: lines - points - linespoints -
   //          impulses - dots - steps - errorbars - boxes - boxerrorbars

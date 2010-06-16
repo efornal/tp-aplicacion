@@ -32,9 +32,10 @@ int main(int argc, char **argv) {
   vector<double> error;
   vector<double> eje_x;
   double err = 0;
+  error.clear();
+  eje_x.clear();
 
 // ============== calculo para hough ================
-
   for( int cant_maximos=minimo; cant_maximos <= maximo; cant_maximos+=delta ) {
 
     printf("cantidad maximos: %d \n", cant_maximos );
@@ -79,6 +80,12 @@ int main(int argc, char **argv) {
     error.push_back( err );
     eje_x.push_back( cant_maximos );
 
+  }
+
+
+  printf("\n ----------- Tabla de resultados ----------- \n");
+  for(int r=0; r< error.size(); r++ ){
+    printf("maximos: %f \t\t error: %f \n", eje_x[r], error[r] );
   }
 
   // estilos: lines - points - linespoints -
