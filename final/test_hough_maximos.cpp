@@ -19,32 +19,23 @@ int main(int argc, char **argv) {
                                           "lines",
                                           "tipo se linea en el grafico" );
 
-  int umbral = cimg_option ( "-umbral", 30, "umbral en sobel");
+  int umbral = cimg_option ( "-umbral", 90, "umbral en sobel");
   int delta  = cimg_option ( "-delta", 10, "paso o incremento de umbral");
   int minimo = cimg_option ( "-min", 10, "minimo valor de umbral (inicio)");
-  int maximo = cimg_option ( "-max", 100, "maximo valor de umbral");
+  int maximo = cimg_option ( "-max", 200, "maximo valor de umbral");
 
   vector<string> base_dir, prueba_dir;
 
   base_dir.push_back("./imagenes/base1/");
   prueba_dir.push_back("./imagenes/prueba1/");
 
-  // base_dir.push_back("./imagenes/base2/");
-  // prueba_dir.push_back("./imagenes/prueba2/");
-
-  // base_dir.push_back("./imagenes/base3/");
-  // prueba_dir.push_back("./imagenes/prueba3/");
-
-  // base_dir.push_back("./imagenes/todas_las_bases/");
-  // prueba_dir.push_back("./imagenes/todas_las_pruebas/");
-
   vector<double> error;
-  vector<double> eje_y;
+  vector<double> eje_x;
   double err = 0;
 
 // ============== calculo para hough ================
 
-  for( int cant_maximos=minimo; cant_maximos<maximo; cant_maximos+=delta ) {
+  for( int cant_maximos=minimo; cant_maximos <= maximo; cant_maximos+=delta ) {
 
     printf("cantidad maximos: %d \n", cant_maximos );
 
@@ -86,17 +77,16 @@ int main(int argc, char **argv) {
     } //end for
 
     error.push_back( err );
-    eje_y.push_back( cant_maximos );
+    eje_x.push_back( cant_maximos );
 
   }
 
   // estilos: lines - points - linespoints -
   //          impulses - dots - steps - errorbars - boxes - boxerrorbars
-  // ojo eje y es horizontal!
-  Gnuplot g = Gnuplot( "err",
+  Gnuplot g = Gnuplot( "variación de maximos",
                        tipo_grafico,
-                       "cantidad de maximos",
-                       "error", error, eje_y);
+                       "err.",
+                       "cantidad de maximos", eje_x, error );
 
   return 0;
 }

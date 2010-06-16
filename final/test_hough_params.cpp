@@ -19,31 +19,23 @@ int main(int argc, char **argv) {
                                           "lines",
                                           "tipo se linea en el grafico" );
 
-  int cant_maximos = cimg_option ( "-maximos", 10, "cantidad de maximos");
+  int cant_maximos = cimg_option ( "-maximos", 28, "cantidad de maximos");
   int delta        = cimg_option ( "-delta", 1, "paso o incremento de umbral");
   int minimo    = cimg_option ( "-min", 10, "minimo valor de umbral (inicio)");
-  int maximo       = cimg_option ( "-max", 200, "maximo valor de umbral");
+  int maximo    = cimg_option ( "-max", 100, "maximo valor de umbral");
 
   vector<string> base_dir, prueba_dir;
 
   base_dir.push_back("./imagenes/base1/");
   prueba_dir.push_back("./imagenes/prueba1/");
 
-  // base_dir.push_back("./imagenes/base2/");
-  // prueba_dir.push_back("./imagenes/prueba2/");
-
-  // base_dir.push_back("./imagenes/base3/");
-  // prueba_dir.push_back("./imagenes/prueba3/");
-
-  // base_dir.push_back("./imagenes/todas_las_bases/");
-  // prueba_dir.push_back("./imagenes/todas_las_pruebas/");
-
   vector<double> error;
+  vector<double> eje_x;
   double err = 0;
 
 // ============== calculo para hough ================
 
-  for( int umbral=minimo; umbral<maximo; umbral+=delta ) {
+  for( int umbral=minimo; umbral <= maximo; umbral+=delta ) {
 
     printf("umbral: %d \n", umbral );
 
@@ -85,16 +77,17 @@ int main(int argc, char **argv) {
     } //end for
 
     error.push_back(err);
+    eje_x.push_back( umbral );
 
   }
 
+
   // estilos: lines - points - linespoints -
   //          impulses - dots - steps - errorbars - boxes - boxerrorbars
-
-  Gnuplot g = Gnuplot( "err",
+  Gnuplot g = Gnuplot( "variación de umbral",
                        tipo_grafico,
-                       "umbral",
-                       "error", error);
+                       "err.",
+                       "umbral", eje_x, error );
 
   return 0;
 }
