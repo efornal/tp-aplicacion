@@ -101,7 +101,8 @@ prototipo cuyas características minimicen el error cuadrático medio.
 La transformada de Hough nos permite visualizar, a partir de una imagen de
 bordes, los parámetros de aquellas rectas\footnote{El procedimiento es general,
 sirve para cualquier geometría que se pueda expresar en términos de sus
-parámetros. En este trabajo, utilizamos el espacio de los parámetros de rectas.}
+parámetros. En este trabajo, utilizamos el espacio de los parámetros de las
+rectas, el más sencillo.}
 que son principales en la imagen.
 
 Para la extracción de características con esta técnica se siguen los siguientes
@@ -109,8 +110,10 @@ pasos:
 \begin{enumerate}
 \item A partir de la imagen original, se obtiene una versión en escala de grises
       promediando los tres canales RGB, y se la escala a un tamaño normalizado.
-\item Se obtiene una imagen de sólo bordes aplicando el operador gradiente de
-      Sobel (\ref{sob}) y luego se umbraliza según \ref{umbral}.
+\item Se obtiene una imagen de sólo bordes aplicando operador gradiente de
+      Sobel (\ref{sob}), donde $G_x$, $G_y$ son el resultado de aplicar las
+      máscaras respectivas $[G_x]$ y $[G_y]$ a la imagen por separado luego se umbraliza en el valor $U$ como en
+      \ref{umbral}.
 \item Con la imagen umbralizada se calcula la transformada de Hough.
 \item Se aplica escalado a la transformada obtenida, llevándola a un tamaño
       pequeño buscando obtener mayor tolerancia tanto en el parámetro angular
@@ -119,23 +122,28 @@ pasos:
       características las coordenadas $(\rho,\theta)$, mapeadas al rango
       $[-1,1]$ obteniendo así un vector de $2N$ valores.
 \end{enumerate}
-
-%% Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se obtiene una imagen de un solo canal mediante el promediado de los tres canales RGB. Luego, con el objetivo de disminuir el costo computacional, se realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100. Posteriormente, para la detección de bordes se aplica el operador gradiente de sobel (\ref{sob}) y se umbraliza con la función definida en (\ref{umbral}).
+%% Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se
+%% obtiene una imagen de un solo canal mediante el promediado de los tres
+%% canales RGB. Luego, con el objetivo de disminuir el costo computacional, se
+%% realiza un redimensionamiento de la imagen de 640 x 480 pixels a 100x100.
+%% Posteriormente, para la detección de bordes se aplica el operador gradiente
+%% de sobel (\ref{sob}) y se umbraliza con la función definida en
+%% (\ref{umbral}).
 \begin{equation}
-\nabla f \approx \mid G_x \mid + \mid G_y \mid \label{sob}
+\label{sob}
+\nabla f \approx |G_x| + |G_y|
 \end{equation}
 %
-\begin{equation}\label{umbral}
-f(x) = \left\{
-\begin{array}{l@{,\quad}l}
-0 & x \leq 40\\
-255 & x>40
-\end{array}
-\right.
+\begin{equation}
+\label{umbral}
+f(x)=
+\begin{cases}
+0, & x\leq 40\\
+255, & x > 40
+\end{cases}
 \end{equation}
 %
 %
-\begin{figure}
 \begin{align*}
 & G_x = \left[
 \begin{array}{ccc}
@@ -152,8 +160,6 @@ f(x) = \left\{
 \end{array}
 \right]
 \end{align*}
-\caption{Operador Gradiente de Sobel}
-\end{figure}
 %% Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.\resalt{no me gusta arreglar}
 %% Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
