@@ -78,7 +78,7 @@ class ComparadorImagenes {
   // calcular_caracteristicas inicializa la base de datos calculando las
   // caracteristicas para todas las imagenes que estan en la lista de
   // la base.
-  int calcular_caracteristicas();
+  int calcular_caracteristicas( int cant_maximos, float umbral );
 
   // dada una imagen, encuentra el indice de la que es mas parecida
   int encontrar_mas_parecida(CImg<T> imagen, int primera, int ultima);
@@ -383,7 +383,8 @@ int ComparadorImagenes<T>::cargar_imagenes( const char* directorio ) {
  *       de características, sea usando clases abstractas o señales de humo...
  */
 template<class T>
-int ComparadorImagenes<T>::calcular_caracteristicas ( ) {
+int ComparadorImagenes<T>::calcular_caracteristicas (  int cant_maximos = 50,
+                                                       float umbral = 20.0 ) {
   int cont = 0, k;
   CImg<T> imagen_temp;
   vector<CImg<T> > vector_caracts_temp;
@@ -400,7 +401,9 @@ int ComparadorImagenes<T>::calcular_caracteristicas ( ) {
     vector_caracts_temp.clear();
     vector_caracts_temp.push_back( estadisticas_imagen<T>(imagen_temp) );
     vector_caracts_temp.push_back(
-			  extraer_valores_caracteristicos<T>(imagen_temp) );
+                                  extraer_valores_caracteristicos<T>(imagen_temp,
+                                                                     cant_maximos,
+                                                                     umbral) );
     vector_caracts_temp.push_back( acura<T>(imagen_temp) );
 
     // finalmente inserto el vector de características generado
