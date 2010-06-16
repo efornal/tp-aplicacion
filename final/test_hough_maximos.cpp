@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
   // prueba_dir.push_back("./imagenes/todas_las_pruebas/");
 
   vector<double> error;
+  vector<double> eje_y;
   double err = 0;
 
 // ============== calculo para hough ================
@@ -84,17 +85,18 @@ int main(int argc, char **argv) {
 
     } //end for
 
-    error.push_back(err);
+    error.push_back( err );
+    eje_y.push_back( cant_maximos );
 
   }
 
   // estilos: lines - points - linespoints -
   //          impulses - dots - steps - errorbars - boxes - boxerrorbars
-
+  // ojo eje y es horizontal!
   Gnuplot g = Gnuplot( "err",
                        tipo_grafico,
                        "cantidad de maximos",
-                       "error", error);
+                       "error", error, eje_y);
 
   return 0;
 }

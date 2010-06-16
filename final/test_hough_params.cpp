@@ -21,6 +21,7 @@ int main(int argc, char **argv) {
 
   int cant_maximos = cimg_option ( "-maximos", 10, "cantidad de maximos");
   int delta        = cimg_option ( "-delta", 1, "paso o incremento de umbral");
+  int minimo    = cimg_option ( "-min", 10, "minimo valor de umbral (inicio)");
   int maximo       = cimg_option ( "-max", 200, "maximo valor de umbral");
 
   vector<string> base_dir, prueba_dir;
@@ -42,7 +43,9 @@ int main(int argc, char **argv) {
 
 // ============== calculo para hough ================
 
-  for( int umbral=delta; umbral<maximo; umbral+=delta ) {
+  for( int umbral=minimo; umbral<maximo; umbral+=delta ) {
+
+    printf("umbral: %d \n", umbral );
 
     for (int i = 0; i < base_dir.size(); i++) {
 
