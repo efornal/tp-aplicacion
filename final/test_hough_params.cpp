@@ -9,17 +9,19 @@ using namespace cimg_library;
 int main(int argc, char **argv) {
   double pon1 =
     atof( cimg_option("-pe",
-                      "2.0",
-                      "Ponderacion Met. estadisticas"));
+                      "0.0",
+                      "Ponderacion Met. estadisticas (debe ser = 0)"));
   double pon2 =
     atof( cimg_option("-ph",
-                      "0.0",
+                      "2.0",
                       "Ponderacion Met. Hough"));
-  char *tipo_grafico = cimg_option( "-tg",
+  string tipo_grafico = cimg_option( "-tg",
                                           "lines",
-                                          "tipo se lineas en el grafico" );
+                                          "tipo se linea en el grafico" );
 
-  int cant_maximos = cimg_option ( "-maximos", 50, "cantidad de maximos");
+  int cant_maximos = cimg_option ( "-maximos", 10, "cantidad de maximos");
+  int delta        = cimg_option ( "-delta", 1, "paso o incremento de umbral");
+  int maximo       = cimg_option ( "-max", 200, "maximo valor de umbral");
 
   vector<string> base_dir, prueba_dir;
 
@@ -40,7 +42,7 @@ int main(int argc, char **argv) {
 
 // ============== calculo para hough ================
 
-  for( int umbral=20; umbral<200; umbral+=20 ) {
+  for( int umbral=delta; umbral<maximo; umbral+=delta ) {
 
     for (int i = 0; i < base_dir.size(); i++) {
 
@@ -75,7 +77,7 @@ int main(int argc, char **argv) {
         printf("%s: %s\n", nombres[k].c_str(), comp.etiqueta(clases[k]).c_str());
 
       err = comp.error_clasificacion(string(prueba_dir[i]).c_str());
-      printf("ERRORRR Clasificación: %f\n", err);
+      printf("#### Error Clasificación: %f ## \n", err);
 
     } //end for
 
@@ -86,10 +88,10 @@ int main(int argc, char **argv) {
   // estilos: lines - points - linespoints -
   //          impulses - dots - steps - errorbars - boxes - boxerrorbars
 
-  Gnuplot g = Gnuplot( string(tipo_grafico).c_str(),
-                       "lines",
-                       "xlabel",
-                       "ylabel", error);
+  Gnuplot g = Gnuplot( "err",
+                       tipo_grafico,
+                       "umbral",
+                       "error", error);
 
   return 0;
 }
