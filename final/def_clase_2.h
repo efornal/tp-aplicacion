@@ -21,101 +21,100 @@ class ComparadorImagenes {
 
   public:
 
-  // este tiene tamaño n_caracteristicas
-  vector<double> ponderaciones;
+	// este tiene tamaño n_caracteristicas
+	vector<double> ponderaciones;
 
-  // este tiene tamaño [n_imagenes][n_caracteristicas]
-  vector<vector<CImg<double> > > caracteristicas;
+	// este tiene tamaño [n_imagenes][n_caracteristicas]
+	vector<vector<CImg<double> > > caracteristicas;
 
-  //este tiene tamaño [n_imagenes]
-  vector<string> nombres_imagenes;
+	//este tiene tamaño [n_imagenes]
+	vector<string> nombres_imagenes;
 
-  //este tiene tamaño [n_imagenes]
-  vector<int> clases_imagenes;
+	//este tiene tamaño [n_imagenes]
+	vector<int> clases_imagenes;
 
-  // este tiene tamaño [n_clases][n_caracteristicas]
-  vector<vector<CImg<double> > > prototipos;
+	// este tiene tamaño [n_clases][n_caracteristicas]
+	vector<vector<CImg<double> > > prototipos;
 
-  // este tiene tamaño [n_clases]
-  vector<string> etiquetas;
+	// este tiene tamaño [n_clases]
+	vector<string> etiquetas;
 
-  // genera una lista vector<string> con todas las imágenes
-  // que encuentra en directorio.
-  vector<string> listar_imagenes(const char* directorio);
+	// genera una lista vector<string> con todas las imágenes
+	// que encuentra en directorio.
+	vector<string> listar_imagenes(const char* directorio);
 
-  // compara las caracteristicas de img versus la base de datos en la pos idx
-  // devuelve el mse entre los dos conjs de caracteristicas
-  double comparar_caracteristicas( vector<CImg<double> > caracs, unsigned idx,
-				   int primera, int ultima);
+	// compara las caracteristicas de img versus la base de datos en la pos idx
+	// devuelve el mse entre los dos conjs de caracteristicas
+	double comparar_caracteristicas(vector<CImg<double> > caracs, unsigned idx,
+	    int primera, int ultima);
 
-  // compara las caracteristicas de img versus el prototipo idx
-  // devuelve el mse entre los conjs de caracteristicas de la img y proto
-  double comparar_caracteristicas_proto( vector<CImg<double> > caracs,
-					 unsigned idx, int primera,
-					 int ultima);
+	// compara las caracteristicas de img versus el prototipo idx
+	// devuelve el mse entre los conjs de caracteristicas de la img y proto
+	double comparar_caracteristicas_proto(vector<CImg<double> > caracs,
+	    unsigned idx, int primera, int ultima);
 
- public:
-  unsigned n_caracteristicas;
-  unsigned n_imagenes;
-  unsigned n_clases;
+  public:
+	unsigned n_caracteristicas;
+	unsigned n_imagenes;
+	unsigned n_clases;
 
-  // cantidad de maximos que usará el metodo de hough en la transformada
-  int cantidad_maximos_hough;
+	// cantidad de maximos que usará el metodo de hough en la transformada
+	int cantidad_maximos_hough;
 
-  // umbral que se usara en el metodo de hough para el filtrado de sobel
-  double umbral_hough;
+	// umbral que se usara en el metodo de hough para el filtrado de sobel
+	double umbral_hough;
 
-  // etiqueta las imagenes segun su nombre de archivo
-  int etiquetar_imagenes();
+	// etiqueta las imagenes segun su nombre de archivo
+	int etiquetar_imagenes();
 
-  // calcula los prototipos
-  int generar_prototipos();
+	// calcula los prototipos
+	int generar_prototipos();
 
-  // constructor
-  ComparadorImagenes();
+	// constructor
+	ComparadorImagenes();
 
-  // destructor
-  ~ComparadorImagenes();
+	// destructor
+	~ComparadorImagenes();
 
-  // cargar_imagenes guarda en la lista de archivos de la base
-  // las imagenes que encuentra en el directorio directorio
-  int cargar_imagenes(const char* directorio);
+	// cargar_imagenes guarda en la lista de archivos de la base
+	// las imagenes que encuentra en el directorio directorio
+	int cargar_imagenes(const char* directorio);
 
-  // calcular_caracteristicas inicializa la base de datos calculando las
-  // caracteristicas para todas las imagenes que estan en la lista de
-  // la base.
-  int calcular_caracteristicas( int cant_maximos, float umbral );
+	// calcular_caracteristicas inicializa la base de datos calculando las
+	// caracteristicas para todas las imagenes que estan en la lista de
+	// la base.
+	int calcular_caracteristicas(int cant_maximos, float umbral);
 
-  // dada una imagen, encuentra el indice de la que es mas parecida
-  int encontrar_mas_parecida(CImg<T> imagen, int primera, int ultima);
+	// dada una imagen, encuentra el indice de la que es mas parecida
+	int encontrar_mas_parecida(CImg<T> imagen, int primera, int ultima);
 
-  // dada una imagen, la clasifica según MSE contra los prototipos
-  int clasificar_imagen(CImg<T> imagen, int primera, int ultima);
+	// dada una imagen, la clasifica según MSE contra los prototipos
+	int clasificar_imagen(CImg<T> imagen, int primera, int ultima);
 
-  // dado un directorio, clasifica todas las imágenes
-  int clasificar_directorio( const char* directorio, vector<string> &nombres,
-			     vector<int> &clases, int primera, int ultima );
+	// dado un directorio, clasifica todas las imágenes
+	int clasificar_directorio(const char* directorio, vector<string> &nombres,
+	    vector<int> &clases, int primera, int ultima);
 
-  double error_clasificacion( const char* directorio, int primera , int ultima);
+	double error_clasificacion(const char* directorio, int primera, int ultima);
 
-  int etiquetas_de_nombre_arch( const vector<string> &noms,
-				vector<string> & etiqs );
+	int etiquetas_de_nombre_arch(const vector<string> &noms,
+	    vector<string> & etiqs);
 
-  // guarda los prototipos generados en archivos tipo imagenes
-  int guardar_prototipos( const char* directorio );
+	// guarda los prototipos generados en archivos tipo imagenes
+	int guardar_prototipos(const char* directorio);
 
-  // dado un indice de la base, devuelve el nombre
-  string nombre(int indice) {
-    return nombres_imagenes[indice];
-  }
+	// dado un indice de la base, devuelve el nombre
+	string nombre(int indice) {
+	  return nombres_imagenes[indice];
+	}
 
-  // dado un indice de la base, devuelve el nombre
-  string etiqueta(int indice) {
-    return etiquetas[indice];
-  }
+	// dado un indice de la base, devuelve el nombre
+	string etiqueta(int indice) {
+	  return etiquetas[indice];
+	}
 
-  // devuelve una ref al iesimo del vector de ponderaciones
-  double & ponderacion( unsigned i );
+	// devuelve una ref al iesimo del vector de ponderaciones
+	double & ponderacion(unsigned i);
 
 };
 
@@ -174,24 +173,24 @@ int ComparadorImagenes<T>::etiquetar_imagenes() {
 
   // para cada imagen en la lista
   for (unsigned i = 0; i < nombres_imagenes.size(); i++) {
-    // me fijo la "etiqueta" (primera parte del nombre de arch
-    if (regexec(&match, nombres_imagenes[i].c_str(), 2, &sub[0], 0) == 0) {
-      etiq_actual = nombres_imagenes[i].substr(sub[1].rm_so, sub[1].rm_eo
-					       - sub[1].rm_so);
-      // si nclases == 0 todavia no guarde ninguna clase
-      if (n_clases == 0 || etiq_actual != etiquetas[n_clases - 1]) {
-	etiquetas.push_back(etiq_actual);
-	n_clases++;
-      }
-      // @TODO corregir lo siguiente para que en vez del último índice
-      // asigne la posición devuelta por un find( etiqueta 9 en el vector
-      clases_imagenes.push_back(n_clases - 1);
-    }
+	// me fijo la "etiqueta" (primera parte del nombre de arch
+	if (regexec(&match, nombres_imagenes[i].c_str(), 2, &sub[0], 0) == 0) {
+	  etiq_actual = nombres_imagenes[i].substr(sub[1].rm_so, sub[1].rm_eo
+		  - sub[1].rm_so);
+	  // si nclases == 0 todavia no guarde ninguna clase
+	  if (n_clases == 0 || etiq_actual != etiquetas[n_clases - 1]) {
+		etiquetas.push_back(etiq_actual);
+		n_clases++;
+	  }
+	  // @TODO corregir lo siguiente para que en vez del último índice
+	  // asigne la posición devuelta por un find( etiqueta 9 en el vector
+	  clases_imagenes.push_back(n_clases - 1);
+	}
   }
 
   // @TODO comentar esto. salida al pedo.
   for (unsigned w = 0; w < etiquetas.size(); w++) {
-    cout << "etiqueta " << w << ": " << etiquetas[w] << endl;
+	cout << "etiqueta " << w << ": " << etiquetas[w] << endl;
   }
 
   regfree(&match);
@@ -212,7 +211,7 @@ int ComparadorImagenes<T>::generar_prototipos() {
   // chequeo que las características estén ya calculadas
   // @TODO verificar que el criterio usado es realmente válido
   if (caracteristicas.size() < nombres_imagenes.size())
-    return -1;
+	return -1;
 
   // inicializo copiandome la primer caracteristica, total despues
   // reseteo llenando todo con ceros.
@@ -223,40 +222,40 @@ int ComparadorImagenes<T>::generar_prototipos() {
 
   // para cada clase...
   for (unsigned clase = 0; clase < n_clases; clase++) {
-    // seteo acumuladores en cero
-    proto_temp[0].fill(0.0);
-    proto_temp[1].fill(0.0);
-    contador_clase = 0;
+	// seteo acumuladores en cero
+	proto_temp[0].fill(0.0);
+	proto_temp[1].fill(0.0);
+	contador_clase = 0;
 
-    // busco en todas las imagenes...
-    for (unsigned i = 0; i < caracteristicas.size(); i++) {
-      // ...las que son de la clase actual ...
-      if (clases_imagenes[i] == clase) {
-	// ... y acumulo los valores.
-	proto_temp[0] += caracteristicas[i][0];
-	proto_temp[1] += caracteristicas[i][1];
-	contador_clase++;
-      }
-    }
+	// busco en todas las imagenes...
+	for (unsigned i = 0; i < caracteristicas.size(); i++) {
+	  // ...las que son de la clase actual ...
+	  if (clases_imagenes[i] == clase) {
+		// ... y acumulo los valores.
+		proto_temp[0] += caracteristicas[i][0];
+		proto_temp[1] += caracteristicas[i][1];
+		contador_clase++;
+	  }
+	}
 
-    // si he encontrado imágenes de la clase acual...
-    if (contador_clase > 0) {
-      // ...divido por la cantidad de imágenes ya que esto debe ser un promedio
-      proto_temp[0] /= (double) contador_clase;
-      proto_temp[1] /= (double) contador_clase;
-    }
+	// si he encontrado imágenes de la clase acual...
+	if (contador_clase > 0) {
+	  // ...divido por la cantidad de imágenes ya que esto debe ser un promedio
+	  proto_temp[0] /= (double) contador_clase;
+	  proto_temp[1] /= (double) contador_clase;
+	}
 
-    // finalmente, guardo el p7o generado en el vector de p8s
-    prototipos.push_back(proto_temp);
+	// finalmente, guardo el p7o generado en el vector de p8s
+	prototipos.push_back(proto_temp);
   }
 
   // descomentar lo siguiente para visualizar los p8s generados
   /*
-  for (unsigned p=0; p<prototipos.size(); p++ ){
-    prototipos[p][0].display();
-    prototipos[p][1].display();
-  }
-  */
+   for (unsigned p=0; p<prototipos.size(); p++ ){
+   prototipos[p][0].display();
+   prototipos[p][1].display();
+   }
+   */
 
   return 0;
 }
@@ -275,14 +274,13 @@ vector<string> ComparadorImagenes<T>::listar_imagenes(const char* directorio) {
   vector<string> lista_imagenes;
   glob_t globbuf;
   regex_t match;
-  regcomp( &match, ".*\\.\\(jpe\\?g\\|bmp\\tif{1,2}\\|png\\|gif\\)$",
-	   REG_ICASE );
-  glob( string(string(directorio)+string("/*")).c_str(), GLOB_MARK, NULL,
-       &globbuf);
+  regcomp(&match, ".*\\.\\(jpe\\?g\\|bmp\\tif{1,2}\\|png\\|gif\\)$", REG_ICASE );
+  glob(string(string(directorio) + string("/*")).c_str(), GLOB_MARK, NULL,
+	  &globbuf);
   for (unsigned i = 0; i < globbuf.gl_pathc; i++) {
-    if (regexec(&match, globbuf.gl_pathv[i], 0, NULL, 0) == 0) {
-      lista_imagenes.push_back(string(globbuf.gl_pathv[i]));
-    }
+	if (regexec(&match, globbuf.gl_pathv[i], 0, NULL, 0) == 0) {
+	  lista_imagenes.push_back(string(globbuf.gl_pathv[i]));
+	}
   }
   regfree(&match);
   globfree(&globbuf);
@@ -308,19 +306,19 @@ vector<string> ComparadorImagenes<T>::listar_imagenes(const char* directorio) {
  *         negativo en caso que el vector de caracs no esté inicializado.
  */
 template<class T>
-double ComparadorImagenes<T>::comparar_caracteristicas (
-                    vector<CImg<double> > caracs, unsigned idx,
-		    int primera = 0, int ultima = -1 ) {
-  if ( ultima < 0 )
-    ultima = n_caracteristicas;
+double ComparadorImagenes<T>::comparar_caracteristicas(
+    vector<CImg<double> > caracs, unsigned idx, int primera = 0, int ultima =
+        -1) {
+  if (ultima < 0)
+	ultima = n_caracteristicas;
 
   // valido que el vector de caracteristicas tenga el elemento idx
-  if ( prototipos.size() - 1 < idx || n_caracteristicas < 1 )
-    return -1.0;
+  if (prototipos.size() - 1 < idx || n_caracteristicas < 1)
+	return -1.0;
 
   double resultado = 0;
   for (unsigned i = 0; i < n_caracteristicas; i++) {
-    resultado += (caracs[i].MSE(caracteristicas[idx][i]) * ponderaciones[i]);
+	resultado += (caracs[i].MSE(caracteristicas[idx][i]) * ponderaciones[i]);
   }
   return resultado / (double) n_caracteristicas;
 }
@@ -343,19 +341,18 @@ double ComparadorImagenes<T>::comparar_caracteristicas (
  *         negativo en caso que el vector de prototipos no esté inicializado.
  */
 template<class T>
-double ComparadorImagenes<T>::comparar_caracteristicas_proto (
-                    vector<CImg<double> > caracs, unsigned idx,
-		    int primera = 0, int ultima = -1 ) {
-  if ( ultima < 0 )
-    ultima = n_caracteristicas;
+double ComparadorImagenes<T>::comparar_caracteristicas_proto(vector<
+    CImg<double> > caracs, unsigned idx, int primera = 0, int ultima = -1) {
+  if (ultima < 0)
+	ultima = n_caracteristicas;
 
   // valido que exista el prototipo idx y que n_caracteristicas > 0
-  if ( prototipos.size() - 1 < idx || n_caracteristicas < 1 )
-    return -1.0;
+  if (prototipos.size() - 1 < idx || n_caracteristicas < 1)
+	return -1.0;
 
   double resultado = 0;
   for (unsigned i = primera; i < ultima; i++) {
-    resultado += ( caracs[i].MSE(prototipos[idx][i]) * ponderaciones[i] );
+	resultado += (caracs[i].MSE(prototipos[idx][i]) * ponderaciones[i]);
   }
   return resultado / (double) n_caracteristicas;
 }
@@ -368,11 +365,11 @@ double ComparadorImagenes<T>::comparar_caracteristicas_proto (
  * @return el número de imágenes cargadas.
  */
 template<class T>
-int ComparadorImagenes<T>::cargar_imagenes( const char* directorio ) {
+int ComparadorImagenes<T>::cargar_imagenes(const char* directorio) {
   int i = 0;
   vector<string> lista_temp = listar_imagenes(directorio);
   for (i; i < lista_temp.size(); i++)
-    nombres_imagenes.push_back(lista_temp[i]);
+	nombres_imagenes.push_back(lista_temp[i]);
 
   // seteo el valor del contador de imagenes global
   n_imagenes += i;
@@ -392,8 +389,8 @@ int ComparadorImagenes<T>::cargar_imagenes( const char* directorio ) {
  *       de características, sea usando clases abstractas o señales de humo...
  */
 template<class T>
-int ComparadorImagenes<T>::calcular_caracteristicas (  int cant_maximos = 50,
-                                                       float umbral = 20.0 ) {
+int ComparadorImagenes<T>::calcular_caracteristicas(int cant_maximos = 50,
+    float umbral = 20.0) {
   int cont = 0, k;
   CImg<T> imagen_temp;
   vector<CImg<T> > vector_caracts_temp;
@@ -403,23 +400,20 @@ int ComparadorImagenes<T>::calcular_caracteristicas (  int cant_maximos = 50,
 
   // para cada imagen en la lista de archivos...
   for (cont; cont < nombres_imagenes.size(); cont++) {
-    // ..la leo del disco...
-    imagen_temp = CImg<T> (nombres_imagenes[cont].c_str());
+	// ..la leo del disco...
+	imagen_temp = CImg<T> (nombres_imagenes[cont].c_str());
 
-    // .. y genero el vector de características,
-    vector_caracts_temp.clear();
-    vector_caracts_temp.
-      push_back( estadisticas_imagen<T>( imagen_temp ) );
-    vector_caracts_temp.
-      push_back( extraer_valores_caracteristicos<T>( imagen_temp,
-                                                     cantidad_maximos_hough,
-                                                     umbral_hough ) );
+	// .. y genero el vector de características,
+	vector_caracts_temp.clear();
+	vector_caracts_temp. push_back(estadisticas_imagen<T> (imagen_temp));
+	vector_caracts_temp. push_back(extraer_valores_caracteristicos<T> (
+	    imagen_temp, cantidad_maximos_hough, umbral_hough));
 
-    vector_caracts_temp.push_back( acura<T>(imagen_temp) );
+	vector_caracts_temp.push_back(acura<T> (imagen_temp));
 
-    // finalmente inserto el vector de características generado
-    // en el vector de (vectores de) caractarísticas global.
-    caracteristicas.push_back(vector_caracts_temp);
+	// finalmente inserto el vector de características generado
+	// en el vector de (vectores de) caractarísticas global.
+	caracteristicas.push_back(vector_caracts_temp);
   }
   return cont;
 }
@@ -438,30 +432,27 @@ int ComparadorImagenes<T>::calcular_caracteristicas (  int cant_maximos = 50,
  * @return el índice de la imagen que se encontró más parecida.
  */
 template<class T>
-int ComparadorImagenes<T>::encontrar_mas_parecida(CImg<T> imagen,
-						  int primera=0,
-						  int ultima=-1 ) {
-  if ( ultima < 0 )
-    ultima = n_caracteristicas;
+int ComparadorImagenes<T>::encontrar_mas_parecida(CImg<T> imagen, int primera =
+    0, int ultima = -1) {
+  if (ultima < 0)
+	ultima = n_caracteristicas;
 
   vector<double> errores(caracteristicas.size());
 
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
-  vector_caracts_temp.
-    push_back( estadisticas_imagen<T> ( imagen ) );
-  vector_caracts_temp.
-    push_back( extraer_valores_caracteristicos<T> ( imagen,
-                                                    cantidad_maximos_hough,
-                                                    umbral_hough ) );
+  vector_caracts_temp. push_back(estadisticas_imagen<T> (imagen));
+  vector_caracts_temp. push_back(extraer_valores_caracteristicos<T> (imagen,
+	  cantidad_maximos_hough, umbral_hough));
 
   // calculo el MSE contra todas las imagenes de la base
   for (unsigned k = 0; k < caracteristicas.size(); k++) {
-    errores[k] = comparar_caracteristicas(vector_caracts_temp,k,primera,ultima);
+	errores[k] = comparar_caracteristicas(vector_caracts_temp, k, primera,
+	    ultima);
   }
 
   // devuelvo el índice del MSE mínimo encontrado
-  return distance( errores.begin(), min_element(errores.begin(),errores.end()));
+  return distance(errores.begin(), min_element(errores.begin(), errores.end()));
 }
 
 /**
@@ -478,32 +469,29 @@ int ComparadorImagenes<T>::encontrar_mas_parecida(CImg<T> imagen,
  * @return el índice del prototipoque mejor representa la imagen (clase).
  */
 template<class T>
-int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
-					      int primera=0, int ultima=-1 ) {
-  if ( ultima < 0 )
-    ultima = n_caracteristicas;
+int ComparadorImagenes<T>::clasificar_imagen(CImg<T> imagen, int primera = 0,
+    int ultima = -1) {
+  if (ultima < 0)
+	ultima = n_caracteristicas;
 
   vector<double> errores(n_clases);
-  CImg<double> errores_img(n_clases,1,1,1,0);
+  CImg<double> errores_img(n_clases, 1, 1, 1, 0);
 
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
-  vector_caracts_temp.
-    push_back( estadisticas_imagen<T> ( imagen ) );
-  vector_caracts_temp.
-    push_back( extraer_valores_caracteristicos<T> ( imagen,
-                                                    cantidad_maximos_hough,
-                                                    umbral_hough ) );
+  vector_caracts_temp. push_back(estadisticas_imagen<T> (imagen));
+  vector_caracts_temp. push_back(extraer_valores_caracteristicos<T> (imagen,
+	  cantidad_maximos_hough, umbral_hough));
 
   // calculo el MSE contra todos los prototipos que tengo
   for (unsigned k = 0; k < n_clases; k++) {
-    errores[k] = comparar_caracteristicas_proto( vector_caracts_temp, k,
-						 primera, ultima );
-    errores_img(k)=errores[k];
+	errores[k] = comparar_caracteristicas_proto(vector_caracts_temp, k,
+	    primera, ultima);
+	errores_img(k) = errores[k];
   }
   //  errores_img.display();
   // devuelvo el índice del MSE mínimo encontrado
-  return distance( errores.begin(), min_element(errores.begin(),errores.end()));
+  return distance(errores.begin(), min_element(errores.begin(), errores.end()));
 }
 
 /**
@@ -518,21 +506,21 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
  * @return el número de imágenes clasificadas.
  */
 template<class T>
-int ComparadorImagenes<T>::clasificar_directorio( const char* directorio,
-			   vector<string> &nombres, vector<int> &clases,
-			   int primera = 0, int ultima = -1 ) {
-  if ( ultima < 0 )
-    ultima = n_caracteristicas;
+int ComparadorImagenes<T>::clasificar_directorio(const char* directorio,
+    vector<string> &nombres, vector<int> &clases, int primera = 0, int ultima =
+        -1) {
+  if (ultima < 0)
+	ultima = n_caracteristicas;
 
   // reseteo vectores pasados por referencia
   clases.clear();
-  nombres = listar_imagenes( directorio );
+  nombres = listar_imagenes(directorio);
 
   CImg<T> img_temp;
 
-  for ( unsigned i=0; i<nombres.size(); i++ ) {
-    img_temp = CImg<T>( nombres[i].c_str() );
-    clases.push_back( clasificar_imagen( img_temp, primera, ultima ));
+  for (unsigned i = 0; i < nombres.size(); i++) {
+	img_temp = CImg<T> (nombres[i].c_str());
+	clases.push_back(clasificar_imagen(img_temp, primera, ultima));
   }
 
   return clases.size();
@@ -550,16 +538,16 @@ int ComparadorImagenes<T>::clasificar_directorio( const char* directorio,
  * @return: el número de imágenes al que se ha asignado etiqueta.
  */
 template<class T>
-int ComparadorImagenes<T>::etiquetas_de_nombre_arch( const vector<string> &noms,
-						     vector<string> & etiqs ) {
+int ComparadorImagenes<T>::etiquetas_de_nombre_arch(const vector<string> &noms,
+    vector<string> & etiqs) {
   etiqs.clear();
   regex_t match;
   regcomp(&match, ".*/\\([abcdefghijklmnopqrstuvwxyz]\\+\\)", REG_ICASE );
   regmatch_t sub[2];
   for (unsigned i = 0; i < noms.size(); i++) {
-    if (regexec(&match, noms[i].c_str(), 2, &sub[0], 0) == 0) {
-      etiqs.push_back( noms[i].substr(sub[1].rm_so, sub[1].rm_eo-sub[1].rm_so));
-    }
+	if (regexec(&match, noms[i].c_str(), 2, &sub[0], 0) == 0) {
+	  etiqs.push_back(noms[i].substr(sub[1].rm_so, sub[1].rm_eo - sub[1].rm_so));
+	}
   }
   regfree(&match);
   return etiqs.size();
@@ -577,27 +565,30 @@ int ComparadorImagenes<T>::etiquetas_de_nombre_arch( const vector<string> &noms,
  * @return el número de imágenes clasificadas.
  */
 template<class T>
-double ComparadorImagenes<T>::error_clasificacion( const char* directorio,
-			   int primera = 0, int ultima = -1 ) {
+double ComparadorImagenes<T>::error_clasificacion(const char* directorio,
+    int primera = 0, int ultima = -1) {
 
   vector<string> nombres;
   vector<string> etiqs;
   vector<int> clases;
   double error = 0.0;
 
-  int n = clasificar_directorio( directorio, nombres, clases, primera, ultima);
+  int n = clasificar_directorio(directorio, nombres, clases, primera, ultima);
 
-  etiquetas_de_nombre_arch ( nombres, etiqs );
+  etiquetas_de_nombre_arch(nombres, etiqs);
 
-  if ( nombres.size() != etiqs.size() ) {
-    cerr<<"ERRORRRRRRRRR hubo archivos que no matchearon.\n";
-    return -1.0;
+  if (nombres.size() != etiqs.size()) {
+	cerr << "ERRORRRRRRRRR hubo archivos que no matchearon.\n";
+	return -1.0;
   }
 
-  for ( unsigned i=0; i<etiqs.size(); i++ ) {
-    //cout<<"etiqs "<<etiqs[i]<<" etiquet "<<etiqueta(i)<<endl;
-    if ( etiqs[i] != etiqueta( clases[i]) )
-      error += 1.0;
+  for (unsigned i = 0; i < etiqs.size(); i++) {
+	//cout<<"etiqs "<<etiqs[i]<<" etiquet "<<etiqueta(i)<<endl;
+	//si la imagen de noche con la de dia son los mismos no es un error
+	//ojo que el codigo esta hardcodeado
+	if (!(etiqs[i] == etiqueta(clases[i]) || etiqs[i] == etiqueta(clases[i])
+	    + string("noche") || etiqs[i] + string("noche") == etiqueta(clases[i])))
+	  error += 1.0;
   }
   return error / (double) etiqs.size();
 }
@@ -608,32 +599,18 @@ double ComparadorImagenes<T>::error_clasificacion( const char* directorio,
  * @FIXME no anda!!!!!!!
  */
 template<class T>
-int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
+int ComparadorImagenes<T>::guardar_prototipos(const char* directorio) {
 
-  for (unsigned p=0; p<prototipos.size(); p++ ){
+  for (unsigned p = 0; p < prototipos.size(); p++) {
 
-    prototipos[p][0].save_jpeg( string( string( directorio ) + 
-                                       string( "estadistica_" ) + 
-                                       string( etiqueta(p) ) +
-                                       string( ".jpg" )
-                                       ).c_str() );
-    prototipos[p][1].save_jpeg( string( string( directorio ) + 
-                                       string( "hough_" ) + 
-                                       string( etiqueta(p) ) +
-                                       string( ".jpg" )
-                                       ).c_str() );
-    printf("gen prototipo: %s \n", 
-           string( string( directorio ) + 
-                   string( "estadistica_" ) + 
-                   string( etiqueta(p) ) +
-                   string( ".jpg" )
-                   ).c_str() );
-    printf("gen prototipo: %s \n", 
-           string( string( directorio ) + 
-                   string( "hough_" ) + 
-                   string( etiqueta(p) ) +
-                   string( ".jpg" )
-                   ).c_str() );
+	prototipos[p][0].save_jpeg(string(string(directorio) + string(
+	    "estadistica_") + string(etiqueta(p)) + string(".jpg")).c_str());
+	prototipos[p][1].save_jpeg(string(string(directorio) + string("hough_")
+	    + string(etiqueta(p)) + string(".jpg")).c_str());
+	printf("gen prototipo: %s \n", string(string(directorio) + string(
+	    "estadistica_") + string(etiqueta(p)) + string(".jpg")).c_str());
+	printf("gen prototipo: %s \n", string(string(directorio) + string("hough_")
+	    + string(etiqueta(p)) + string(".jpg")).c_str());
 
   }
 
@@ -645,8 +622,8 @@ int ComparadorImagenes<T>::guardar_prototipos( const char* directorio ) {
  * devuelve una referencia al elem i del vector de ponderaciones
  */
 template<class T>
-double & ComparadorImagenes<T>::ponderacion( unsigned i ) {
-    return ponderaciones[i];
+double & ComparadorImagenes<T>::ponderacion(unsigned i) {
+  return ponderaciones[i];
 }
 
 #endif // definicion de DEF_CLASE_2_H
