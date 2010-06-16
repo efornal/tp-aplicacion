@@ -110,6 +110,11 @@ etiqueta.
 
 La clasificación de las imágenes consiste en encontrar la etiqueta del
 prototipo cuyas características minimicen el error cuadrático medio.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Vectores característicos y prototipos}
+Sobre diez de las trece imágenes de cada edificio, se aplicó el método de al Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edifico. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
+
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -233,9 +238,6 @@ Para las pruebas se procedió a evaluar el desempeño de ambos métodos, en prim
 %
 \subsection{Descripción de la Base de datos de imágenes}
 Se trabajó con imágenes que fueron adquiridas en la ciudad de Santa Fe, mediante un Dispositivo Móvil con una resolución de 640x480 pixels. Se construyo una base de datos de las mismas sobre un total de cinco edificios, tomando trece realizaciones de cada uno de ellos (diez con el propósito de usarlas como prototipo y tres para las prueba con los algoritmos). Cabe aclarar que cada conjunto de imágenes de los cinco edificios fueron tomadas en condiciones ambientales similares y con la cámara en la misma posición respecto del objetivo. \resalt{arreglar esto}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Vectores característicos y prototipos}
-Sobre diez de las trece imágenes de cada edificio, se aplicó el método de al Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edifico. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Descripción de las pruebas}
