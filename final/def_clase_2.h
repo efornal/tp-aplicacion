@@ -59,6 +59,12 @@ class ComparadorImagenes {
   unsigned n_imagenes;
   unsigned n_clases;
 
+  // cantidad de maximos que usará el metodo de hough en la transformada
+  int cantidad_maximos_hough;
+
+  // umbral que se usara en el metodo de hough para el filtrado de sobel
+  double umbral_hough;
+
   // etiqueta las imagenes segun su nombre de archivo
   int etiquetar_imagenes();
 
@@ -126,6 +132,9 @@ ComparadorImagenes<T>::ComparadorImagenes() {
   n_imagenes = 0;
   ponderaciones.push_back(1.0);
   ponderaciones.push_back(1.0);
+  cantidad_maximos_hough = 50; // valor por defecto
+  umbral_hough = 30; // valor por defecto
+
 }
 
 /**
@@ -399,11 +408,13 @@ int ComparadorImagenes<T>::calcular_caracteristicas (  int cant_maximos = 50,
 
     // .. y genero el vector de características,
     vector_caracts_temp.clear();
-    vector_caracts_temp.push_back( estadisticas_imagen<T>(imagen_temp) );
-    vector_caracts_temp.push_back(
-                                  extraer_valores_caracteristicos<T>(imagen_temp,
-                                                                     cant_maximos,
-                                                                     umbral) );
+    vector_caracts_temp.
+      push_back( estadisticas_imagen<T>( imagen_temp ) );
+    vector_caracts_temp.
+      push_back( extraer_valores_caracteristicos<T>( imagen_temp,
+                                                     cantidad_maximos_hough,
+                                                     umbral_hough ) );
+
     vector_caracts_temp.push_back( acura<T>(imagen_temp) );
 
     // finalmente inserto el vector de características generado
@@ -437,8 +448,12 @@ int ComparadorImagenes<T>::encontrar_mas_parecida(CImg<T> imagen,
 
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
-  vector_caracts_temp.push_back(estadisticas_imagen<T> (imagen));
-  vector_caracts_temp.push_back(extraer_valores_caracteristicos<T> (imagen));
+  vector_caracts_temp.
+    push_back( estadisticas_imagen<T> ( imagen ) );
+  vector_caracts_temp.
+    push_back( extraer_valores_caracteristicos<T> ( imagen,
+                                                    cantidad_maximos_hough,
+                                                    umbral_hough ) );
 
   // calculo el MSE contra todas las imagenes de la base
   for (unsigned k = 0; k < caracteristicas.size(); k++) {
@@ -473,8 +488,12 @@ int ComparadorImagenes<T>::clasificar_imagen( CImg<T> imagen,
 
   // calculo las caracteristicas para esta imagen
   vector<CImg<T> > vector_caracts_temp;
-  vector_caracts_temp.push_back(estadisticas_imagen<T> (imagen));
-  vector_caracts_temp.push_back(extraer_valores_caracteristicos<T> (imagen));
+  vector_caracts_temp.
+    push_back( estadisticas_imagen<T> ( imagen ) );
+  vector_caracts_temp.
+    push_back( extraer_valores_caracteristicos<T> ( imagen,
+                                                    cantidad_maximos_hough,
+                                                    umbral_hough ) );
 
   // calculo el MSE contra todos los prototipos que tengo
   for (unsigned k = 0; k < n_clases; k++) {
