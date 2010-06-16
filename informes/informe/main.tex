@@ -64,9 +64,25 @@ histograma, extracción de características, transformada de Hough, clasificaci�
 %
 %
 \section{Introducción}
-\PARstart{L}{a} presencia de gran cantidad de dispositivos tecnológicos de diferente índole ha abierto un sin número de nuevas aplicaciones para satisfacer las necesidades diarias de seres humanos. Los dispositivos móviles como celulares, PDAs, etc. han pasado a formar parte del común de nuestras vidas brindando nuevas posibilidades de interacción. Es aquí donde surge la idea de la realización de este trabajo. 
-Día a día, las personas toman fotografías de diferentes objetos ya sean monumentos públicos, edificios históricos, etc. sin saber si quiera que se está fotografiando. Con este artículo se trata de hacer un aporte en vías hacia dicho problema, de manera que mediante el procesamiento de imágenes se tenga dicha información en el instante mismo de la adquisición de la foto. Cabe aclarar, que se hará una implementación en C++, dejando como trabajo futuro el desarrollo de una aplicación para dispositivos móviles.
-En principio y ya que no es el objetivo de este trabajo hacer un análisis profundo, sino tan solo dar una aproximación inicial a la resolución del problema, se considerará la aplicación de los métodos en condiciones ideales o semi-ideales. \resalt{ver...}
+\PARstart{L}{a} presencia de gran cantidad de dispositivos tecnológicos de
+diferente índole ha abierto un sin número de nuevas aplicaciones para
+satisfacer las necesidades diarias de seres humanos. Los dispositivos móviles
+como celulares, PDAs, etc. han pasado a formar parte del común de nuestras
+vidas brindando nuevas posibilidades de interacción. Es aquí donde surge la
+idea de la realización de este trabajo. 
+
+Día a día, las personas toman fotografías de diferentes objetos ya sean
+monumentos públicos, edificios históricos, etc. sin saber si quiera que se
+está fotografiando. Con este artículo se trata de hacer un aporte en vías
+hacia dicho problema, de manera que mediante el procesamiento de imágenes se
+tenga dicha información en el instante mismo de la adquisición de la foto.
+Cabe aclarar, que se hará una implementación en C++, dejando como trabajo
+futuro el desarrollo de una aplicación para dispositivos móviles.
+
+En principio y ya que no es el objetivo de este trabajo hacer un análisis
+profundo, sino tan solo dar una aproximación inicial a la resolución del
+problema, se considerará la aplicación de los métodos en condiciones
+ideales o semi-ideales. \resalt{ver...}
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,11 +126,25 @@ pasos:
 \begin{enumerate}
 \item A partir de la imagen original, se obtiene una versión en escala de grises
       promediando los tres canales RGB, y se la escala a un tamaño normalizado.
-\item Se obtiene una imagen de sólo bordes aplicando operador gradiente de
-      Sobel (\ref{sob}), donde $G_x$, $G_y$ son el resultado de aplicar las
-      máscaras respectivas $[G_x]$ y $[G_y]$ a la imagen por separado luego se umbraliza en el valor $U$ como en
-      \ref{umbral}.
-\item Con la imagen umbralizada se calcula la transformada de Hough.
+\item Se obtiene una imagen de sólo bordes, aproximando la magnitud del
+      gradiente según
+      \begin{equation}
+      \label{sob}
+      \nabla f \approx |G_x| + |G_y|,
+      \end{equation}
+      donde $G_x$, $G_y$ son el resultado de aplicar los operadores gradiente
+      de Sobel (fig. \ref{masksobel}) a la imagen. 
+      Finalmente se umbraliza esta imagen de bordes en $U$:
+      \begin{equation}
+      \label{umbral}
+      f(x)=
+      \begin{cases}
+      0, & x\leq U\\
+      255, & x > U
+      \end{cases}
+      \end{equation}
+\item Con la imagen de bordes umbralizada se calcula la transformada de
+      Hough para rectas.
 \item Se aplica escalado a la transformada obtenida, llevándola a un tamaño
       pequeño buscando obtener mayor tolerancia tanto en el parámetro angular
       $\theta$ como de distancia $\rho$
@@ -129,37 +159,24 @@ pasos:
 %% Posteriormente, para la detección de bordes se aplica el operador gradiente
 %% de sobel (\ref{sob}) y se umbraliza con la función definida en
 %% (\ref{umbral}).
-\begin{equation}
-\label{sob}
-\nabla f \approx |G_x| + |G_y|
-\end{equation}
+\begin{figure}
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline -1 & -2 & -1 \\\hline 0 & 0 & 0 \\\hline 1 & 2 & 1 \\\hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline -1 & 0 & 1 \\\hline -2 & 0 & 2 \\\hline -1 & 0 & 1 \\\hline
+\end{tabular}
+\end{center}
+\caption{Máscaras de filtrado (operadores gradiente) de Sobel.}
+\label{masksobel}
+\end{figure}
+
+
 %
-\begin{equation}
-\label{umbral}
-f(x)=
-\begin{cases}
-0, & x\leq 40\\
-255, & x > 40
-\end{cases}
-\end{equation}
+
 %
 %
-\begin{align*}
-& G_x = \left[
-\begin{array}{ccc}
--1 & -2 & -1\\
- 0 & 0 & 0 \\
- 1 & 2 & 1
-\end{array}
-\right]
-&G_y = \left[
-\begin{array}{ccc}
--1 & 0 & 1\\
- -2 & 0 & 2 \\
- -1 & 0 & 1
-\end{array}
-\right]
-\end{align*}
 %% Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.\resalt{no me gusta arreglar}
 %% Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
