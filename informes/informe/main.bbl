@@ -18,6 +18,30 @@
 \fi
 #2}}
 
+\bibitem{wdctsch}
+L.~S. Yonghua~Xie y H.~Burkhardt, ``Color image retrieval based on weighted dct
+  spatial combination histogram,'' \emph{International Journal of Information
+  Technology}, vol.~14, no.~2, pp. 12--23.
+
+\bibitem{Pass96histogramrefinement}
+G.~Pass y R.~Zabih, ``Histogram refinement for content-based image retrieval,''
+  en \emph{IEEE Workshop on Applications of Computer Vision}, pp. 96--102,
+  1996.
+
+\bibitem{Konstantinidis2005375}
+\BIBentryALTinterwordspacing
+K.~Konstantinidis, A.~Gasteratos, y I.~Andreadis, ``Image retrieval based on
+  fuzzy color histogram processing,'' \emph{Optics Communications}, vol. 248,
+  no. 4-6, pp. 375 -- 386, 2005. [Online]. Disponible:
+  \url{http://www.sciencedirect.com/science/article/B6TVF-4F2MDYT-3/2/07482718%
+1182cd309f59f57ee820d26f}
+\BIBentrySTDinterwordspacing
+
+\bibitem{canny}
+J.~F. Canny, ``A computational approach to edge detection,'' \emph{IEEE
+  Transcactions on Pattern Analysis and Machine Intelligence}, pp. 679--698,
+  1986.
+
 \bibitem{gonzalez+woods}
 R.~C.Gonzalez y R.~E.Woods, \emph{Digital Image Processing}.\hskip 1em plus
   0.5em minus 0.4em\relax Prentice-Hall, 2001.

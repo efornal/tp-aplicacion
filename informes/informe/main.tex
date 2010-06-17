@@ -72,9 +72,9 @@ y han pasado a ser de uso común debido a su facilidad de uso y portabilidad.
 
 Muchas personas toman fotografías de paisajes, monumentos o edificios históricos
 que por diferentes motivos les resulta de interés conservar.
-Surge así la idea de desarrollar una técnica de procesamiento de imágenes
+Surge así la idea de desarrollar una técnica de procesamiento de imágenes,
 que posibilite la identificación de edificios, monumentos u otros puntos de
-de interés y poder así obtener información pertinente
+de interés, para poder obtener información pertinente
 acerca de los mismos. Con este artículo se trata
 de hacer un aporte en vías a resolver dicha inquietud.
 %
@@ -200,13 +200,13 @@ percentil 50),  y desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
 \begin{equation*}
 D_{\T{abs}}=\sum_i |x_i - M|
 \end{equation*}
-Así se han obtenido un vector de 9 valores que caracterizan histogramas de la
+Así, se ha obtenido un vector de 9 valores que caracterizan histogramas de la
 imagen entera.
 
 Luego se subdivide la imagen en cuatro cuadrantes, y se obtienen para cada uno
 las mismas medidas que se calcularon para la imagen entera.
 
-Así se obtiene un vector de 45 características a partir de histogramas que se
+Como resultado, se obtiene un vector de 45 características a partir de histogramas que se
 guardarán en la base de datos para comparación.
 
 \begin{figure}
@@ -303,7 +303,7 @@ Los resultados de las pruebas para el método de Hough se muestran en la figura
 \ref{graficaerror}. Se ha tomado un rango de valores representativos de $U$
 y $N$ basados en pruebas previas, donde hemos identificado regiones de mínimo
 error para $U~\in(60,120)$ y $N~\in(20,60)$.
-En la misma figura se puede apreciar que la tasa de error mínima se obtuvo
+En la misma figura, se puede apreciar que la tasa de error mínima se obtuvo
 para un umbral $U = 100$ y unos $N = 30$ máximos (en promedio).
 %
 %Debemos comentar aquí que para el método de Hough se realizaron una serie de pruebas
@@ -315,11 +315,11 @@ iniciales con conjuntos de 5 clases, y la estimación del resultado con
 %Cabe aclarar que en el primer caso se tomó un promedio de los errores
 %sobre el conjunto.
 
-Se puede observar que para el método de histogramas la tasa de error fue cero en
-ambas pruebas. En tanto que para el método de Hough se obtiene menor tasa de
+Se puede observar que para el método de histogramas, la tasa de error fue cero en
+ambas pruebas. En tanto que para el método de Hough, se obtiene menor tasa de
 error con el conjunto de 5 clases que con el de 15 de 35.5\% y 60.43\%
 respectivamente.
-En la última fila se muestran los resultados de considerar ambos criterios
+En la última fila, se muestran los resultados de considerar ambos criterios
 en conjunto, asignándole un peso equivalente a cada uno. 
 
 \begin{figure}
@@ -335,12 +335,12 @@ el método de Hough.}
 %
 \subsection{Discusión}
 A pesar de la muy buena performance del método de histograma, debemos tener
-presente que los conjuntos de imágenes de entrenamiento/prueba para el método
+presente que los conjuntos de imágenes de entrenamiento/prueba para el método, 
 han sido obtenidas en todos los casos a partir de una secuencia tomada en el 
 lapso de unos minutos, lo cual implica que las condiciones de iluminación en
 cada conjunto son prácticamente iguales. 
 
-Los histogramas miden la distribución estadística de los diferentes niveles
+Los histogramas, miden la distribución estadística de los diferentes niveles
 de intensidad presentes en la imagen, luego están estrechamente relacionados
 con las condiciones de iluminación de la escena. Por este motivo, tenemos
 que los histogramas entre las imágenes de entrenamiento/prueba son, a los
@@ -372,7 +372,8 @@ de respuesta: en una computadora promedio el cálculo se realiza en 1-2 segundos
 luego es esperable que este tiempo se triplique en un dispositivo móvil.
 
 Se deberá considerar la utilización de un detector de bordes como el propuesto
-por Canny \cite{canny}, así como tambien técnicas de preprocesamiento de la
+por Canny \cite{canny} \resalt{que tiene de bueno el de canny?}, así como
+también técnicas de preprocesamiento de la
 imagen, como puede ser el filtrado homomórfico, en pos de mejorar los
 resultados obtenidos en nuestras pruebas.
 
