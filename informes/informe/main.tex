@@ -241,10 +241,11 @@ datos con 10 imágenes por clase y 3 de prueba por cada clase. Se utilizaron
 3 conjuntos de imágenes diferentes, con 5 clases cada uno.
 
 Las imágenes de prueba fueron tomadas con teléfonos celulares corrientes, a una
-resolución \resalt{VGA estándar???} de 640 píxeles de ancho por 480 de alto, en
+resolución VGA estándar de 640 píxeles de ancho por 480 de alto, en
 diferentes condiciones
 de iluminación: día a pleno sol, día nublado, noche, e interior, a monumentos/%
 estatuas y edificios en diferentes lugares de la ciudad de Santa Fe, Argentina.
+Se muestran en la figura \ref{imagenes} algunos ejemplos.
 Los conjuntos se formaron sorteando las 15 clases de imágenes disponibles en
 3 de 5 clases cada uno.
 
@@ -288,6 +289,18 @@ identificación independientemente de las condiciones en que se toma la imagen.
 %
 \subsection{Discusión}
 
+\begin{table}
+\caption{Tasas de error para métodos}
+\begin{center}
+\begin{tabular}{ccc}
+\hline \emph{Método} & \emph{5 clases} & \emph{15 clases}\\ 
+\hline Histogramas & 0\% & 0\%\\ 
+\hline Hough & 35.5\% & 60.43\%\\ 
+\hline Ambos & 2.22\% & 4.17\%\\ 
+\hline 
+\end{tabular} 
+\end{center}
+\end{table}
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
