@@ -232,40 +232,62 @@ guardarán en la base de datos para comparación.
 %
 %
 \section{Experimentos y resultados}
-Para las pruebas se procedió a evaluar el desempeño de ambos métodos, en primera instancia por separados y luego, conjuntamente.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Descripción de la Base de datos de imágenes}
-Se trabajó con imágenes que fueron adquiridas en la ciudad de Santa Fe, mediante un Dispositivo Móvil con una resolución de 640x480 pixels. Se construyo una base de datos de las mismas sobre un total de cinco edificios, tomando trece realizaciones de cada uno de ellos (diez con el propósito de usarlas como prototipo y tres para las prueba con los algoritmos). Cabe aclarar que cada conjunto de imágenes de los cinco edificios fueron tomadas en condiciones ambientales similares y con la cámara en la misma posición respecto del objetivo. \resalt{arreglar esto}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Descripción de las pruebas}
-Por cada método se calculo el MSE o error cuadrático medio definido en \ref{mse} entre los cinco prototipos y las quince imágenes de pruebas, para finalmente obtener la tasa de reconocimiento mediante \ref{tasareconocimiento}
+Para la prueba del método se utilizó validación cruzada, entrenando la base de
+datos con 10 imágenes por clase y 3 de prueba por cada clase. Se utilizaron
+3 conjuntos de imágenes diferentes, con 5 clases cada uno.
+
+Las imágenes de prueba fueron tomadas con teléfonos celulares corrientes, a una
+resolución \resalt{VGA estándar???} de 640 píxeles de ancho por 480 de alto, en
+diferentes condiciones
+de iluminación: día a pleno sol, día nublado, noche, e interior, a monumentos/%
+estatuas y edificios en diferentes lugares de la ciudad de Santa Fe, Argentina.
+Los conjuntos se formaron sorteando las 15 clases de imágenes disponibles en
+3 de 5 clases cada uno.
+
+Se probaron, en primer lugar, la extracción de características mediante
+transformada de Hough y mediante histogramas por separado.
+
+Para el método de Hough se probaron diferentes valores de $U$, el umbral
+aplicado a la imagen de bordes, y $N$, el número de máximos en el espacio de
+la transformada de Hough a tener en cuenta para armar el vector de $2N$
+características.
+
+Luego se consideró el rendimiento del método utilizando ambas técnicas en
+forma conjunta, para los parámetros de Hough $U$ y $N$ óptimos encontrados.
+Se realizó además una prueba para las 15 clases de imágenes en conjunto,
+con el objetivo de tener una estimación de cómo escala el método para
+mayor número de imágenes.
+
+\subsubsection*{Tasa de error}
+Se considera la tasa de error $\%$ del método según:
 \begin{equation}
-MSE=\ldots \label{mse}
+E_\%=100\cdot\frac{\T{número de errores}}{\T{número de pruebas}},
 \end{equation}
-\begin{equation}
-\% reconocimiento = \frac{\# aciertos}{15} \label{tasareconocimiento}
-\end{equation}
-%
-%
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%
-\subsection{Tablas}
-\begin{tabular}{cc}
-\hline columna1 & columna2 \\ 
-\hline  &  \\ 
-\hline 
-\end{tabular} 
+considerando como error cada prueba en que la imagen es mal etiquetada.
+
+Cabe observar que no se considera como error la vez que el método identifica
+una imagen como el monumento acertado, pero en otras
+condiciones de iluminación (cuando por ejemplo, la imagen de un monumento
+tomada de día es clasificada como la del mismo monumento, pero tomada de noche).
+Esta consideración se hace debido a que la detección de bordes elimina la
+información de \resalt{luminosidad}  de la imagen; y está claro que no influye
+en la clasificación por histograma; ya que éste varía significativamente
+entre las versiones de día y noche, en particular, la media y mediana tendrán
+valores bastante menores en la imagen nocturna que en aquella tomada de día.
+Esto es además consistente con el objetivo del método, que es la correcta
+identificación independientemente de las condiciones en que se toma la imagen.
+
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \subsection{Discusión}
-blablabla
+
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
