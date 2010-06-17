@@ -68,6 +68,8 @@ histograma, extracción de características, transformada de Hough, clasificaci�
 como celulares, PDAs, y otros, poseen mayormente cámaras digitales incorporadas
 y han pasado a ser de uso común debido a su facilidad de uso y portabilidad.
 
+%% @TODO ^^ está horrible este priemr párrafo... releer plis...
+
 Muchas personas toman fotografías de paisajes, monumentos o edificios históricos
 que por diferentes motivos les resulta de interés conservar.
 Surge así la idea de desarrollar una técnica de procesamiento de imágenes
@@ -103,8 +105,14 @@ etiqueta.
 La clasificación de las imágenes consiste en encontrar la etiqueta del
 prototipo cuyas características minimicen el error cuadrático medio.
 
-Sobre diez de las trece imágenes de cada edificio, se aplicó el método de la Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edificio. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
-
+%% Lo de las 10+3 imágenes es parte de la prueba; lo de los prototipos
+%% está arriba.....
+%% Sobre diez de las trece imágenes de cada edificio, se aplicó el método de la
+%% Transformada de Hough citado en este artículo, obteniéndose diez vectores
+%% representativos (uno por cada imagen) y se procedió a promediar dichos vectores
+%% dando como resultado un prototipo por cada edificio. De la misma manera se
+%% realizó el mismo proceso, con el método estadístico descripto también en
+%% este documento.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -167,14 +175,11 @@ El proceso completo puede verse en la Fig. \ref{procesohough}.
 \caption{Máscaras de filtrado (operadores gradiente) de Sobel.}
 \label{masksobel}
 \end{figure}
-
-
-%
-
-%
-%
-%% Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.\resalt{no me gusta arreglar}
-%% Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las cuales se forma el vector de características representativo de la imagen.
+%% Tras estos pasos, se transforma al espacio de Hough y aquí se aplica
+%% nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una
+%% tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.
+%% Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con
+%% las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.25]{../diagramas/procesohough} 
@@ -186,12 +191,12 @@ El proceso completo puede verse en la Fig. \ref{procesohough}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection*{Extracción de características por estadísticas del histograma}
-A partir de la imagen original, se normaliza su tamaño y se toman 2 ``perfiles de
-intensidad'': uno horizontal, calculado promediando cada columna de la imagen, y
-otro vertical obtenido al promediar cada fila. Se obtiene un histograma para la
-imagen entera y uno para cada perfil, y se guardan en el vector de
-características la media aritmética $m$, mediana $M$ (posición del percentil 50),
- y desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
+A partir de la imagen original, se normaliza su tamaño y se toman 2 ``perfiles
+de intensidad'': uno horizontal, calculado promediando cada columna de la
+imagen, y otro vertical obtenido al promediar cada fila. Se obtiene un
+histograma para la imagen entera y uno para cada perfil, y se guardan en el
+vector de características la media aritmética $m$, mediana $M$ (posición del
+percentil 50),  y desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
 \begin{equation*}
 D_{\T{abs}}=\sum_i |x_i - M|
 \end{equation*}
@@ -211,11 +216,6 @@ guardarán en la base de datos para comparación.
 \caption{Proceso de la imagen mediante el método de estadísticas del histograma}
 \label{procesoestadisticas}
 \end{figure}
-
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\subsection*{}
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.25]{../diagramas/dibujo} 
@@ -254,6 +254,9 @@ aplicado a la imagen de bordes, y $N$, el número de máximos en el espacio de
 la transformada de Hough a tener en cuenta para armar el vector de $2N$
 características.
 
+Para el método de histograma se consideró el histograma del canal de
+intensidad en el espacio de colores HSI.
+
 Luego se consideró el rendimiento del método utilizando ambas técnicas en
 forma conjunta, para los parámetros de Hough $U$ y $N$ óptimos encontrados.
 Se realizó además una prueba para las 15 clases de imágenes en conjunto,
@@ -278,13 +281,10 @@ entre las versiones de día y noche, en particular, la media y mediana tendrán
 valores bastante menores en la imagen nocturna que en aquella tomada de día.
 Esto es además consistente con el objetivo del método, que es la correcta
 identificación independientemente de las condiciones en que se toma la imagen.
-
-%
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%
-\subsection{Discusión}
+\subsection{Resultados}
 \begin{table}
 \caption{Tasas de error para métodos}
 \begin{center}
@@ -299,55 +299,125 @@ identificación independientemente de las condiciones en que se toma la imagen.
 \label{tablaerrores}
 \end{table}
 
-Los resultados de las pruebas para el método de Hough se muestran en la figura \ref{graficaerror}.
-Se ha tomado un rango de valores representativos de $U$ y $N$ basados en pruebas previas, donde 
-hemos identificado regiones de mínimo error para $U~\in(60,120)$ y $N~\in(20,60)$.
-En la misma figura se puede apreciar que la tasa de error mínima se obtuvo para un umbral $U = 100$ 
-y unos $N = 30$ máximos (en promedio).
+Los resultados de las pruebas para el método de Hough se muestran en la figura
+\ref{graficaerror}. Se ha tomado un rango de valores representativos de $U$
+y $N$ basados en pruebas previas, donde hemos identificado regiones de mínimo
+error para $U~\in(60,120)$ y $N~\in(20,60)$.
+En la misma figura se puede apreciar que la tasa de error mínima se obtuvo
+para un umbral $U = 100$ y unos $N = 30$ máximos (en promedio).
 %
 %Debemos comentar aquí que para el método de Hough se realizaron una serie de pruebas
 %que determinaron el rango representativo a analizar (umbral $U$ entre 60 y 120 y cantidad
 %de máximos $N$ entre 20 y 60). 
-En la tabla \ref{tablaerrores} se presentan los resultados para las pruebas con conjuntos de 5
-clases y la estimación del resultado con 15 clases. 
+En la tabla \ref{tablaerrores} se presentan los resultados para las pruebas
+iniciales con conjuntos de 5 clases, y la estimación del resultado con
+15 clases. 
 %Cabe aclarar que en el primer caso se tomó un promedio de los errores
 %sobre el conjunto.
 
 Se puede observar que para el método de histogramas la tasa de error fue cero en
-ambas pruebas. En tanto que para el método de Hough se obtiene menor tasa de error con el
-conjunto de 5 clases que con el de 15 de 35.5\% y 60.43\% respectivamente.
-En la última fila se muestran los resultados de considerar ambos criterios en conjunto. 
+ambas pruebas. En tanto que para el método de Hough se obtiene menor tasa de
+error con el conjunto de 5 clases que con el de 15 de 35.5\% y 60.43\%
+respectivamente.
+En la última fila se muestran los resultados de considerar ambos criterios
+en conjunto, asignándole un peso equivalente a cada uno. 
 
 \begin{figure}
 \begin{center}
 \includegraphics[width=8.5cm]{../diagramas/estadistica_noche_iguales} 
 \end{center}
-\caption{"Error promedio en función del Umbral y la Cantidad de máximos para el método de Hough"}
+\caption{Error de clasificación promedio en función de distintos $U$ y $N$ para
+el método de Hough.}
 \label{graficaerror}
 \end{figure}
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\subsection{Discusión}
+A pesar de la muy buena performance del método de histograma, debemos tener
+presente que los conjuntos de imágenes de entrenamiento/prueba para el método
+han sido obtenidas en todos los casos a partir de una secuencia tomada en el 
+lapso de unos minutos, lo cual implica que las condiciones de iluminación en
+cada conjunto son prácticamente iguales. 
+
+Los histogramas miden la distribución estadística de los diferentes niveles
+de intensidad presentes en la imagen, luego están estrechamente relacionados
+con las condiciones de iluminación de la escena. Por este motivo, tenemos
+que los histogramas entre las imágenes de entrenamiento/prueba son, a los
+efectos prácticos, idénticos, lo cual explica el buen funcionamiento de este
+método.
+
+Se ha probado la técnica de histogramas sobre el canal I del espacio de color
+HSI; por lo antes expuesto, debemos tener en cuenta consideraciones similares
+para el resto de los canales de la imagen.
+
+En general, se deberá poner énfasis en definir técnicas
+de ``normalización'' orientadas a mejorar los resultados en condiciones más
+realistas. Se deberá considerar la utilización de métodos de histograma
+mejorados, por ejemplo el \emph{histograma de combinación espacial de DCT
+ponderada} \cite{wdctsch}, \emph{vectores de coherencia de
+color} \cite{Pass96histogramrefinement}, o el procesamiento de
+histogramas borrosos presentado en \cite{Konstantinidis2005375}.
+
+Respecto de la extracción de características mediante la transformada de Hough,
+vemos que el rendimiento no es tan bueno como en la técnica de histogramas,
+sin embargo en varios casos ha sido capaz de identificar correctamente edificios
+a pesar de las diferentes condiciones de iluminación (día y noche), el cual
+ es un resultado alentador.
+
+No podemos evitar la mención al costo computacional del proceso, que aunque
+no es tan elevado como para considerar impráctico el método, sí será una
+limitante al considerar implementaciones en tiempo real o de alta velocidad
+de respuesta: en una computadora promedio el cálculo se realiza en 1-2 segundos,
+luego es esperable que este tiempo se triplique en un dispositivo móvil.
+
+Se deberá considerar la utilización de un detector de bordes como el propuesto
+por Canny \cite{canny}, así como tambien técnicas de preprocesamiento de la
+imagen, como puede ser el filtrado homomórfico, en pos de mejorar los
+resultados obtenidos en nuestras pruebas.
+
+En lo que respecta a la escalabilidad de la base de datos, los resultados no
+son particularmente alentadores, lo que nos obliga a considerar otra vez la
+utilización de métodos más refinados de histograma y transformada de Hough.
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \section{Conclusiones}
+Se ha presentado una técnica para la identificación de edificios, monumentos,
+esculturas con extracción de características mediante medidas de histograma
+y transformada de Hough.
 
+El rendimiento ha sido satisfactorio considerando las restricciones a las
+que se han sometido las pruebas.
+
+Se deberá optimizar la implementación para portarlo a dispositivos móviles
+con capacidad de procesamiento limitada.
+
+Se hace necesario el preprocesamiento de la imagen, así como la incorporación
+de métodos más refinados de extracción de características, para mejorar los
+resultados obtenidos y así poder escalar el método a una base de datos de
+mayor magnitud.
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \section{Trabajos futuros}
-A partir del diseño aquí presentado, seguiremos investigando esta técnica con las siguientes
-posibilidades:
+A partir del diseño aquí presentado, nos proponemos continuar
+investigando esta técnica considerando las siguientes posibilidades:
 \begin{itemize}
-\item Considerar la aplicación de un filtrado homomórfico en imágenes que lo requieran.
-\item Independizarse de la posición en que se tomó la fotografía con alguna técnica de warping.
-\item Desarrollar una implementación mas adecuada para dispositivos móviles de
-propósito general.\end{itemize}
-
+\item Aplicación de filtrado homomórfico y otros tipos de
+      pre-procesamiento en las imágenes.
+\item Aplicación de técnicas de \eng{warping} y otras transformaciones en busca
+      de lograr invarianza respecto de rotación y escalado de la imagen.
+\item Desarrollo de una implementación óptima para dispositivos móviles con
+      poder de procesamiento limitado.
+\item Desarrollo de técnicas de extracción de características más robustas que
+      las aquí presentadas.
+\end{itemize}
 \nocite{*}
 \bibliographystyle{tfmpd}
 \bibliography{tfmpd}
 \end{document}
-
