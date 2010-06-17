@@ -110,6 +110,11 @@ etiqueta.
 
 La clasificación de las imágenes consiste en encontrar la etiqueta del
 prototipo cuyas características minimicen el error cuadrático medio.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Vectores característicos y prototipos}
+Sobre diez de las trece imágenes de cada edificio, se aplicó el método de al Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edifico. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
+
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -180,7 +185,9 @@ pasos:
 %% Tras estos pasos, se transforma al espacio de Hough y aquí se aplica nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.\resalt{no me gusta arreglar}
 %% Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con las cuales se forma el vector de características representativo de la imagen.
 \begin{figure}
+\begin{center}
 \includegraphics[scale=0.25]{../diagramas/procesohough} 
+\end{center}
 \caption{"Proceso de la imagen mediante el método por T. de Hough"}
 \label{procesohough}
 \end{figure}
@@ -207,7 +214,9 @@ Así se obtiene un vector de 45 características a partir de histogramas que se
 guardarán en la base de datos para comparación.
 
 \begin{figure}
+\begin{center}
 \includegraphics[scale=0.25]{../diagramas/procesoestadisticas} 
+\end{center}
 \caption{"Proceso de la imagen mediante el método de estadísticas del histograma"}
 \label{procesohough}
 \end{figure}
@@ -229,9 +238,6 @@ Para las pruebas se procedió a evaluar el desempeño de ambos métodos, en prim
 %
 \subsection{Descripción de la Base de datos de imágenes}
 Se trabajó con imágenes que fueron adquiridas en la ciudad de Santa Fe, mediante un Dispositivo Móvil con una resolución de 640x480 pixels. Se construyo una base de datos de las mismas sobre un total de cinco edificios, tomando trece realizaciones de cada uno de ellos (diez con el propósito de usarlas como prototipo y tres para las prueba con los algoritmos). Cabe aclarar que cada conjunto de imágenes de los cinco edificios fueron tomadas en condiciones ambientales similares y con la cámara en la misma posición respecto del objetivo. \resalt{arreglar esto}.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Vectores característicos y prototipos}
-Sobre diez de las trece imágenes de cada edificio, se aplicó el método de al Transformada de Hough citado en este artículo, obteniéndose diez vectores representativos (uno por cada imagen) y se procedió a promediar dichos vectores dando como resultado un prototipo por cada edifico. De la misma manera se realizó el mismo proceso, con el método estadístico descripto también en este documento.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Descripción de las pruebas}
