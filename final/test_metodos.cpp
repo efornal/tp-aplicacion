@@ -9,12 +9,15 @@ using namespace cimg_library;
 int main(int argc, char **argv) {
   const double pon1 =
     atof( cimg_option("-pe",
-                      "2.0",
+                      "1.0",
                       "Ponderacion Met. estadisticas"));
   const double pon2 =
     atof( cimg_option("-ph",
-                      "0.0",
+                      "0.75",
                       "Ponderacion Met. Hough"));
+  string tipo_grafico = cimg_option( "-tg",
+                                          "lines",
+                                          "tipo se linea en el grafico" );
 
   vector<string> base_dir, prueba_dir;
 
@@ -30,7 +33,12 @@ int main(int argc, char **argv) {
   base_dir.push_back("./imagenes/todas_las_bases/");
   prueba_dir.push_back("./imagenes/todas_las_pruebas/");
 
+
   vector<double> error;
+  vector<double> eje_x;
+  double err = 0;
+  error.clear();
+  eje_x.clear();
 
   // ============== calculo para hough ================
 
@@ -64,12 +72,25 @@ int main(int argc, char **argv) {
 	  printf("%s: %s\n", nombres[k].c_str(), comp.etiqueta(clases[k]).c_str());
 
 	double err = comp.error_clasificacion(string(prueba_dir[i]).c_str());
-	printf("ERRORRR Clasificación: %f\n", err);
 
+        printf("#### Error Clasificación: %f ## \n", err);	
 	error.push_back(err);
+        eje_x.push_back( i );
+
   } //end for
 
-  Gnuplot g = Gnuplot("lines", "lines", "xlabel", "ylabel", error);
+  printf("\n ----------- Tabla de resultados ----------- \n");
+  for(int r=0; r< error.size(); r++ ){
+    printf("maximos: %f \t\t error: %f \n", eje_x[r], error[r] );
+  }
+
+  // estilos: lines - points - linespoints -
+  //          impulses - dots - steps - errorbars - boxes - boxerrorbars
+  Gnuplot g = Gnuplot( "error",
+                       tipo_grafico,
+                       "err",
+                       "conjunto de pruebas", eje_x, error );
+  
 
   return 0;
 }
