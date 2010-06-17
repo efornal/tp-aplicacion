@@ -65,7 +65,7 @@ histograma, extracción de características, transformada de Hough, clasificaci�
 %
 \section{Introducción}
 \PARstart{L}{a} presencia de gran cantidad de dispositivos tecnológicos móviles 
-como celulares, PDAs, y otros, poseen mayormente camaras digitales incorporadas
+como celulares, PDAs, y otros, poseen mayormente cámaras digitales incorporadas
 y han pasado a ser de uso común debido a su facilidad de uso y portabilidad.
 
 Muchas personas toman fotografías de paisajes, monumentos o edificios históricos
@@ -74,16 +74,7 @@ Surge así la idea de desarrollar una técnica de procesamiento de imágenes
 que posibilite la identificación de edificios, monumentos u otros puntos de
 de interés y poder así obtener información pertinente
 acerca de los mismos. Con este artículo se trata
-de hacer un aporte en vías a resolver dicha inquitud.
-
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.25]{../diagramas/dibujo} 
-\end{center}
-\caption{Proceso de la imagen mediante el método por T. de Hough}
-\label{imagenes}
-\end{figure}
-
+de hacer un aporte en vías a resolver dicha inquietud.
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -225,7 +216,13 @@ guardarán en la base de datos para comparación.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection*{}
-
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.25]{../diagramas/dibujo} 
+\end{center}
+\caption{Imágenes de pruebas utilizadas con los algoritmos}
+\label{imagenes}
+\end{figure}
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -305,7 +302,7 @@ identificación independientemente de las condiciones en que se toma la imagen.
 Los resultados de las pruebas para el método de Hough se muestran en la figura \ref{graficaerror}.
 Se ha tomado un rango de valores representativos de $U$ y $N$ basados en pruebas previas, donde 
 hemos identificado regiones de mínimo error para $U~\in(60,120)$ y $N~\in(20,60)$.
-En la misma figura se puede apreciar que la tasa de error el mínima se obtuvo para un umbral $U = 100$ 
+En la misma figura se puede apreciar que la tasa de error mínima se obtuvo para un umbral $U = 100$ 
 y unos $N = 30$ máximos (en promedio).
 %
 %Debemos comentar aquí que para el método de Hough se realizaron una serie de pruebas
@@ -325,7 +322,7 @@ En la última fila se muestran los resultados de considerar ambos criterios en c
 \begin{center}
 \includegraphics[width=8.5cm]{../diagramas/estadistica_noche_iguales} 
 \end{center}
-\caption{"Error promedio en funcion del Umbral y la Cantidad de máximos para el método de Hough"}
+\caption{"Error promedio en función del Umbral y la Cantidad de máximos para el método de Hough"}
 \label{graficaerror}
 \end{figure}
 %
@@ -347,7 +344,7 @@ posibilidades:
 \item Considerar la aplicación de un filtrado homomórfico en imágenes que lo requieran.
 \item Independizarse de la posición en que se tomó la fotografía con alguna técnica de warping.
 \item Desarrollar una implementación mas adecuada para dispositivos móviles de
-proposito general.\end{itemize}
+propósito general.\end{itemize}
 
 \nocite{*}
 \bibliographystyle{tfmpd}
