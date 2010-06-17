@@ -288,7 +288,6 @@ identificación independientemente de las condiciones en que se toma la imagen.
 %
 %
 \subsection{Discusión}
-
 \begin{table}
 \caption{Tasas de error para métodos}
 \begin{center}
@@ -300,14 +299,42 @@ identificación independientemente de las condiciones en que se toma la imagen.
 \hline 
 \end{tabular} 
 \end{center}
+\label{tablaerrores}
 \end{table}
+
+Los resultados de las pruebas para el método de Hough se muestran en la figura \ref{graficaerror}.
+Se ha tomado un rango de valores representativos de $U$ y $N$ basados en pruebas previas, donde 
+hemos identificado regiones de mínimo error para $U~\in(60,120)$ y $N~\in(20,60)$.
+En la misma figura se puede apreciar que la tasa de error el mínima se obtuvo para un umbral $U = 100$ 
+y unos $N = 30$ máximos (en promedio).
+%
+%Debemos comentar aquí que para el método de Hough se realizaron una serie de pruebas
+%que determinaron el rango representativo a analizar (umbral $U$ entre 60 y 120 y cantidad
+%de máximos $N$ entre 20 y 60). 
+En la tabla \ref{tablaerrores} se presentan los resultados para las pruebas con conjuntos de 5
+clases y la estimación del resultado con 15 clases. 
+%Cabe aclarar que en el primer caso se tomó un promedio de los errores
+%sobre el conjunto.
+
+Se puede observar que para el método de histogramas la tasa de error fue cero en
+ambas pruebas. En tanto que para el método de Hough se obtiene menor tasa de error con el
+conjunto de 5 clases que con el de 15 de 35.5\% y 60.43\% respectivamente.
+En la última fila se muestran los resultados de considerar ambos criterios en conjunto. 
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=8.5cm]{../diagramas/estadistica_noche_iguales} 
+\end{center}
+\caption{"Error promedio en funcion del Umbral y la Cantidad de máximos para el método de Hough"}
+\label{graficaerror}
+\end{figure}
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \section{Conclusiones}
-blablabla
+
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
