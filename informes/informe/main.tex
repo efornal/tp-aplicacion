@@ -64,19 +64,32 @@ histograma, extracción de características, transformada de Hough, clasificaci�
 %
 %
 \section{Introducción}
-\PARstart{L}{a} presencia de gran cantidad de dispositivos tecnológicos móviles 
-como celulares, PDAs, y otros, poseen mayormente cámaras digitales incorporadas
-y han pasado a ser de uso común debido a su facilidad de uso y portabilidad.
+%% \PARstart{L}{a} presencia de gran cantidad de dispositivos tecnológicos móviles 
+%% como celulares, PDAs, y otros, poseen mayormente cámaras digitales incorporadas
+%% y han pasado a ser de uso común debido a su facilidad de uso y portabilidad.
 
-%% @TODO ^^ está horrible este priemr párrafo... releer plis...
+\PARstart{E}{n} la actualidad, la gran difusión de los dispositivos móviles nos
+permite llevar la información importante siempre con nosotros.
+Es muy común utilizar nuestros celulares, PDAs, además para \emph{obtener}
+información desde donde estamos, gracias a la proliferación de redes de datos
+inalámbricas.
 
-Muchas personas toman fotografías de paisajes, monumentos o edificios históricos
-que por diferentes motivos les resulta de interés conservar.
-Surge así la idea de desarrollar una técnica de procesamiento de imágenes,
-que posibilite la identificación de edificios, monumentos u otros puntos de
-de interés, para poder obtener información pertinente
-acerca de los mismos. Con este artículo se trata
-de hacer un aporte en vías a resolver dicha inquietud.
+Dado que una gran parte de estos dispositivos además poseen una cámara
+digital, surge la idea de utilizarla junto con las conexiones de datos para
+obtener información acerca del lugar donde nos encontramos.
+
+Se presenta aquí una técnica de Procesamiento Digital de Imágenes orientada
+en este sentido, que permite la
+identificación de edificios, monumentos y otros puntos de interés, a partir
+de una fotografía capturada con un dispositivo móvil.
+
+%% Muchas personas toman fotografías de paisajes, monumentos o edificios históricos
+%% que por diferentes motivos les resulta de interés conservar.
+%% Surge así la idea de desarrollar una técnica de procesamiento de imágenes,
+%% que posibilite la identificación de edificios, monumentos u otros puntos de
+%% de interés, para poder obtener información pertinente
+%% acerca de los mismos. Con este artículo se trata
+%% de hacer un aporte en vías a resolver dicha inquietud.
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -103,7 +116,8 @@ características de las $X$ imágenes etiquetadas con la misma, y se guarda un
 etiqueta.
 
 La clasificación de las imágenes consiste en encontrar la etiqueta del
-prototipo cuyas características minimicen el error cuadrático medio.
+prototipo cuyas características minimicen el error cuadrático medio con las de
+la imagen a identificar.
 
 %% Lo de las 10+3 imágenes es parte de la prueba; lo de los prototipos
 %% está arriba.....
@@ -148,9 +162,10 @@ pasos:
       \end{equation}
 \item Con la imagen de bordes umbralizada se calcula la transformada de
       Hough para rectas.
-\item Se aplica escalado a la transformada obtenida, llevándola a un tamaño
+\item Se aplica escalado (submuestreo) a la transformada obtenida, llevándola
+      a un tamaño
       pequeño buscando obtener mayor tolerancia tanto en el parámetro angular
-      $\theta$ como de distancia $\rho$
+      $\theta$ como de distancia $\rho$.
 \item Se toman $N$ máximos de esta transformada y se guardan en el vector de
       características las coordenadas $(\rho,\theta)$, mapeadas al rango
       $[-1,1]$ obteniendo así un vector de $2N$ valores.
@@ -206,7 +221,8 @@ imagen entera.
 Luego se subdivide la imagen en cuatro cuadrantes, y se obtienen para cada uno
 las mismas medidas que se calcularon para la imagen entera.
 
-Como resultado, se obtiene un vector de 45 características a partir de histogramas que se
+Como resultado, se obtiene un vector de 45 características a partir de
+histogramas que se
 guardarán en la base de datos para comparación.
 
 \begin{figure}
@@ -215,13 +231,6 @@ guardarán en la base de datos para comparación.
 \end{center}
 \caption{Proceso de la imagen mediante el método de estadísticas del histograma}
 \label{procesoestadisticas}
-\end{figure}
-\begin{figure}
-\begin{center}
-\includegraphics[scale=0.25]{../diagramas/dibujo} 
-\end{center}
-\caption{Imágenes de pruebas utilizadas con los algoritmos}
-\label{imagenes}
 \end{figure}
 %
 %
@@ -242,9 +251,17 @@ resolución VGA estándar de 640 píxeles de ancho por 480 de alto, en
 diferentes condiciones
 de iluminación: día a pleno sol, día nublado, noche, e interior, a monumentos/%
 estatuas y edificios en diferentes lugares de la ciudad de Santa Fe, Argentina.
-Se muestran en la figura \ref{imagenes} algunos ejemplos.
+Se muestran en la figura \ref{imagenes} dos ejemplos de las mismas.
 Los conjuntos se formaron sorteando las 15 clases de imágenes disponibles en
 3 de 5 clases cada uno.
+
+\begin{figure}
+\begin{center}
+\includegraphics[scale=0.25]{../diagramas/dibujo} 
+\end{center}
+\caption{Ejemplo de dos imágenes utilizadas para probar el método.}
+\label{imagenes}
+\end{figure}
 
 Se probaron, en primer lugar, la extracción de características mediante
 transformada de Hough y mediante histogramas por separado.
@@ -259,6 +276,7 @@ intensidad en el espacio de colores HSI.
 
 Luego se consideró el rendimiento del método utilizando ambas técnicas en
 forma conjunta, para los parámetros de Hough $U$ y $N$ óptimos encontrados.
+
 Se realizó además una prueba para las 15 clases de imágenes en conjunto,
 con el objetivo de tener una estimación de cómo escala el método para
 mayor número de imágenes.
@@ -275,7 +293,7 @@ una imagen como el monumento acertado, pero en otras
 condiciones de iluminación (cuando por ejemplo, la imagen de un monumento
 tomada de día es clasificada como la del mismo monumento, pero tomada de noche).
 Esta consideración se hace debido a que la detección de bordes elimina la
-información de \resalt{luminosidad}  de la imagen; y está claro que no influye
+información de iluminación de la imagen; y está claro que no influye
 en la clasificación por histograma; ya que éste varía significativamente
 entre las versiones de día y noche, en particular, la media y mediana tendrán
 valores bastante menores en la imagen nocturna que en aquella tomada de día.
@@ -285,19 +303,6 @@ identificación independientemente de las condiciones en que se toma la imagen.
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection{Resultados}
-\begin{table}
-\caption{Tasas de error para métodos}
-\begin{center}
-\begin{tabular}{ccc}
-\hline \emph{Método} & \emph{5 clases} & \emph{15 clases}\\ 
-\hline Histogramas & 0\% & 0\%\\ 
-\hline Hough & 35.5\% & 60.43\%\\ 
-\hline Ambos & 2.22\% & 4.17\%\\ 
-\hline 
-\end{tabular} 
-\end{center}
-\label{tablaerrores}
-\end{table}
 
 Los resultados de las pruebas para el método de Hough se muestran en la figura
 \ref{graficaerror}. Se ha tomado un rango de valores representativos de $U$
@@ -305,22 +310,6 @@ y $N$ basados en pruebas previas, donde hemos identificado regiones de mínimo
 error para $U~\in(60,120)$ y $N~\in(20,60)$.
 En la misma figura, se puede apreciar que la tasa de error mínima se obtuvo
 para un umbral $U = 100$ y unos $N = 30$ máximos (en promedio).
-%
-%Debemos comentar aquí que para el método de Hough se realizaron una serie de pruebas
-%que determinaron el rango representativo a analizar (umbral $U$ entre 60 y 120 y cantidad
-%de máximos $N$ entre 20 y 60). 
-En la tabla \ref{tablaerrores} se presentan los resultados para las pruebas
-iniciales con conjuntos de 5 clases, y la estimación del resultado con
-15 clases. 
-%Cabe aclarar que en el primer caso se tomó un promedio de los errores
-%sobre el conjunto.
-
-Se puede observar que para el método de histogramas, la tasa de error fue cero en
-ambas pruebas. En tanto que para el método de Hough, se obtiene menor tasa de
-error con el conjunto de 5 clases que con el de 15 de 35.5\% y 60.43\%
-respectivamente.
-En la última fila, se muestran los resultados de considerar ambos criterios
-en conjunto, asignándole un peso equivalente a cada uno. 
 
 \begin{figure}
 \begin{center}
@@ -330,6 +319,39 @@ en conjunto, asignándole un peso equivalente a cada uno.
 el método de Hough.}
 \label{graficaerror}
 \end{figure}
+
+%
+%Debemos comentar aquí que para el método de Hough se realizaron una serie de pruebas
+%que determinaron el rango representativo a analizar (umbral $U$ entre 60 y 120 y cantidad
+%de máximos $N$ entre 20 y 60). 
+
+En la tabla \ref{tablaerrores} se presentan los resultados para las pruebas
+iniciales con conjuntos de 5 clases, y la estimación del resultado con
+15 clases. 
+
+%Cabe aclarar que en el primer caso se tomó un promedio de los errores
+%sobre el conjunto.
+
+\begin{table}
+\caption{Tasas de error para métodos}
+\begin{center}\begin{tabular}{ccc}
+\hline \emph{Método} & \emph{5 clases} & \emph{15 clases}\\ 
+\hline Histogramas & 0\% & 0\%\\ 
+\hline Hough & 35.5\% & 60.43\%\\ 
+\hline Ambos & 2.22\% & 4.17\%\\ 
+\hline 
+\end{tabular}\end{center}
+\label{tablaerrores}
+\end{table}
+
+Se puede observar que para el método de histogramas, la tasa de error fue cero
+en ambas pruebas. En tanto que para el método de Hough, se obtiene menor tasa de
+error con el conjunto de 5 clases que con el de 15 de 35.5\% y 60.43\%
+respectivamente.
+
+En la última fila, se muestran los resultados de considerar ambos criterios
+en conjunto, asignándole un peso equivalente a cada uno. 
+
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -362,8 +384,8 @@ histogramas borrosos presentado en \cite{Konstantinidis2005375}.
 Respecto de la extracción de características mediante la transformada de Hough,
 vemos que el rendimiento no es tan bueno como en la técnica de histogramas,
 sin embargo en varios casos ha sido capaz de identificar correctamente edificios
-a pesar de las diferentes condiciones de iluminación (día y noche), el cual
- es un resultado alentador.
+a pesar de las diferentes condiciones de iluminación (día y noche), lo cual
+es un resultado alentador.
 
 No podemos evitar la mención al costo computacional del proceso, que aunque
 no es tan elevado como para considerar impráctico el método, sí será una
@@ -371,9 +393,9 @@ limitante al considerar implementaciones en tiempo real o de alta velocidad
 de respuesta: en una computadora promedio el cálculo se realiza en 1-2 segundos,
 luego es esperable que este tiempo se triplique en un dispositivo móvil.
 
-Se deberá considerar la utilización de un detector de bordes como el propuesto
-por Canny \cite{canny} \resalt{que tiene de bueno el de canny?}, así como
-también técnicas de preprocesamiento de la
+Se deberá considerar la utilización de un detector de bordes mejor, como el
+propuesto por Canny \cite{canny}%\resalt{que tiene de bueno el de canny?}
+, así como también técnicas de pre-procesamiento de la
 imagen, como puede ser el filtrado homomórfico, en pos de mejorar los
 resultados obtenidos en nuestras pruebas.
 
@@ -386,7 +408,7 @@ utilización de métodos más refinados de histograma y transformada de Hough.
 %
 %
 \section{Conclusiones}
-Se ha presentado una técnica para la identificación de edificios, monumentos,
+Hemos presentado una técnica para la identificación de edificios, monumentos,
 esculturas con extracción de características mediante medidas de histograma
 y transformada de Hough.
 
