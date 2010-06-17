@@ -19,15 +19,15 @@ int main(int argc, char **argv) {
                                           "lines",
                                           "tipo se linea en el grafico" );
 
-  int cant_maximos = cimg_option ( "-maximos", 28, "cantidad de maximos");
+  int cant_maximos = cimg_option ( "-maximos", 30, "cantidad de maximos");
   int delta        = cimg_option ( "-delta", 1, "paso o incremento de umbral");
   int minimo    = cimg_option ( "-min", 10, "minimo valor de umbral (inicio)");
   int maximo    = cimg_option ( "-max", 100, "maximo valor de umbral");
 
   vector<string> base_dir, prueba_dir;
 
-  base_dir.push_back("./imagenes/base1/");
-  prueba_dir.push_back("./imagenes/prueba1/");
+  base_dir.push_back("./imagenes/todas_las_bases/");
+  prueba_dir.push_back("./imagenes/todas_las_pruebas/");
 
   vector<double> error;
   vector<double> eje_x;
