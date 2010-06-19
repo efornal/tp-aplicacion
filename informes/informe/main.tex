@@ -42,12 +42,16 @@ Imágenes'', II-FICH-UNL.}}
 %% utilización de ambos conjuntamente.
 Se presenta un método para la identificación de edificios y monumentos, a
 partir de fotografías tomadas con la cámara de un dispositivo móvil.
-Para la identificación se extrae un vector de características de la imagen,
-que es almacenado en una base de datos para su consulta.
-Se presentan dos métodos para la extracción de características en la imagen, uno
-basado en la transformada de Hough y otro que utiliza estadísticas de los
-histogramas. Se evalúa el desempeño utilizando ambos métodos por separado y en
-conjunto, para una base de datos de prueba de unas pocas imágenes.
+%Para la identificación 
+Se extrae un vector de características \resalt{globales y locales?} de %la 
+cada imagen.
+%que es almacenado en una base de datos para su consulta.
+Se presentan dos métodos para la extracción de características, %en la imagen
+uno basado en la transformada de Hough y otro que utiliza estadísticas de los
+histogramas. Se evalúa el desempeño utilizando \resalt{error cuadrático medio? para ambos...}
+ambos métodos por separado y en
+conjunto, para una base de datos de prueba de% unas pocas 
+imágenes.
 \end{abstract}
 %
 %
@@ -55,8 +59,10 @@ conjunto, para una base de datos de prueba de unas pocas imágenes.
 %
 %
 \begin{keywords}
-Identificación/reconocimiento de edificios, \eng{building recognition},
-histograma, extracción de características, transformada de Hough, clasificación.
+Identificación%/reconocimiento 
+de edificios, \eng{building recognition},
+histograma, %extracción de características, 
+transformada de Hough, clasificación.
 \end{keywords}
 %
 %
@@ -64,60 +70,82 @@ histograma, extracción de características, transformada de Hough, clasificaci�
 %
 %
 \section{Introducción}
-%% \PARstart{L}{a} presencia de gran cantidad de dispositivos tecnológicos móviles 
-%% como celulares, PDAs, y otros, poseen mayormente cámaras digitales incorporadas
-%% y han pasado a ser de uso común debido a su facilidad de uso y portabilidad.
-
+%README: esto es lo que estaba antes.. lo deje por las dudas porque al final me qued con la duda 
+%si habia que corregirlo o no..
+%por las dudas corrijo abajo y dejo  la version original...
+%
+%\PARstart{E}{n} la actualidad, la gran difusión de los dispositivos móviles nos
+%permite llevar la información importante siempre con nosotros.
+%Es muy común utilizar nuestros celulares, PDAs, además para \emph{obtener}
+%información desde donde estamos, gracias a la proliferación de redes de datos
+%inalámbricas.
+%
+%Dado que una gran parte de estos dispositivos además poseen una cámara
+%digital, surge la idea de utilizarla junto con las conexiones de datos para
+%obtener información acerca del lugar donde nos encontramos.
+%
+%Se presenta aquí una técnica de Procesamiento Digital de Imágenes orientada
+%en este sentido, que permite la
+%identificación de edificios, monumentos y otros puntos de interés, a partir
+%de una fotografía capturada con un dispositivo móvil.
 \PARstart{E}{n} la actualidad, la gran difusión de los dispositivos móviles nos
-permite llevar la información importante siempre con nosotros.
-Es muy común utilizar nuestros celulares, PDAs, además para \emph{obtener}
-información desde donde estamos, gracias a la proliferación de redes de datos
-inalámbricas.
-
-Dado que una gran parte de estos dispositivos además poseen una cámara
+permite llevar la información importante siempre con nosotros.Además es muy 
+común utilizar nuestros celulares, PDAs, GPS para \emph{obtener}
+información desde cualquier lugar donde estemos, gracias a la proliferación de redes de datos
+inalámbricas. Dado que una gran parte de estos dispositivos %además 
+posee%n
+una cámara
 digital, surge la idea de utilizarla junto con las conexiones de datos para
-obtener información acerca del lugar donde nos encontramos.
-
-Se presenta aquí una técnica de Procesamiento Digital de Imágenes orientada
+obtener información acerca del lugar donde nos encontramos. Se presenta aquí %una 
+un método que combina
+técnicas de Procesamiento Digital de Imágenes orientadas
 en este sentido, que permite la
 identificación de edificios, monumentos y otros puntos de interés, a partir
 de una fotografía capturada con un dispositivo móvil.
-
-%% Muchas personas toman fotografías de paisajes, monumentos o edificios históricos
-%% que por diferentes motivos les resulta de interés conservar.
-%% Surge así la idea de desarrollar una técnica de procesamiento de imágenes,
-%% que posibilite la identificación de edificios, monumentos u otros puntos de
-%% de interés, para poder obtener información pertinente
-%% acerca de los mismos. Con este artículo se trata
-%% de hacer un aporte en vías a resolver dicha inquietud.
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \section{Método propuesto}
-El método que proponemos se basa en la extracción de características de la
-imagen y la comparación de éstas con las de una base de datos.
-Esta base de datos se genera tomando $X$ imágenes representativas del monumento,
-extrayendo sus características y promediándolas para obtener un prototipo
-``generalizado'' del monumento/edificio a detectar.
+En el método propuesto se ha puesto énfasis en la etapa de 
+% que proponemos se basa en la 
+extracción de características de la imagen, considerando
+un método trivial de clasificación. % y la comparación de éstas con las de una base de datos.
+%Esta 
+La base de datos se generó tomando \resalt{$X$ ??} imágenes representativas 
+de %l
+cada monumento. %,
+Se extrajeron sus características y se promediaron %promediándolas 
+para obtener un prototipo ``generalizado'' de cada monumento/edificio 
+% a detectar.
+en particular.
+
+\subsection*{Extracción de características}
+\resalt{no se si es subsection* o subsection.. ver en la correción dice poner
+subtitulo..}
 
 La extracción de características se realiza en este trabajo mediante dos
 técnicas diferentes:
 \begin{enumerate}
-\item extracción de características por transformada de Hough, y
-\item extracción de características por estadísticas del histograma.
+\item %extracción de características 
+por transformada de Hough, y
+\item %extracción de características 
+por estadísticas del histograma.
 \end{enumerate}
 
-El entrenamiento de la base de datos se realiza obteniendo las características
-para cada imagen, junto con su etiqueta. Para cada etiqueta, se extraen las
-características de las $X$ imágenes etiquetadas con la misma, y se guarda un
-``prototipo'' obtenido de promediar estas características, junto con la
-etiqueta.
-
-La clasificación de las imágenes consiste en encontrar la etiqueta del
-prototipo cuyas características minimicen el error cuadrático medio con las de
-la imagen a identificar.
+%El entrenamiento de la base de datos se realiza obteniendo las características
+%para cada imagen, junto a su etiqueta. %Para cada etiqueta, 
+%Se extraen las características de todas las %las $X$ 
+%imágenes %etiquetadas 
+%con la misma etiqueta, y se guarda un
+%``prototipo'' para esa clase, obtenido de promediar estas características.
+%%, junto con la etiqueta.
+%
+%La clasificación de las imágenes consiste en % encontrar 
+%obtener la etiqueta del prototipo, cuyas características 
+%minimicen el error cuadrático medio con las de
+%la imagen a identificar.
 
 %% Lo de las 10+3 imágenes es parte de la prueba; lo de los prototipos
 %% está arriba.....
@@ -134,14 +162,16 @@ la imagen a identificar.
 La transformada de Hough nos permite visualizar, a partir de una imagen de
 bordes, los parámetros de aquellas rectas\footnote{El procedimiento es general,
 sirve para cualquier geometría que se pueda expresar en términos de sus
-parámetros. En este trabajo, utilizamos el espacio de los parámetros de las
+parámetros. En este trabajo, se utiliza %os 
+el espacio de los parámetros de las
 rectas, el más sencillo.}
 que son principales en la imagen.
 
 Para la extracción de características con esta técnica se siguen los siguientes
 pasos:
 \begin{enumerate}
-\item A partir de la imagen original, se obtiene una versión en escala de grises
+\item A partir de la imagen original, se obtiene %una 
+su versión en escala de grises
       promediando los tres canales RGB, y se la escala a un tamaño normalizado.
 \item Se obtiene una imagen de sólo bordes, aproximando la magnitud del
       gradiente según
@@ -151,7 +181,8 @@ pasos:
       \end{equation}
       donde $G_x$, $G_y$ son el resultado de aplicar los operadores gradiente
       de Sobel (fig. \ref{masksobel}) a la imagen. 
-      Finalmente se umbraliza esta imagen de bordes en $U$:
+      Finalmente se umbraliza esta imagen de bordes %en 
+      utilizando un parámetro $U$:
       \begin{equation}
       \label{umbral}
       f(x)=
@@ -159,16 +190,20 @@ pasos:
       0, & x\leq U\\
       255, & x > U
       \end{cases}
+            \resalt{f(x,y) ? en realidad es f(intensidad) seria f(x,y) no?}
       \end{equation}
+
 \item Con la imagen de bordes umbralizada se calcula la transformada de
       Hough para rectas.
-\item Se aplica escalado (submuestreo) a la transformada obtenida, llevándola
+\item Se aplica un escalado (submuestreo) a la transformada obtenida, llevándola
       a un tamaño
-      pequeño buscando obtener mayor tolerancia tanto en el parámetro angular
-      $\theta$ como de distancia $\rho$.
-\item Se toman $N$ máximos de esta transformada y se guardan en el vector de
-      características las coordenadas $(\rho,\theta)$, mapeadas al rango
-      $[-1,1]$ obteniendo así un vector de $2N$ valores.
+      pequeño %buscando 
+      para obtener mayor tolerancia tanto en el parámetro angular
+      $\theta$ como en el de distancia $\rho$.
+\item Se toman los $N$ máximos de esta transformada y se guardan en el vector de
+      características %las 
+      sus coordenadas $(\rho,\theta)$, mapeadas al rango
+      $[-1,1]$, obteniendo así un vector de $2N$ valores.
 \end{enumerate}
 El proceso completo puede verse en la Fig. \ref{procesohough}.
 %% Como se puede observar en la Fig. \ref{procesohough}, en el primer paso se
@@ -199,7 +234,9 @@ El proceso completo puede verse en la Fig. \ref{procesohough}.
 \begin{center}
 \includegraphics[scale=0.25]{../diagramas/procesohough} 
 \end{center}
-\caption{Proceso de la imagen mediante el método por T. de Hough}
+\caption{Proceso de extracción de características %la imagen mediante el método 
+por %T. 
+Transformada de Hough}
 \label{procesohough}
 \end{figure}
 %
@@ -207,31 +244,63 @@ El proceso completo puede verse en la Fig. \ref{procesohough}.
 %
 \subsection*{Extracción de características por estadísticas del histograma}
 A partir de la imagen original, se normaliza su tamaño y se toman 2 ``perfiles
-de intensidad'': uno horizontal, calculado promediando cada columna de la
-imagen, y otro vertical obtenido al promediar cada fila. Se obtiene un
-histograma para la imagen entera y uno para cada perfil, y se guardan en el
-vector de características la media aritmética $m$, mediana $M$ (posición del
-percentil 50),  y desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
+de intensidad'' \resalt{promedio o acumulado?}: uno horizontal, calculado 
+promediando\resalt{promediando?} cada columna de la
+imagen, y otro vertical obtenido al promediar cada fila. También Se obtiene un
+histograma de la imagen entera. De estos 3 vectores, se calculan
+%y uno para cada perfil, 
+y se guardan en el
+vector de características la media aritmética $m$, la mediana $M$ (posición del
+percentil 50),  y la desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
 \begin{equation*}
 D_{\T{abs}}=\sum_i |x_i - M|
 \end{equation*}
-Así, se ha obtenido un vector de 9 valores que caracterizan histogramas de la
-imagen entera.
+Así, se ha obtenido un vector de 9 valores que caracterizan% histogramas de la
+a la imagen entera.
 
-Luego se subdivide la imagen en cuatro cuadrantes, y se obtienen para cada uno
-las mismas medidas que se calcularon para la imagen entera.
-
-Como resultado, se obtiene un vector de 45 características a partir de
-histogramas que se
-guardarán en la base de datos para comparación.
+Con la idea de incorporar características locales, %Luego 
+se subdivide \resalt{o subdividió -no se entiende la corrección} la imagen en cuatro 
+cuadrantes y se obtienen, para cada uno, las mismas medidas que se calcularon para 
+la imagen entera. Como resultado, se obtiene un vector de 45 características %a partir de
+%histogramas que se
+%guardarán en la base de datos para comparación.
+asociado a cada imagen.
 
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.25]{../diagramas/procesoestadisticas} 
 \end{center}
-\caption{Proceso de la imagen mediante el método de estadísticas del histograma}
+\caption{Proceso de extracción de características utilizando estadísticas del histograma}
 \label{procesoestadisticas}
 \end{figure}
+
+\subsection{Clasificación}
+\resalt{revisar si es subsecion* o subsection}
+El entrenamiento de la base de datos se realiza obteniendo las características
+para cada imagen, junto a su etiqueta. %Para cada etiqueta, 
+Se extraen las características de todas las %las $X$ 
+imágenes %etiquetadas 
+con la misma etiqueta, y se guarda un
+``prototipo'' para esa clase, obtenido de promediar estas características.
+%, junto con la etiqueta.
+
+La clasificación de las imágenes consiste en % encontrar 
+obtener la etiqueta del prototipo, cuyas características 
+minimicen el error cuadrático medio con las de
+la imagen a identificar.
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\section{Base de datos}
+\resalt{ver titulo de la sección..}
+Las imágenes de prueba fueron tomadas con teléfonos celulares corrientes, a una
+resolución VGA estándar de 640 píxeles de ancho por 480 de alto, en
+diferentes condiciones
+de iluminación: día a pleno sol, día nublado, noche, e interior, a monumentos/%
+estatuas y edificios en diferentes lugares de la ciudad de Santa Fe (Argentina).
+Se muestran en la figura \ref{imágenes} dos ejemplos de las mismas.
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -241,19 +310,16 @@ guardarán en la base de datos para comparación.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Descripción de las pruebas}
-Para la prueba del método se utilizó validación cruzada, entrenando la base de
-datos con 10 imágenes por clase y 3 de prueba por cada clase. Se utilizaron
+%\subsection{Descripción de las pruebas}
+\subsection{Experimentación}
+Para analizar %la prueba d
+el método se utilizó validación cruzada, entrenando la base de
+datos con 10 imágenes por clase y dejando 3 de prueba por cada clase.
+\resalt{Se utilizaron
 3 conjuntos de imágenes diferentes, con 5 clases cada uno.
-
-Las imágenes de prueba fueron tomadas con teléfonos celulares corrientes, a una
-resolución VGA estándar de 640 píxeles de ancho por 480 de alto, en
-diferentes condiciones
-de iluminación: día a pleno sol, día nublado, noche, e interior, a monumentos/%
-estatuas y edificios en diferentes lugares de la ciudad de Santa Fe, Argentina.
-Se muestran en la figura \ref{imagenes} dos ejemplos de las mismas.
 Los conjuntos se formaron sorteando las 15 clases de imágenes disponibles en
-3 de 5 clases cada uno.
+3 de 5 clases cada uno. - Marcelo: no queda claro! Explicar simple:¨utilizaron N clases diferentes y se formaron 3 grupos
+tomando 5 clases por cada uno aleatoria¨}
 
 \begin{figure}
 \begin{center}
@@ -263,32 +329,34 @@ Los conjuntos se formaron sorteando las 15 clases de imágenes disponibles en
 \label{imagenes}
 \end{figure}
 
-Se probaron, en primer lugar, la extracción de características mediante
-transformada de Hough y mediante histogramas por separado.
-
-Para el método de Hough se probaron diferentes valores de $U$, el umbral
-aplicado a la imagen de bordes, y $N$, el número de máximos en el espacio de
-la transformada de Hough a tener en cuenta para armar el vector de $2N$
-características.
-
-Para el método de histograma se consideró el histograma del canal de
+Se 
+% probaron, en primer lugar, la 
+clasificó utilizando extracción de características mediante
+transformada de Hough y mediante histogramas por separado. Para el método de Hough
+se probaron diferentes valores de $U$ (el umbral
+aplicado a la imagen de bordes) y $N$ (el número de máximos en el espacio de
+la transformada de Hough considerado). Mientras que, 
+%a tener en cuenta para armar el vector de $2N$ características.
+para el método de histograma se consideró el histograma y los perfiles del canal de
 intensidad en el espacio de colores HSI.
 
-Luego se consideró el rendimiento del método utilizando ambas técnicas en
-forma conjunta, para los parámetros de Hough $U$ y $N$ óptimos encontrados.
+Luego se evaluó el rendimiento del método utilizando todas las características %ambas técnicas 
+en forma conjunta, para los parámetros de Hough $U$ y $N$ óptimos encontrados.
 
-Se realizó además una prueba para las 15 clases de imágenes en conjunto,
-con el objetivo de tener una estimación de cómo escala el método para
-mayor número de imágenes.
+Se realizó además una prueba para las 15 clases de imágenes %en
+del conjunto,
+con el objetivo de tener una estimación de cómo responde %escala 
+el método para un mayor número de imágenes.
 
-\subsubsection*{Tasa de error}
-Se considera la tasa de error $\%$ del método según:
+Se considera la tasa de error ($\%$) del método según:
 \begin{equation}
 E_\%=100\cdot\frac{\T{número de errores}}{\T{número de pruebas}},
 \end{equation}
-considerando como error cada prueba en que la imagen es mal etiquetada.
+considerando como error a cada prueba en que la imagen es mal etiquetada.
 
-Cabe observar que no se considera como error la vez que el método identifica
+Cabe destacar que no se considera %como 
+¨error¨ %la vez que 
+cuando el método identifica
 una imagen como el monumento acertado, pero en otras
 condiciones de iluminación (cuando por ejemplo, la imagen de un monumento
 tomada de día es clasificada como la del mismo monumento, pero tomada de noche).
@@ -304,7 +372,7 @@ identificación independientemente de las condiciones en que se toma la imagen.
 %
 \subsection{Resultados}
 
-Los resultados de las pruebas para el método de Hough se muestran en la figura
+Los resultados de las pruebas con el método de Hough se muestran en la figura
 \ref{graficaerror}. Se ha tomado un rango de valores representativos de $U$
 y $N$ basados en pruebas previas, donde hemos identificado regiones de mínimo
 error para $U~\in(60,120)$ y $N~\in(20,60)$.
@@ -326,14 +394,16 @@ el método de Hough.}
 %de máximos $N$ entre 20 y 60). 
 
 En la tabla \ref{tablaerrores} se presentan los resultados para las pruebas
-iniciales con conjuntos de 5 clases, y la estimación del resultado con
+%iniciales 
+con conjuntos de 5 clases%, y la estimación d
+el resultado con
 15 clases. 
-
+%
 %Cabe aclarar que en el primer caso se tomó un promedio de los errores
 %sobre el conjunto.
-
+%
 \begin{table}
-\caption{Tasas de error para métodos}
+\caption{Tasas de error para los métodos}
 \begin{center}\begin{tabular}{ccc}
 \hline \emph{Método} & \emph{5 clases} & \emph{15 clases}\\ 
 \hline Histogramas & 0\% & 0\%\\ 
@@ -343,7 +413,7 @@ iniciales con conjuntos de 5 clases, y la estimación del resultado con
 \end{tabular}\end{center}
 \label{tablaerrores}
 \end{table}
-
+%
 Se puede observar que para el método de histogramas, la tasa de error fue cero
 en ambas pruebas. En tanto que para el método de Hough, se obtiene menor tasa de
 error con el conjunto de 5 clases que con el de 15, de 35.5\% y 60.43\%
