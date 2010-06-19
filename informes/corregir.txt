@@ -1,0 +1,3 @@
+* ver archivo que mando por mail +
+* ches, me olvide de decirles en las correcciones, si pueden metan la fórmula de cálculo del ECM que usan para clasificar las clases
+asi le introducimos otra fórmula para que quede más compensado el trabajo
