@@ -346,11 +346,9 @@ iniciales con conjuntos de 5 clases, y la estimación del resultado con
 
 Se puede observar que para el método de histogramas, la tasa de error fue cero
 en ambas pruebas. En tanto que para el método de Hough, se obtiene menor tasa de
-error con el conjunto de 5 clases que con el de 15 de 35.5\% y 60.43\%
-respectivamente.
-
-En la última fila, se muestran los resultados de considerar ambos criterios
-en conjunto, asignándole un peso equivalente a cada uno. 
+error con el conjunto de 5 clases que con el de 15, de 35.5\% y 60.43\%
+respectivamente. En la última fila, se muestran los resultados de considerar todas
+las características en conjunto, asignándole un peso equivalente a cada una. 
 
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -360,13 +358,12 @@ A pesar de la muy buena performance del método de histograma, debemos tener
 presente que los conjuntos de imágenes de entrenamiento/prueba para el método, 
 han sido obtenidas en todos los casos a partir de una secuencia tomada en el 
 lapso de unos minutos, lo cual implica que las condiciones de iluminación en
-cada conjunto son prácticamente iguales. 
-
+cada conjunto son prácticamente iguales. /resalt{aclarar antes lode los conjuntos sino aca no se entiende}
 Los histogramas, miden la distribución estadística de los diferentes niveles
 de intensidad presentes en la imagen, luego están estrechamente relacionados
 con las condiciones de iluminación de la escena. Por este motivo, tenemos
 que los histogramas entre las imágenes de entrenamiento/prueba son, a los
-efectos prácticos, idénticos, lo cual explica el buen funcionamiento de este
+efectos prácticos, similares, lo cual explica el buen funcionamiento de este
 método.
 
 Se ha probado la técnica de histogramas sobre el canal I del espacio de color
@@ -387,13 +384,13 @@ sin embargo en varios casos ha sido capaz de identificar correctamente edificios
 a pesar de las diferentes condiciones de iluminación (día y noche), lo cual
 es un resultado alentador.
 
-No podemos evitar la mención al costo computacional del proceso, que aunque
+No se puede evitar la mención al costo computacional del proceso, que aunque
 no es tan elevado como para considerar impráctico el método, sí será una
 limitante al considerar implementaciones en tiempo real o de alta velocidad
 de respuesta: en una computadora promedio el cálculo se realiza en 1-2 segundos,
 luego es esperable que este tiempo se triplique en un dispositivo móvil.
 
-Se deberá considerar la utilización de un detector de bordes mejor, como el
+Se deberá considerar la utilización de un mejor detector de bordes, como el
 propuesto por Canny \cite{canny}%\resalt{que tiene de bueno el de canny?}
 , así como también técnicas de pre-procesamiento de la
 imagen, como puede ser el filtrado homomórfico, en pos de mejorar los
@@ -401,26 +398,26 @@ resultados obtenidos en nuestras pruebas.
 
 En lo que respecta a la escalabilidad de la base de datos, los resultados no
 son particularmente alentadores, lo que nos obliga a considerar otra vez la
-utilización de métodos más refinados de histograma y transformada de Hough.
+utilización de métodos más refinados de histograma y transformada de Hough.\resalt{esto no lo entiende marcelo}
 %
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
 \section{Conclusiones}
-Hemos presentado una técnica para la identificación de edificios, monumentos,
+Se ha presentado una técnica para la identificación de edificios, monumentos,
 esculturas con extracción de características mediante medidas de histograma
 y transformada de Hough.
 
 El rendimiento ha sido satisfactorio considerando las restricciones a las
 que se han sometido las pruebas.
 
-Se deberá optimizar la implementación para portarlo a dispositivos móviles
+Se debe optimizar la implementación para portarlo a dispositivos móviles
 con capacidad de procesamiento limitada.
 
-Se hace necesario el preprocesamiento de la imagen, así como la incorporación
+Se hace necesario un preprocesamiento de la imagen, así como la incorporación
 de métodos más refinados de extracción de características, para mejorar los
-resultados obtenidos y así poder escalar el método a una base de datos de
+resultados obtenidos y así poder usar el método con una base de datos de
 mayor magnitud.
 %
 %
@@ -428,17 +425,17 @@ mayor magnitud.
 %
 %
 \section{Trabajos futuros}
-A partir del diseño aquí presentado, nos proponemos continuar
-investigando esta técnica considerando las siguientes posibilidades:
+A partir del diseño aquí presentado, han surgido líneas para continuar investigando, 
+y lograr un método más robusto:
+%investigando esta técnica considerando las siguientes posibilidades:
 \begin{itemize}
 \item Aplicación de filtrado homomórfico y otros tipos de
       pre-procesamiento en las imágenes.
 \item Aplicación de técnicas de \eng{warping} y otras transformaciones en busca
       de lograr invarianza respecto de rotación y escalado de la imagen.
+\item Desarrollo de técnicas de extracción de características más robustas.
 \item Desarrollo de una implementación óptima para dispositivos móviles con
       poder de procesamiento limitado.
-\item Desarrollo de técnicas de extracción de características más robustas que
-      las aquí presentadas.
 \end{itemize}
 \nocite{*}
 \bibliographystyle{tfmpd}
