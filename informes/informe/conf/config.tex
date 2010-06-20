@@ -58,7 +58,7 @@
 
 % Remarca un ``texto insertado'' en rojo. Necesita el backage color.
 \newenvironment{ins}{\color{red}$>$}{$<$}
-\newcommand{\iins}[1]{\color{red}$>$#1$<$}
+\newcommand{\iins}[1]{{\color{red}$>$#1$<$}}
 
 % Tacha un texto. Depende del package ulem.
 \newcommand{\tachar}{\sout}
