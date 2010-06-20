@@ -33,6 +33,7 @@ Imágenes'', II-FICH-UNL.}}
 %
 %
 \begin{abstract}
+%%
 %% El objetivo de este trabajo consiste en la identificación de edificios y
 %% monumentos, a partir de imágenes obtenidas mediante un dispositivo móvil de
 %% características estándar en el mercado. Para dicho propósito se plantearán
@@ -40,18 +41,19 @@ Imágenes'', II-FICH-UNL.}}
 %% de la Transformada de Hough y otro basado en medidas estadísticas, comparando
 %% a cada uno de ellos por separado y finalmente, evaluando el desempeño de la
 %% utilización de ambos conjuntamente.
+%% 
 Se presenta un método para la identificación de edificios y monumentos, a
 partir de fotografías tomadas con la cámara de un dispositivo móvil.
-%Para la identificación 
-Se extrae un vector de características \resalt{globales y locales?} de %la 
-cada imagen.
-%que es almacenado en una base de datos para su consulta.
-Se presentan dos métodos para la extracción de características, %en la imagen
-uno basado en la transformada de Hough y otro que utiliza estadísticas de los
-histogramas. Se evalúa el desempeño utilizando \resalt{error cuadrático medio? para ambos...}
-ambos métodos por separado y en
-conjunto, para una base de datos de prueba de% unas pocas 
-imágenes.
+Se extrae un vector de características \iins{globales y locales} de cada imagen.
+\iins{Se identifica una imagen de entrada minimizando el error cuadrático medio
+entre sus vectores de características y los de la base de datos de imágenes
+conocidas.}
+Se presentan dos técnicas para la extracción de
+características, una basada en la transformada de Hough y otra que
+utiliza estadísticas de los histogramas.
+Se evalúa el desempeño \tachar{utilizando error cuadrático medio}
+de ambas técnicas por separado y en
+conjunto, para una base de datos de prueba.
 \end{abstract}
 %
 %
@@ -59,10 +61,8 @@ imágenes.
 %
 %
 \begin{keywords}
-Identificación%/reconocimiento 
-de edificios, \eng{building recognition},
-histograma, %extracción de características, 
-transformada de Hough, clasificación.
+Identificación de edificios, \eng{building recognition},
+histograma, transformada de Hough, clasificación.
 \end{keywords}
 %
 %
@@ -70,8 +70,8 @@ transformada de Hough, clasificación.
 %
 %
 \section{Introducción}
-%README: esto es lo que estaba antes.. lo deje por las dudas porque al final me qued con la duda 
-%si habia que corregirlo o no..
+%README: esto es lo que estaba antes.. lo deje por las dudas porque al final me
+%qued con la duda si habia que corregirlo o no..
 %por las dudas corrijo abajo y dejo  la version original...
 %
 %\PARstart{E}{n} la actualidad, la gran difusión de los dispositivos móviles nos
