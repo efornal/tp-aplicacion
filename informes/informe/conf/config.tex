@@ -56,6 +56,13 @@
 %Comandos personalizados
 \newcommand{\T}{\textrm}%Para escribir texto común cuando en modo math
 
+% Remarca un ``texto insertado'' en rojo. Necesita el backage color.
+\newenvironment{ins}{\color{red}$>$}{$<$}
+\newcommand{\iins}[1]{\color{red}$>$#1$<$}
+
+% Tacha un texto. Depende del package ulem.
+\newcommand{\tachar}{\sout}
+
 %\newcommand{\}
 
 %\begin{pspicture}
