@@ -1,4 +1,3 @@
-
 %
 % ===
 % === I18n / L10n
@@ -6,7 +5,7 @@
 %
 % babel me da separación de sílabas para palabras en el idioma que le paso como
 %       argumento opcional. <-- Éste hay que pasarlo en \documentclass
-%\usepackage{babel}
+\usepackage[spanish]{babel}
 %
 % inputenc define la codificación de caracteres del código fuente, acá utf8.
 \usepackage[utf8]{inputenc}
@@ -17,7 +16,7 @@
 % 
 % pst-pdf me permite usar PSTricks con pdflatex. Necesito cargarlo sólo si está
 %         definida la variable pdf, por eso está entre \ifpdf ... \fi
-\ifpdf\usepackage{pst-pdf}\fi
+%\ifpdf\usepackage{pst-pdf}\fi
 %
 % color me permite usar colores en el documento.
 \usepackage{color}
@@ -62,8 +61,15 @@
 %     para usarlo, \url{<URL>}
 \usepackage{url}
 %
+% ===
+% === Estilos, etc..
+% ===
 %
-%
+% ulem me da comandos para subrayar y tachar. Por defecto, modifica el
+%      comportamiento del comando \emph, haciendo que subraye en vez de poner
+%      el texto en cursiva. Este comportamiento se revierte con el arg opcional
+%      normalem.
+\usepackage[normalem]{ulem}
 %
 %
 %\usepackage{mdwlist}		%Para listas mas compactas
@@ -81,4 +87,3 @@
 %\usepackage{varwidth}		%varwidth es un minipage que se ajusta al ancho mínimo
 \usepackage{pslatex}            % setea fuentes Times, Helvetica y Courier ``angosta''
 
-\usepackage[normalem]{ulem}     %para under/overlining. normalem hace que \emph se comporte como siempre
