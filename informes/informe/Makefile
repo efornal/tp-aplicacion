@@ -17,7 +17,7 @@ visor = evince
 
 # todo, incluido el borrado de archivos auxiliares
 all : pdf
-	$(visor) $(out).pdf
+#	$(visor) $(out).pdf
 
 # convierte de dvi a pdf:
 pdf : bibtex

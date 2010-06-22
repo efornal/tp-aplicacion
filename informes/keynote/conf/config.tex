@@ -1,0 +1,172 @@
+
+%Estilos de texto
+\newcommand{\resalt}{\colorbox{green}}	%Resaltado - Fondo verde
+\newcommand{\sfbf}{\bfseries\textsf}	%Slanted + Bold
+\newcommand{\eng}{\textit}			%Palabra en inglés - Itálica
+\newcommand{\mean}{\textsl}			%Significado de una sigla - Slanted
+\newcommand{\defin}{\textbf}			%Definición - Negrita
+\newcommand{\R}{\mathds}			%Para escribir R de Reales, N de Nat
+\newcommand{\N}{\mathbf}			%Para escribir R de Reales, N de Nat
+\newcommand{\lil}[1]{\footnotesize #1}
+\newcommand{\mono}[1]{{\tt #1}}         % Monoespaciado
+
+
+%Símbolos
+\newcommand{\y}{\wedge}			%Y (Lógica)
+\newcommand{\ve}{\vee}			%O (Lógica)
+\newcommand{\ent}{\supset}		%Entonces (Lógica)
+\newcommand{\dimp}{\leftrightarrow}	%Doble implicativo, equivalencia (Lógica)
+\newcommand{\sii}{\leftrightarrow}	%Si y sólo si (Lógica)
+\newcommand{\equi}{\equiv}		%Equivalencia (Lógica)
+\newcommand{\portanto}{\vdash}	%Por lo tanto (Lógica)
+\newcommand{\por}{\cdot}		%Producto punto
+
+%Configuraciones del documento
+%\selectlanguage{spanish}		%Elijo idioma español
+
+%Tweaks
+%\setlength{\parindent}{0mm}		%Sangría de 1a. línea
+%\setlength{\hoffset}{-5.4mm}		%
+%\setlength{\voffset}{-5.4mm}		%
+%\setlength{\topmargin}{0mm}		%
+%\setlength{\oddsidemargin}{5mm}	%
+%\setlength{\evensidemargin}{5mm}	%
+%\setlength{\marginparsep}{5mm}	%
+%\setlength{\headheight}{12.5mm}	%
+%\setlength{\headsep}{2.5mm}		%
+%\setlength{\footskip}{10mm}		%
+%\setlength{\textwidth}{15cm}		%
+%\setlength{\textheight}{232mm}	%
+%\setlength{\fboxrule}{.1pt}
+%\setlength{\parskip}{.5\baselineskip}
+%Colores
+\definecolor{negro}	{cmyk}{0,0,0,1}
+\definecolor{marron}	{cmyk}{0,.5,1,.41}
+\definecolor{rojo}	{cmyk}{0,1,1,0}
+\definecolor{naranja}	{cmyk}{0,.35,1,0}
+\definecolor{amarillo}	{cmyk}{0,0,1,0}
+\definecolor{verde}	{cmyk}{1,0,1,0}
+\definecolor{azul}	{cmyk}{1,1,0,0}
+\definecolor{violeta}	{cmyk}{.45,1,0,0}
+\definecolor{gris}	{cmyk}{0,0,0,.5}
+\definecolor{blanco}	{cmyk}{0,0,0,0}
+\definecolor{dorado}	{cmyk}{0,.16,1,0}
+\definecolor{plateado}	{cmyk}{0,0,0,.25}
+
+%Comandos personalizados
+\newcommand{\T}{\textrm}%Para escribir texto común cuando en modo math
+
+% Remarca un ``texto insertado'' en rojo. Necesita el backage color.
+\newenvironment{ins}{\color{red}$>$}{$<$}
+\newcommand{\iins}[1]{{\color{red}$>$#1$<$}}
+
+% Tacha un texto. Depende del package ulem.
+\newcommand{\tachar}{\sout}
+
+% Tacha doble
+\newcommand{\Tachar}[1]{\sout{\sout{#1}}}
+
+%\newcommand{\}
+
+%\begin{pspicture}
+%\def\tierra(#1){%Para dibujar el símbolo de tierra en el entorno PSTricks
+%	\rput(#1){
+%		\psdot(0,0)
+%		\psline(0,0)(0,-0.45)
+%		\psline(-0.5,-0.45)(0.5,-0.45)
+%		\psline(-0.35,-0.6)(0.35,-0.6)
+%		\psline(-0.2,-0.75)(0.2,-0.75)
+%	}%
+%}
+%\end{pspicture}
+
+%\newcommand{\codigo}[2]{%Para generar un recuadro con código
+%	%\setlength{\hrulewidth}{0.1pt}
+%	\begin{flushleft}
+%	\underline{#1}
+%	\begin{tabular}{@{\quad}|l}
+%		\begin{minipage}{.85\textwidth}\smallskip{#2}
+%	\end{minipage}\end{tabular}\end{flushleft}%
+%}
+
+%\newcommand{\filecodigo}[1]{%Insertar código verbatim desde un archivo
+%\codigo{#1}{\verbatiminput{#1}}}%Requiere el paquete verbatim
+%\newcommand{\filecodigobis}[1]{{\verbatiminput{#1}}}%Requiere el paquete verbatim
+
+%\newcommand{\grafico}[3][1]{%Para generar un plot de un archivo con coords.
+%%\def\deequis=#1
+%\begin{minipage}{0.5\textwidth}\begin{center}
+%\begin{pspicture}(6,5)
+%	\psgrid[subgriddiv=1,gridlabels=0pt,gridwidth=.1pt](1,3)(1,1)(6,5)
+%	\psset{xunit=5cm,yunit=2cm}
+%	\fileplot[linewidth=1pt,linecolor=blue,origin={0.2,1.5}]{#2}
+%	\psset{xunit=1cm,yunit=1cm}
+%	\psaxes[Dx=#1,dx=5,Oy=-1,Dy=1,dy=2]{-}(0.9,1)(6,5)
+%	\rput(4,0.4){\textsl{#3}}
+%\end{pspicture}\end{center}\end{minipage}}
+
+%\newcommand{\aclaracion}[1]{%Dibuja un recuadrito aclaratorio
+%\smallpencil\ \begin{minipage}{0.9\textwidth}
+%\vspace*{6pt}{#1}\smallskip\end{minipage}}
+
+%\newcommand{\consigna}[1]{%Consigna - Slanted
+%\leftpointright\ \parbox[t]{0.9\textwidth}{\textsl{#1}\vspace{8pt}}}
+
+%\newcommand{\pinterno}[2]{%Consigna - Slanted
+%\left\langle #1 , #2 \right\rangle}
+
+%\newcommand{\eqncode}[2]{%
+%\begin{center}
+%\begin{tabular}{l@{\hspace{0.5cm}}r}
+%\begin{minipage}{.4\textwidth}
+%\begin{equation*}
+%#1
+%\end{equation*}
+%\end{minipage}
+%&
+%\fbox{\begin{minipage}{.4\textwidth}
+%%\setlength{\parskip}{4mm}
+%\filecodigobis{#2}
+%\end{minipage}}
+%\end{tabular}
+%\end{center}
+%}
+
+%\newcommand{\eqncodeb}[2]{%
+%\begin{center}\begin{tabular}{l@{\hspace{0.5cm}}r}
+%\begin{minipage}{.4\textwidth}#1\end{minipage} &
+%\fbox{\begin{minipage}{.4\textwidth}\filecodigobis{#2}\end{minipage}}
+%\end{tabular}\end{center}}
+
+%\newenvironment{matemcode}[1]{\newline
+%\begin{tabular}{l@{\hspace{0.5cm}}r}
+%\begin{minipage}{.4\textwidth}
+%\parbox[t]{.4\textwidth}{\begin{equation*}#1\end{equation*}}\end{minipage}
+%&\begin{Sbox}\begin{minipage}{.4\textwidth}}
+%{\end{minipage}\end{Sbox}\fbox{\TheSbox}\end{tabular}\newline}
+
+%\newenvironment{encuadrar}[1]{\begin{Sbox}\begin{varwidth}{#1\textwidth}}
+%{\end{varwidth}\end{Sbox}\fbox{\TheSbox}}
+
+%\newenvironment{enunciado}
+%{\leftpointright\ \begin{varwidth}[t]{0.9\textwidth}\textsl}
+%{\end{varwidth}\vspace{8pt}}
+
+%\newenvironment{parboxenv}{\begin{Sbox}}
+%{\end{Sbox}\parbox[t]{.9\textwidth}{\TheSbox}}
+
+%\newenvironment{pvi}{\begin{equation*}\begin{cases}}
+%{\end{cases}\end{equation*}}
+
+% Escribe el texto que le paso como parámetro con letra de ancho fijo.
+%\newcommand{\mono}[1]{{\tt #1}}
+
+%\title{\titulo}
+%\author{\autor}
+%\date{\fecha}
+
+%% si uso pdflatex, me setea las propiedades del pdf de salida
+%\ifpdf\pdfinfo{/Title    (\tituloPDF)
+%               /Author   (\autorPDF)
+%               /Subject  (\asuntoPDF)
+%               /Keywords (\clavesPDF)}\fi

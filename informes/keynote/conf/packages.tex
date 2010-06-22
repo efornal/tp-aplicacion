@@ -1,0 +1,89 @@
+%
+% ===
+% === I18n / L10n
+% ===
+%
+% babel me da separación de sílabas para palabras en el idioma que le paso como
+%       argumento opcional. <-- Éste hay que pasarlo en \documentclass
+\usepackage[spanish]{babel}
+%
+% inputenc define la codificación de caracteres del código fuente, acá utf8.
+\usepackage[utf8]{inputenc}
+%
+% ===
+% === Gráficos
+% ===
+% 
+% pst-pdf me permite usar PSTricks con pdflatex. Necesito cargarlo sólo si está
+%         definida la variable pdf, por eso está entre \ifpdf ... \fi
+%\ifpdf\usepackage{pst-pdf}\fi
+%
+% color me permite usar colores en el documento.
+\usepackage{color}
+%
+% graphicx me da el comando \includegraphics para insertar imágenes (?)
+\usepackage{graphicx}
+%
+% pstricks es un conjunto de macros basadas en PostScript para TeX, en
+%          castellano, me da un entorno pstricks y comandos que uso dentro de
+%          éste, que me sirven para dibujar figuras/diagramas/etc de manera
+%          relativamente simple.
+%\usepackage{pstricks}
+%
+% pst-circ me da macros para pstricks que me dibujan elementos de circuitos
+%\usepackage{pst-circ}
+%
+% 
+%\usepackage{pst-plot}		%Para dibujar una curva a partir de un archivo
+%\usepackage{pst-2dplot}		%Para plotear. entorno pstaxes
+%
+% ===
+% === Verbatims
+% ===
+%
+% verbatim es una reimplementación de los entornos verbatim[*]
+%          provee el comando \verbatiminput{archivo} y el entorno comment, que
+%          hace que LaTeX ignore directamente todo lo que está adentro
+%\usepackage{verbatim}
+%
+% moreverb implementa el entorno verbatimtab indentando los tabs que encuentre,
+%          y también el entorno listing, que pone números de línea al verbatim.
+%          Para cambiar el ancho de la tabulacion, uso
+%          \renewcommand\verbatimtabsize{<ancho del tab>\relax}
+%          También define el entorno boxedverbatim.
+%\usepackage{moreverb}
+%
+% listings me da el entorno lstlisting con resaltado de sintaxis.
+%          Para setear el lenguaje del código, hago \lstset{language=<lang>}
+%\usepackage{listings}
+%
+% url es un verbatim para escribir URL's que permite linebreaks dentro de ésta.
+%     para usarlo, \url{<URL>}
+\usepackage{url}
+%
+% ===
+% === Estilos, etc..
+% ===
+%
+% ulem me da comandos para subrayar y tachar. Por defecto, modifica el
+%      comportamiento del comando \emph, haciendo que subraye en vez de poner
+%      el texto en cursiva. Este comportamiento se revierte con el arg opcional
+%      normalem.
+\usepackage[normalem]{ulem}
+%
+%
+%\usepackage{mdwlist}		%Para listas mas compactas
+%\usepackage{textcomp}		%Para algunos símbolos
+%\usepackage{colortbl}		%Para celdas de colores en tablas
+%\usepackage{fancyhdr}		%Para encabezados/pie
+%\usepackage{bbold}		%Fuente bb para modo math: \mathbb{R} = reales
+%\usepackage{dsfont}		%Fuente ds para modo math: \mathds{R} = reales
+\usepackage{multirow}		%Para "combinar" celdas en tablas
+%\usepackage{float}		%Para cuadros, figuras, etc copadas
+%\usepackage{fancybox}		%Para recuardos de texto con bordes "fancy"
+%\usepackage{dingbat}		%Para dingbats
+%%\usepackage{marginal}		%Para notas al margen que no puedo hacer andar
+\usepackage{amsmath}		%Para enornos matemáticos mas flexibles
+%\usepackage{varwidth}		%varwidth es un minipage que se ajusta al ancho mínimo
+\usepackage{pslatex}            % setea fuentes Times, Helvetica y Courier ``angosta''
+

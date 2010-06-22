@@ -1,0 +1,15 @@
+
+% esto me setea la variable pdf dependiendo del valor de \pdfoutput, que es >0
+% sólo cuando estoy usando pdflatex para compilar el documento
+\newif\ifpdf
+\ifnum\pdfoutput<0
+\pdffalse\fi
+\ifnum\pdfoutput=0
+\pdffalse\fi
+\ifnum\pdfoutput>0
+\pdftrue\fi
+
+%\makeatletter
+%\def\markboth#1#2{\def\leftmark{\@IEEEcompsoconly{\sffamily}\MakeUppercase{\protect#1}}%
+%\def\rightmark{\@IEEEcompsoconly{\sffamily}\MakeUppercase{\protect#2}}}
+%\makeatother
