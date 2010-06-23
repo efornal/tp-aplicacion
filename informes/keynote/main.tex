@@ -11,7 +11,8 @@
 %
 %
 %
-\title{Identificación de edificios bla bla}
+\title{Identificación de edificios y monumentos a partir de fotografías tomadas 
+con dispositivos móviles}
 \author{Esteban C. Fornal \and Christian N. Pfarher \and Mauro J. Torrez}
 \date{\today}
 
@@ -25,36 +26,42 @@
 \begin{itemize}
 \item<1-> Objetivo
 \begin{itemize}
-\item Implementar un detector de edificios bla bla
+\item  Identificar edificios y monumentos a partir de fotografías
 \end{itemize}
 \end{itemize}
 \end{frame}
 
-\subsection[Outline]{Control borroso}
-\begin{frame}{¿Porqué usamos controladores borrosos?}
+\subsection[Outline]{Herramientas}
+\begin{frame}{Dos técnicas:}
 \begin{itemize}
-\item<1-> Facilidad en la especificación de las reglas (lenguaje natural)
-\item<2-> Eficiencia
+\item<1-> Transformada de Hough
+\item<2-> Histograma
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Sensores}
+\begin{frame}{Transformada de Hough}
 %% \begin{align*}
 %% \alpha_0=0.9e^{j\frac{\pi}{4}},\qquad\alpha_1=0.9e^{j\frac{3\pi}{4}}
 %% \end{align*}
 %\includegraphics[width=9cm]{img/sensores}
 \end{frame}
 
-\begin{frame}{Entradas}
+
+\begin{frame}{Histograma}
+%% \begin{align*}
+%% \alpha_0=0.9e^{j\frac{\pi}{4}},\qquad\alpha_1=0.9e^{j\frac{3\pi}{4}}
+%% \end{align*}
+%\includegraphics[width=9cm]{img/sensores}
+\end{frame}
+
+
+\begin{frame}{Método}
   \begin{itemize}
-  \item Distancia medida por el sensor frontal izquierdo
-  \item Distancia medida por el sensor frontal derecho
-  \item Distancia medida por el sensor lateral izquierdo
-  \item Distancia medida por el sensor lateral derecho
-  \item Velocidad actual de coche
+  \item ambas tecnicas !!!bla
   \end{itemize}
 \end{frame}
-\begin{frame}{Salidas}
+
+\begin{frame}{Pruebas}
   \begin{itemize}
   \item Dirección %$\in [-1,1]$
   \item Presión acelerador %$\in [0,1]$
@@ -63,68 +70,8 @@
 \end{frame}
 
 
-\begin{frame}{Diagrama}
+\begin{frame}{Resultados}
   %\includegraphics[width=9cm]{img/diag-modulos}
-\end{frame}
-
-\begin{frame}{Fuzzificación de las entradas}
-  \begin{itemize}
-  \item Codificación correlación-mínimo
-  \end{itemize}
-%\includegraphics[width=8cm]{img/conj-entradas}
-\end{frame}
-
-\begin{frame}{Defuzzificación de las salidas}
-  \begin{itemize}
-  \item La salida la obtenemos mediante el método de los centroides:
-    \begin{equation*}
-      y=\frac{\sum_{i=1}^{m}{a_ic_i}}{\sum_{i=1}^{m}{a_i}}
-    \end{equation*}
-  \end{itemize}
-  %\includegraphics[width=8cm]{img/conj-salidas}
-\end{frame}
-
-\begin{frame}{Evaluación}
-\framesubtitle{Parámetros a evaluar}
-  \begin{itemize}
-  \item Cantidad de colisiones
-  \item Distancia total recorrida
-  \item Tiempo fuera de la pista
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Evaluación}
-\framesubtitle{Características}
-  \begin{itemize}
-  \item Se evaluaron 2 conjuntos de reglas borrosas y jugadores humanos
-  \item 2 cantidades de competidores
-  \item Distintos comportamientos de los competidores
-  \item Simulaciones de 3 minutos cada una
-  \item 3 simulaciones por configuración
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Resultados}
-%\framesubtitle{\large{Cantidad de colisiones}}
-Cantidad de colisiones
-
-  %\includegraphics[width=9cm]{img/nroColisiones}
-\end{frame}
-
-
-
-\begin{frame}{Resultados}
-%\framesubtitle{\large{Cantidad de colisiones}}
-Distancia recorrida
-
-  %%\includegraphics[width=9cm]{img/distanciaRecorrida}
-\end{frame}
-
-\begin{frame}{Resultados}
-%\framesubtitle{\large{Cantidad de colisiones}}
-Tiempo fuera de la pista
-
-  %%\includegraphics[width=9cm]{img/tiempoFuera}
 \end{frame}
 
 \begin{frame}{Conclusiones}
