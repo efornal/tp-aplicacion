@@ -20,18 +20,14 @@ con dispositivos móviles}
 %
 \frame{\titlepage}
 
-\section[Outline]{Introducción}
-\begin{frame}{Introducción}
-%\frametitle{Introducción}
-\begin{itemize}
-\item<1-> Objetivo
-\begin{itemize}
-\item  Identificar edificios y monumentos a partir de fotografías
-\end{itemize}
-\end{itemize}
+\section[Outline]{Objetivo}
+
+\begin{frame}{}
+\frametitle{Objetivo}
+Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
-\subsection[Outline]{Herramientas}
+\section[Outline]{Herramientas}
 \begin{frame}{Dos técnicas:}
 \begin{itemize}
 \item<1-> Transformada de Hough
@@ -40,18 +36,12 @@ con dispositivos móviles}
 \end{frame}
 
 \begin{frame}{Transformada de Hough}
-%% \begin{align*}
-%% \alpha_0=0.9e^{j\frac{\pi}{4}},\qquad\alpha_1=0.9e^{j\frac{3\pi}{4}}
-%% \end{align*}
-%\includegraphics[width=9cm]{img/sensores}
+  \includegraphics[width=9cm]{../diagramas/procesohough}
 \end{frame}
 
 
 \begin{frame}{Histograma}
-%% \begin{align*}
-%% \alpha_0=0.9e^{j\frac{\pi}{4}},\qquad\alpha_1=0.9e^{j\frac{3\pi}{4}}
-%% \end{align*}
-%\includegraphics[width=9cm]{img/sensores}
+  \includegraphics[width=9cm]{../diagramas/procesoestadisticas}
 \end{frame}
 
 
@@ -62,16 +52,26 @@ con dispositivos móviles}
 \end{frame}
 
 \begin{frame}{Pruebas}
-  \begin{itemize}
-  \item Dirección %$\in [-1,1]$
-  \item Presión acelerador %$\in [0,1]$
-  \item Presión freno% $\in [0,1]$
-  \end{itemize}
+  \begin{align*}
+    MSE = \frac{1}{MN} \sum_x\sum_y [ f(x,y) - g(x,y) ]^{2}
+  \end{align*}
 \end{frame}
 
 
 \begin{frame}{Resultados}
-  %\includegraphics[width=9cm]{img/diag-modulos}
+  \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
+\end{frame}
+
+\begin{frame}{Resultados}
+  \begin{itemize}
+  \item Sensores
+    \begin{itemize}
+    \item Cantidad
+    \item Tipo
+    \item Configuración
+    \end{itemize}
+  \item Resultados satisfactorios para la información disponible
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusiones}
