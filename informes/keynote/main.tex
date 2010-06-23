@@ -92,7 +92,26 @@ Identificar edificios y monumentos a partir de fotografías
   \begin{itemize}
   \item Imágenes de 640x480
   \item Obtenidas con celular
-  \item Diurnas y nocturnas 
+  \item Diurnas y nocturnas
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Sólo técnica de Hough}
+  \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
+\end{frame}
+
+\begin{frame}{Sólo técnica de histograma}
+\end{frame}
+
+\begin{frame}{Ambas técnicas}
+  \begin{itemize}
+  \item Igual ponderación
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Cómo se hicieron}
+  \begin{itemize}
+  \item grafica con generacion prototipo de 5 imagenes la q hicimo en pizarron
   \end{itemize}
 \end{frame}
 
@@ -100,9 +119,26 @@ Identificar edificios y monumentos a partir de fotografías
 \section[Outline]{Resultados}
 
 \begin{frame}{Resultados}
-  \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
+  Se considera la tasa de error según:
+  \begin{equation}
+    E_\%=100\cdot\frac{\T{número de errores}}{\T{número de pruebas}},
+  \end{equation}
 \end{frame}
 
+%% \begin{frame}{Resultados}
+%%   \begin{table}
+%%     \caption{Tasas de error para {las técnicas de
+%%         extracción de características}.}
+%%     \begin{center}\begin{tabular}{ccc}
+%%         \hline \emph{{Técnica}} & \emph{5 etiquetas} & \emph{15 etiquetas}\\
+%%         \hline Histogramas & 0\% & 0\%\\
+%%         \hline Hough & 35.5\% & 60.43\%\\
+%%         \hline Ambas & 2.22\% & 4.17\%\\
+%%         \hline
+%%     \end{tabular}\end{center}
+%%     \label{tablaerrores}
+%%   \end{table}
+%%\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Outline]{Conclusiones}
 
