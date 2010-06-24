@@ -33,15 +33,6 @@ Imágenes'', II-FICH-UNL.}}
 %
 %
 \begin{abstract}
-%%
-%% El objetivo de este trabajo consiste en la identificación de edificios y
-%% monumentos, a partir de imágenes obtenidas mediante un dispositivo móvil de
-%% características estándar en el mercado. Para dicho propósito se plantearán
-%% métodos diferentes, uno mediante extracción de características en el espacio
-%% de la Transformada de Hough y otro basado en medidas estadísticas, comparando
-%% a cada uno de ellos por separado y finalmente, evaluando el desempeño de la
-%% utilización de ambos conjuntamente.
-%%
 Se presenta un método para la identificación de edificios y monumentos, a
 partir de fotografías tomadas con la cámara de un dispositivo móvil.
 Se extrae un vector de características {globales y locales} de cada imagen.
@@ -51,8 +42,7 @@ conocidas.}
 Se presentan dos técnicas para la extracción de
 características, una basada en la transformada de Hough y otra que
 utiliza estadísticas de los histogramas.
-Se evalúa el desempeño %\tachar{utilizando error cuadrático medio}
-de ambas técnicas por separado y en
+Se evalúa el desempeño de ambas técnicas por separado y en
 conjunto, para una base de datos de prueba.
 \end{abstract}
 %
@@ -70,24 +60,6 @@ histograma, transformada de Hough, clasificación.
 %
 %
 \section{Introducción}
-%README: esto es lo que estaba antes.. lo deje por las dudas porque al final me
-%qued con la duda si habia que corregirlo o no..
-%por las dudas corrijo abajo y dejo  la version original...
-%
-%\PARstart{E}{n} la actualidad, la gran difusión de los dispositivos móviles nos
-%permite llevar la información importante siempre con nosotros.
-%Es muy común utilizar nuestros celulares, PDAs, además para \emph{obtener}
-%información desde donde estamos, gracias a la proliferación de redes de datos
-%inalámbricas.
-%
-%Dado que una gran parte de estos dispositivos además poseen una cámara
-%digital, surge la idea de utilizarla junto con las conexiones de datos para
-%obtener información acerca del lugar donde nos encontramos.
-%
-%Se presenta aquí una técnica de Procesamiento Digital de Imágenes orientada
-%en este sentido, que permite la
-%identificación de edificios, monumentos y otros puntos de interés, a partir
-%de una fotografía capturada con un dispositivo móvil.
 \PARstart{E}{n} la actualidad, la gran difusión de los dispositivos móviles nos
 permite llevar la información importante siempre con nosotros. Además, es muy
 común utilizar nuestros celulares, PDAs, GPS para obtener %\emph{obtener}
@@ -174,11 +146,7 @@ El proceso completo puede verse en la Fig. \ref{procesohough}.
 \caption{Máscaras de filtrado (operadores gradiente) de Sobel.}
 \label{masksobel}
 \end{figure}
-%% Tras estos pasos, se transforma al espacio de Hough y aquí se aplica
-%% nuevamente un redimensionado a tamaño de 40x40 con el fin de tener una
-%% tolerancia respecto a $\rho$ y $\theta$ del espacio transformado de Hough.
-%% Finalmente, se obtienen las coordenadas $\rho$ y $\theta$ de 50 máximos con
-%% las cuales se forma el vector de características representativo de la imagen.
+
 \begin{figure}
 \begin{center}
 \includegraphics[scale=0.25]{../diagramas/procesohough} 
@@ -190,12 +158,13 @@ El proceso completo puede verse en la Fig. \ref{procesohough}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection{Extracción de características por estadísticas del histograma}
-A partir de la imagen original, se normaliza su tamaño y se toman 2 ``perfiles
-de intensidad'': uno horizontal, calculado promediando
-cada columna de la
-imagen, y otro vertical obtenido al promediar cada fila. También se obtiene un
-histograma de la imagen entera. De estos 3 vectores, se calculan
-y se guardan en el
+A partir de la imagen original, se normaliza su tamaño y se toman 2
+``perfiles de intensidad'': uno horizontal, calculado promediando
+cada columna de la imagen, y otro vertical obtenido al promediar cada fila.
+Estos ``perfiles'' se relacionan con la distribución de la energía promedio
+en las filas y columnas de la imagen.
+Luego se calculan tres histogramas, uno para cada perfil y otro para la
+imagen entera. De estos 3 vectores, se calculan y se guardan en el
 vector de características la media aritmética $m$, la mediana $M$ (posición del
 percentil 50),  y la desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
 \begin{equation*}
@@ -240,17 +209,19 @@ la imagen a identificar.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{{Generación de la} base de datos}
-Las imágenes de prueba fueron tomadas con teléfonos celulares corrientes, a una
-resolución VGA estándar de 640 píxeles de ancho por 480 de alto, en
-diferentes condiciones
+\subsection{Base de datos}
+La base de datos se armó con imágenes de prueba tomadas con teléfonos celulares
+corrientes, a una resolución VGA estándar de 640 píxeles de ancho por 480 de
+alto, en diferentes condiciones
 de iluminación: día a pleno sol, día nublado, noche, e interior, a monumentos/%
 estatuas y edificios en diferentes lugares de la ciudad de Santa Fe (Argentina).
-{Cada entrada en la base de datos se corresponde con un prototipo, el cual
-representa un edificio en una condición de iluminación en particular.}
 {Se obtuvieron 195 imágenes, 13 por cada uno de los 15 prototipos diferentes en
 total.}
 Se muestran en la figura \ref{imagenes} dos ejemplos de las imágenes utlizadas.
+
+%% {Cada entrada en la base de datos se corresponde con un prototipo, el cual
+%% representa un edificio en una condición de iluminación en particular.}
+
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
