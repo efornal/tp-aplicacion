@@ -64,7 +64,7 @@ con dispositivos móviles}
  \end{center}
  \begin{itemize}
  \item Salida: vector de 45 características
- \end{itemize}
+ \end{itemize} 
 \end{frame}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,15 +73,17 @@ con dispositivos móviles}
 \subsection{Entrenamiento}
 \begin{frame}{Entrenamiento}
   \begin{itemize}
-  \item Etiquetado de imágenes
-  \item Generación de prototipos
+  \item Extracción de características: a partir de cada imagen junto a su etiqueta
+  \item Etiquetado de imágenes: asignación de nombre a cada imagen
+  \item Generación de prototipos: promediado de caracteristicas de las 10 
+    imágenes de cada etiqueta
   \end{itemize}
 \end{frame}
 %
 \subsection{Clasificación}
 \begin{frame}{Clasificación}
   \begin{itemize}
-  \item Error cuadrático medio:
+  \item Prototipo cuyas características minimicen el Error cuadrático medio:
 \begin{equation}
   p_{\T{ganador}}=\arg \min_i\left\{ \frac{1}{\sum N_j}
                 \sum_{j=1}^K\sum_{n=1}^{N_j}(t_j[n]-p_{ij}[n])^2\right\}
@@ -172,7 +174,8 @@ con dispositivos móviles}
   \item Preprocesamiento
   \item Filtrado homomórfico
   \item Warping
-  \item Costo computacional
+  \item Optimización de la implementación
+  \item Hough local
   \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
