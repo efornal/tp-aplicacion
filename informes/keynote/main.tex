@@ -6,7 +6,8 @@
 \include{beamerconf}
 %
 %
-\usetheme{Bergen}
+%\usetheme{Antibes}
+\usetheme{Warsaw}
 \usecolortheme{orchid}
 %
 %
@@ -21,7 +22,7 @@ con dispositivos móviles}
 \frame{\titlepage}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Outline]{Objetivo}
+\section[Objetivo]{}
 
 \begin{frame}{}
 \frametitle{Objetivo}
@@ -29,17 +30,20 @@ Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Outline]{Herramientas}
+\section[Herramientas]{}
 
-\begin{frame}{Técnicas:}
+\begin{frame}{Técnicas}
+\begin{itemize}
+\item Obtención de características
 \begin{itemize}
 \item<1-> Transformada de Hough
 \item<2-> Histograma
 \end{itemize}
+\end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Outline]{Técnicas}
+\section[Técnicas]{}
 
 \begin{frame}{Transformada de Hough}
   \includegraphics[width=9cm]{../diagramas/procesohough}
@@ -66,7 +70,7 @@ Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Outline]{Métodos}
+\section[Métodos]{}
 
 \begin{frame}{Entrenamiento}
   \begin{itemize}
@@ -86,7 +90,7 @@ Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Outline]{Pruebas}
+\section[Pruebas]{}
 
 \begin{frame}{Armado Base de Datos}
   \begin{itemize}
@@ -94,6 +98,15 @@ Identificar edificios y monumentos a partir de fotografías
   \item Obtenidas con celular
   \item Diurnas y nocturnas
   \end{itemize}
+\end{frame}
+
+\begin{frame}{Clases}
+%  \begin{itemize}
+%  \item Imágenes de 640x480
+%  \item Obtenidas con celular
+%  \item Diurnas y nocturnas
+%  \end{itemize}
+\includegraphics[width=10cm]{img/mosaico.png} 
 \end{frame}
 
 \begin{frame}{Sólo técnica de Hough}
@@ -116,7 +129,7 @@ Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Outline]{Resultados}
+\section[Resultados]{}
 
 \begin{frame}{Resultados}
   Se considera la tasa de error según:
@@ -140,7 +153,7 @@ Identificar edificios y monumentos a partir de fotografías
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Outline]{Conclusiones}
+\section[Conclusiones]{}
 
 \begin{frame}{Conclusiones}
   \begin{itemize}
