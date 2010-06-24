@@ -39,12 +39,12 @@ con dispositivos móviles}
 \section{Técnicas utilizadas}
 %
 \subsection{Transformada de Hough}
-\begin{frame}{Transformada de Hough}
+\begin{frame}{Técnica 1: Transformada de Hough}
 \begin{center}
   \includegraphics[width=9cm]{../diagramas/procesohough}
 \end{center}
 \begin{itemize}
-\item[]\begin{center}
+\item Umbralizado:
   \begin{equation*}
     \label{umbral}
     f(I)=
@@ -53,18 +53,17 @@ con dispositivos móviles}
       255, & I > U
     \end{cases}
   \end{equation*}
-\end {center}
-\item 60 características
+\item Salida: vector de 60 características
 \end{itemize}
 \end{frame}
 %
 \subsection{Estadísticas del Histograma}
-\begin{frame}{Estadísticas del Histograma}
+\begin{frame}{Técnica 2: Estadísticas del histograma}
  \begin{center}
    \includegraphics[width=9cm]{../diagramas/procesoestadisticas}
  \end{center}
  \begin{itemize}
- \item 45 características
+ \item Salida: vector de 45 características
  \end{itemize}
 \end{frame}
 %
@@ -179,8 +178,8 @@ con dispositivos móviles}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{}
   \begin{itemize}
-  \item<1-2> ¿Preguntas?
-  \item<2-> ¡Muchas gracias!
+  \item<1-1> ¿Preguntas?
+  \item<2-2> ¡Muchas gracias!
   \end{itemize}
 \end{frame}
 \end{document}
