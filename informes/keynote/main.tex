@@ -30,26 +30,23 @@ Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Herramientas]{}
+\section[Herramientas utilizadas]{}
 
-\begin{frame}{Técnicas}
-\begin{itemize}
-\item Obtención de características
+\begin{frame}{Herramientas}
 \begin{itemize}
 \item<1-> Transformada de Hough
 \item<2-> Histograma
 \end{itemize}
-\end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Técnicas]{}
-
+\section[Técnicas utilizadas]{}
+\subsection{Transformada de Hough}
 \begin{frame}{Transformada de Hough}
   \includegraphics[width=9cm]{../diagramas/procesohough}
 
   \begin{itemize}
-  \item[]
+  \item[]\begin{center}
     \begin{equation*}
       \label{umbral}
       f(I)=
@@ -58,10 +55,11 @@ Identificar edificios y monumentos a partir de fotografías
       255, & I > U
       \end{cases}
       \end{equation*}
+      \end {center}
   \item 60 características
   \end{itemize}
 \end{frame}
-
+\subsection{Histograma}
 \begin{frame}{Histograma}
   \includegraphics[width=9cm]{../diagramas/procesoestadisticas}
   \begin{itemize}
@@ -70,15 +68,15 @@ Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Métodos]{}
-
+\section[Método]{}
+\subsection{Entrenamiento}
 \begin{frame}{Entrenamiento}
   \begin{itemize}
   \item Etiquetado de imágenes
   \item Generación de prototipos
   \end{itemize}
 \end{frame}
-
+\subsection{Clasificación}
 \begin{frame}{Clasificación}
   \begin{itemize}
   \item Error cuadrático medio
@@ -91,7 +89,7 @@ Identificar edificios y monumentos a partir de fotografías
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Pruebas]{}
-
+\subsection{Armado Base de Datos}
 \begin{frame}{Armado Base de Datos}
   \begin{itemize}
   \item Imágenes de 640x480
@@ -99,7 +97,7 @@ Identificar edificios y monumentos a partir de fotografías
   \item Diurnas y nocturnas
   \end{itemize}
 \end{frame}
-
+\subsection{Conjunto de Imágenes (clases)}
 \begin{frame}{Clases}
 %  \begin{itemize}
 %  \item Imágenes de 640x480
@@ -109,28 +107,32 @@ Identificar edificios y monumentos a partir de fotografías
 \includegraphics[width=10cm]{img/mosaico.png} 
 \end{frame}
 
-\begin{frame}{Sólo técnica de Hough}
+\subsection{Sólo con técnica de T. de Hough}
+\begin{frame}{Sólo con la técnica de Hough}
   \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
 \end{frame}
 
-\begin{frame}{Sólo técnica de histograma}
+\subsection{Sólo con técnica de histograma}
+\begin{frame}{Sólo con la técnica de histograma}
 \end{frame}
 
+\subsection{Ambas técnicas}
 \begin{frame}{Ambas técnicas}
   \begin{itemize}
   \item Igual ponderación
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Cómo se hicieron}
+\subsection{Cómo se hicieron?}
+\begin{frame}{Procedimiento}
   \begin{itemize}
-  \item grafica con generacion prototipo de 5 imagenes la q hicimo en pizarron
+  \item gráfica con generación prototipo de 5 imágenes la q hicimos en pizarrón
   \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Resultados]{}
-
+\subsection{Resultados}
 \begin{frame}{Resultados}
   Se considera la tasa de error según:
   \begin{equation*}
