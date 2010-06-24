@@ -1,74 +1,76 @@
 \documentclass[spanish]{beamer}
-
+%
 \include{conf/preconfig}
 \include{conf/packages}
 \include{conf/config}
 \include{beamerconf}
-%
 %
 %\usetheme{Antibes}
 \usetheme{Warsaw}
 \usecolortheme{orchid}
 %
 %
-%
-\title{Identificación de edificios y monumentos a partir de fotografías tomadas 
+\title{Identificación de edificios y monumentos a partir de fotografías tomadas
 con dispositivos móviles}
 \author{Esteban C. Fornal \and Christian N. Pfarher \and Mauro J. Torrez}
 \date{\today}
-
+%
 \begin{document}
 %
 \frame{\titlepage}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Objetivo]{}
-
-\begin{frame}{}
-\frametitle{Objetivo}
-Identificar edificios y monumentos a partir de fotografías
+\section{Objetivo}
+\begin{frame}
+  \frametitle{Objetivo}
+  Identificar edificios y monumentos a partir de fotografías
 \end{frame}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Herramientas utilizadas]{}
-
+\section{Herramientas utilizadas}
 \begin{frame}{Herramientas}
-\begin{itemize}
-\item<1-> Transformada de Hough
-\item<2-> Histograma
-\end{itemize}
+  \begin{itemize}
+  \item<1-> Transformada de Hough
+  \item<2-> Histograma
+  \end{itemize}
 \end{frame}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Técnicas utilizadas]{}
+\section{Técnicas utilizadas}
+%
 \subsection{Transformada de Hough}
 \begin{frame}{Transformada de Hough}
-\begin{center}  \includegraphics[width=9cm]{../diagramas/procesohough} \end{center}
-
-  \begin{itemize}
-  \item[]\begin{center}
-    \begin{equation*}
-      \label{umbral}
-      f(I)=
-      \begin{cases}
+\begin{center}
+  \includegraphics[width=9cm]{../diagramas/procesohough}
+\end{center}
+\begin{itemize}
+\item[]\begin{center}
+  \begin{equation*}
+    \label{umbral}
+    f(I)=
+    \begin{cases}
       0, & I\leq U\\
       255, & I > U
-      \end{cases}
-      \end{equation*}
-      \end {center}
-  \item 60 características
-  \end{itemize}
+    \end{cases}
+  \end{equation*}
+\end {center}
+\item 60 características
+\end{itemize}
 \end{frame}
+%
 \subsection{Estadísticas del Histograma}
 \begin{frame}{Estadísticas del Histograma}
- \begin{center} \includegraphics[width=9cm]{../diagramas/procesoestadisticas} \end{center}
-  \begin{itemize}
-  \item 45 características
-  \end{itemize}
+ \begin{center}
+   \includegraphics[width=9cm]{../diagramas/procesoestadisticas}
+ \end{center}
+ \begin{itemize}
+ \item 45 características
+ \end{itemize}
 \end{frame}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Método]{}
+\section{Método}
+%
 \subsection{Entrenamiento}
 \begin{frame}{Entrenamiento}
   \begin{itemize}
@@ -76,20 +78,22 @@ Identificar edificios y monumentos a partir de fotografías
   \item Generación de prototipos
   \end{itemize}
 \end{frame}
+%
 \subsection{Clasificación}
 \begin{frame}{Clasificación}
   \begin{itemize}
-  \item Error cuadrático medio
-    \begin{align*}
-      MSE = \frac{1}{MN} \sum_x\sum_y [ f(x,y) - g(x,y) ]^{2}
-    \end{align*}
-  \item Obtención de la Clase
+  \item Error cuadrático medio:
+\begin{equation}
+  p_{\T{ganador}}=\arg \min_i\left\{ \frac{1}{\sum N_j}
+                \sum_{j=1}^K\sum_{n=1}^{N_j}(t_j[n]-p_{ij}[n])^2\right\}
+\end{equation}
+\item Obtención de la Clase
   \end{itemize}
 \end{frame}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Pruebas]{}
-
+\section{Pruebas}
+%
 \subsection{Armado Base de Datos}
 \begin{frame}{Armado Base de Datos}
   \begin{itemize}
@@ -98,50 +102,49 @@ Identificar edificios y monumentos a partir de fotografías
   \item Diurnas y nocturnas
   \end{itemize}
 \end{frame}
-
+%
 \subsection{Conjunto de Imágenes}
 \begin{frame}{Clases}
-\includegraphics[width=10cm]{img/mosaico.png} 
+  \includegraphics[width=10cm]{img/mosaico.png}
 \end{frame}
-
+%
 \begin{frame}{Imágenes de prueba}
-\includegraphics[width=10cm]{img/pruebas.png} 
+  \includegraphics[width=10cm]{img/pruebas.png}
 \end{frame}
-
+%
 \subsection{Sólo con técnica de T. de Hough}
 \begin{frame}{Sólo con la técnica de Hough}
-Determinación de umbral y cantidad de máximos a utilizar
+  Determinación de umbral y cantidad de máximos a utilizar
   \begin{center}
     \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
   \end{center}
 \end{frame}
-
+%
 \subsection{Sólo con técnica de histograma}
 \begin{frame}{Sólo con la técnica de histograma}
 \end{frame}
-
-\subsection{Ambas técnicas}
-\begin{frame}{Ambas técnicas}
+%
+\subsection{Hough+Histogramas}
+\begin{frame}{Hough+Histogramas}
   \begin{itemize}
   \item Igual ponderación
   \end{itemize}
 \end{frame}
-
+%
 \subsection{Cómo se hicieron?}
 \begin{frame}{Procedimiento}
   \begin{center}
-    \includegraphics[width=11cm]{../diagramas/proceso_pruebas}
+%    \includegraphics[width=11cm]{../diagramas/proceso_pruebas}
   \end{center}
 \end{frame}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Resultados]{}
+\section{Resultados}
 \begin{frame}{Resultados}
   Se considera la tasa de error según:
   \begin{equation*}
     E_{\%}=100\cdot\frac{\T{número de errores}}{\T{número de pruebas}},
   \end{equation*}
-
 
   Tasas de error para las técnicas de extracción de características
   \begin{center}\begin{tabular}{ccc}
@@ -151,15 +154,10 @@ Determinación de umbral y cantidad de máximos a utilizar
       \hline Ambas & 2.22\% & 4.17\%\\
       \hline
   \end{tabular}\end{center}
-  \label{tablaerrores}
-
-
 \end{frame}
-
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Conclusiones]{}
-
+\section{Conclusiones}
 \begin{frame}{Conclusiones}
   \begin{itemize}
   \item Satisfactorio coinciderando restricciones
@@ -167,10 +165,9 @@ Determinación de umbral y cantidad de máximos a utilizar
   \item Preprocesamiento de la imágen
   \end{itemize}
 \end{frame}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Trabajos futuros]{}
-
+\section{Trabajos futuros}
 \begin{frame}{Trabajos futuros}
   \begin{itemize}
   \item Preprocesamiento
@@ -180,11 +177,10 @@ Determinación de umbral y cantidad de máximos a utilizar
   \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section[Fin]{}
-
-\begin{frame}{Fin}
+\begin{frame}{}
   \begin{itemize}
-  \item Preguntas?
+  \item<1-2> ¿Preguntas?
+  \item<2-> ¡Muchas gracias!
   \end{itemize}
 \end{frame}
 \end{document}
