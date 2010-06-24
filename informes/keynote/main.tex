@@ -43,7 +43,7 @@ Identificar edificios y monumentos a partir de fotografías
 \section[Técnicas utilizadas]{}
 \subsection{Transformada de Hough}
 \begin{frame}{Transformada de Hough}
-  \includegraphics[width=9cm]{../diagramas/procesohough}
+\begin{center}  \includegraphics[width=9cm]{../diagramas/procesohough} \end{center}
 
   \begin{itemize}
   \item[]\begin{center}
@@ -59,9 +59,9 @@ Identificar edificios y monumentos a partir de fotografías
   \item 60 características
   \end{itemize}
 \end{frame}
-\subsection{Histograma}
-\begin{frame}{Histograma}
-  \includegraphics[width=9cm]{../diagramas/procesoestadisticas}
+\subsection{Estadísticas del Histograma}
+\begin{frame}{Estadísticas del Histograma}
+ \begin{center} \includegraphics[width=9cm]{../diagramas/procesoestadisticas} \end{center}
   \begin{itemize}
   \item 45 características
   \end{itemize}
@@ -89,6 +89,7 @@ Identificar edificios y monumentos a partir de fotografías
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Pruebas]{}
+
 \subsection{Armado Base de Datos}
 \begin{frame}{Armado Base de Datos}
   \begin{itemize}
@@ -97,19 +98,20 @@ Identificar edificios y monumentos a partir de fotografías
   \item Diurnas y nocturnas
   \end{itemize}
 \end{frame}
-\subsection{Conjunto de Imágenes (clases)}
+
+\subsection{Conjunto de Imágenes}
 \begin{frame}{Clases}
-%  \begin{itemize}
-%  \item Imágenes de 640x480
-%  \item Obtenidas con celular
-%  \item Diurnas y nocturnas
-%  \end{itemize}
 \includegraphics[width=10cm]{img/mosaico.png} 
+\end{frame}
+
+\begin{frame}{Imágenes de prueba}
+\includegraphics[width=10cm]{img/pruebas.png} 
 \end{frame}
 
 \subsection{Sólo con técnica de T. de Hough}
 \begin{frame}{Sólo con la técnica de Hough}
-  \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
+Determinación de umbral y cantidad de máximos a utilizar
+  \begin{center}\includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales} \end{center}
 \end{frame}
 
 \subsection{Sólo con técnica de histograma}
@@ -132,7 +134,6 @@ Identificar edificios y monumentos a partir de fotografías
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Resultados]{}
-\subsection{Resultados}
 \begin{frame}{Resultados}
   Se considera la tasa de error según:
   \begin{equation*}
@@ -170,11 +171,3 @@ Identificar edificios y monumentos a partir de fotografías
 \end{frame}
 
 \end{document}
-
-
-
-
-
-
-
-
