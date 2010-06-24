@@ -69,23 +69,27 @@ de una fotografía capturada con un dispositivo móvil.
 En el método propuesto se pone énfasis en la etapa de
 extracción de carac\-te\-rís\-ti\-cas de la imagen, considerando
 un método trivial de clasificación.
-%\subsection{Extracción de características}
-La extracción de características se realiza %\tachar{\tachar{en este trabajo}}
-mediante dos técnicas diferentes:
-\begin{enumerate}
-\item transformada de Hough, y
-\item estadísticas del histograma.
-\end{enumerate}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Extracción de características mediante Transformada de Hough}
+\subsection*{Extracción de características}
+La extracción de ca\-rac\-te\-rís\-ti\-cas se realiza
+mediante dos técnicas diferentes:
+\begin{enumerate}
+  \item transformada de Hough, y
+  \item estadísticas del histograma.
+\end{enumerate}
+
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\subsubsection{Extracción de características mediante Transformada de Hough}
 La transformada de Hough nos permite visualizar, a partir de una imagen de
 bordes, los parámetros de aquellas rectas\footnote{El procedimiento es general,
 sirve para cualquier geometría que se pueda expresar en términos de sus
-parámetros. En este trabajo, se utiliza el espacio de los parámetros de las
-rectas, el más sencillo.}
-que son principales en la imagen.
+parámetros. En este trabajo, se utiliza el espacio
+de los parámetros de las rectas, el más sencillo.}
+que son principales en la imagen \cite{gonzalez+woods}.
 
 Para la extracción de características con esta técnica se siguen los siguientes
 pasos:
@@ -145,8 +149,9 @@ El proceso completo puede verse en la Fig. \ref{procesohough}.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Extracción de características por estadísticas del histograma}
-A partir de la imagen original, se normaliza su tamaño y se toman 2
+\subsubsection{Extracción de características por estadísticas del histograma}
+A partir de la imagen original, se convierte a escala de grises, se normaliza
+su tamaño y se toman 2
 ``perfiles de intensidad'': uno horizontal, calculado promediando
 cada columna de la imagen, y otro vertical obtenido al promediar cada fila.
 Estos ``perfiles'' se relacionan con la distribución de la energía promedio
@@ -155,9 +160,9 @@ Luego se calculan tres histogramas, uno para cada perfil y otro para la
 imagen entera. De estos 3 vectores, se calculan y se guardan en el
 vector de características la media aritmética $m$, la mediana $M$ (posición del
 percentil 50),  y la desviación absoluta $D_{\T{abs}}$ respecto de la mediana:
-\begin{equation*}
+\begin{equation}
 D_{\T{abs}}=\sum_i |x_i - M|
-\end{equation*}
+\end{equation}
 Así, se ha obtenido un vector de 9 valores que caracterizan % histogramas de la
 a la imagen entera.
 
@@ -176,7 +181,7 @@ histograma.}
 \label{procesoestadisticas}
 \end{figure}
 
-\subsection{Clasificación}
+\subsection*{Clasificación}
 El entrenamiento de la base de datos se realiza obteniendo las características
 para cada imagen, junto a su etiqueta.
 Se extraen las características de todas las imágenes
@@ -188,7 +193,7 @@ obtener la e\-ti\-que\-ta del prototipo $p_{\T{ganador}}$ cuyas características
 minimicen el error cuadrático medio con las de la imagen a identificar:
 \begin{equation}
   p_{\T{ganador}}=\arg \min_i\left\{ \frac{1}{\sum N_j}
-                \sum_{j=1}^K\sum_{n=0}^{N_j}(t_j[n]-p_{ij}[n])^2\right\}
+                \sum_{j=1}^K\sum_{n=1}^{N_j}(t_j[n]-p_{ij}[n])^2\right\}
 \end{equation}
 donde $t_j$ es el $j$-ésimo vector de características extraído de la imagen, con
 longitud $N_j$, y $p_{ij}$ es el $j$-ésimo vector de características del
@@ -199,24 +204,25 @@ $i$-ésimo prototipo generado en el entrenamiento, también de longitud $N_j$.
 %
 %
 \section{Experimentos y resultados}
+Como se pretende evaluar el método en situaciones reales, fue necesario generar
+una base de datos propia de imágenes.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Base de datos}
+\subsection*{Base de datos}
 La base de datos se armó con imágenes de prueba tomadas con teléfonos celulares
 corrientes, a una resolución VGA estándar de 640 píxeles de ancho por 480 de
 alto, en diferentes condiciones
 de iluminación: día a pleno sol, día nublado, noche, e interior, a monumentos/%
 estatuas y edificios en diferentes lugares de la ciudad de Santa Fe (Argentina).
-{Se obtuvieron 195 imágenes, 13 por cada uno de los 15 prototipos diferentes en
-total.}
+{Se obtuvieron 195 imágenes, 13 por cada uno de las 15 etiquetas diferentes.}
 Se muestran en la figura \ref{imagenes} dos ejemplos de las imágenes utlizadas.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Experimentación}
-Se generaron 3 {casos} de prueba diferentes, tomando
-5 etiquetas al azar (no repetidas) para cada {uno}.
+\subsection*{Experimentación}
+Se generaron 3 particiones de la base de datos, tomando
+5 etiquetas al azar (no repetidas) en cada caso.
 Para la prueba del método {en cada caso} se utilizó validación cruzada,
 entrenando la base de datos con 10 imágenes por etiqueta, y dejando las 3
 imágenes restantes para la prueba.
@@ -240,8 +246,9 @@ del canal de intensidad en el espacio de colores HSI.
 Luego se evaluó el rendimiento del método utilizando todas las características
 en forma conjunta, para los parámetros de Hough $U$ y $N$ óptimos encontrados.
 
-Se realizó además un {caso de prueba} con las 15 etiquetas de
-imágenes en conjunto, con el objetivo de tener una estimación de cómo responde
+Se realizó además un {caso de prueba} con las 15 %etiquetas de
+imágenes de la base de datos, %en conjunto,
+ con el objetivo de tener una estimación de cómo responde
 el método para un mayor número de imágenes.
 
 Se considera la tasa de error ($\%$) del método según:
@@ -268,7 +275,7 @@ condiciones (etiqueta) en que se toma la imagen.
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Resultados}
+\subsection*{Resultados}
 Los resultados de las pruebas con {la técnica} de Hough se muestran en la figura
 \ref{graficaerror}. Se ha tomado un rango de valores representativos de $U$
 y $N$ basados en pruebas previas, donde hemos identificado regiones de mínimo
@@ -285,12 +292,9 @@ para un umbral $U = 100$ y unos $N = 30$ máximos (en promedio).
 \label{graficaerror}
 \end{figure}
 
-En la tabla \ref{tablaerrores} se presentan los resultados para
-{los casos de prueba} de 5 etiquetas {y para el caso de} 15 etiquetas.
-%
-%Cabe aclarar que en el primer caso se tomó un promedio de los errores
-%sobre el conjunto.
-%
+En la tabla \ref{tablaerrores} se presenta el resultado promediado de los 3
+{casos de prueba} de 5 etiquetas {y para el caso de} 15 etiquetas.
+
 \begin{table}
 \caption{Tasas de error para {las técnicas de extracción de características}.}
 \begin{center}\begin{tabular}{ccc}
@@ -308,12 +312,12 @@ la tasa de error fue cero
 en ambas pruebas. En tanto que para {la} de Hough,se obtiene menor tasa de
 error {en los casos} de 5 etiquetas que con el de 15, de 35.5\% y 60.43\%
 respectivamente. En la última fila, se muestran los resultados de
-con\-si\-de\-rar {ambas técnicas}
-en conjunto, asignándole un peso equivalente a cada una.
+con\-si\-de\-rar todas las características, % {ambas técnicas} en conjunto,
+asignándole un peso equivalente a cada una.
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\subsection{Discusión}
+\subsection*{Discusión}
 A pesar de la muy buena performance de la técnica de histograma, debemos tener
 presente que las  imágenes de entrenamiento/prueba han sido obtenidas
 en todos los casos a partir de una secuencia tomada en el
@@ -338,12 +342,18 @@ mejorados, por ejemplo el \emph{histograma de combinación espacial de DCT
 ponderada} \cite{wdctsch}, \emph{vectores de coherencia de
 color} \cite{Pass96histogramrefinement}, o el procesamiento de
 histogramas borrosos presentado en \cite{Konstantinidis2005375}.
+Algunos tipos de preprocesamiento sencillos, como la utilización de histogramas
+en los canales H ó V, o el filtrado homomórfico, nos permitirán lograr una
+mayor independencia respecto de las condiciones de iluminación.
 
 Respecto de la extracción de características mediante la transformada de Hough,
 vemos que el rendimiento no es tan bueno como en la técnica de histogramas,
 sin embargo en varios casos ha sido capaz de identificar correctamente
 e\-di\-fi\-cios a pesar de las diferentes condiciones de
- iluminación (día y noche), lo cual es un resultado alentador.
+iluminación (día y noche), lo cual es un resultado alentador.
+
+Se deberá considerar también la posibilidad de utilizar extracción de
+características locales mediante la técnica de Transformada de Hough.
 
 No se puede evitar la mención al costo computacional del proceso, que aunque
 no es tan elevado como para considerar impráctico el método, sí será una
@@ -355,7 +365,8 @@ dispositivo móvil.
 Se deberá considerar la utilización de un mejor detector de bordes, como el
 propuesto por Canny \cite{canny},
 así como también técnicas de pre-procesamiento de la
-imagen, como puede ser el filtrado homomórfico, en pos de mejorar los
+imagen como puede ser el filtrado homomórfico, y extracción de características
+locales como se hizo con la técnica de histogramas, en pos de mejorar los
 resultados obtenidos en nuestras pruebas.
 
 En lo que respecta a la escalabilidad de la base de datos, los resultados no
