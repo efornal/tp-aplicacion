@@ -5,19 +5,7 @@
 \include{conf/preconfig}
 \include{conf/packages}
 %
-% Propiedades del documento: título, autor, etc
-%
-%% \newcommand{\titulo}{{\large FICH --- UNL}\\Procesamiento Digital de Imágenes
-%% 2010\\Trabajo Final}
-%% \newcommand{\autor}{Fornal, Esteban \and Pfarher, Christian \and Torrez, Mauro}
-%% \newcommand{\fecha}{\today}
-%% \newcommand{\tituloPDF}{Trabajo Final PDI 2010}
-%% \newcommand{\autorPDF}{Fornal, Pfarher, Torrez}
-%% \newcommand{\asuntoPDF}{}
-%% \newcommand{\clavesPDF}{}
-%
 \include{conf/config}
-%\include{conf/comandos}
 %
 \begin{document}
 \title{Identificación de edificios y monumentos a partir de fotografías
@@ -62,14 +50,14 @@ histograma, transformada de Hough, clasificación.
 \section{Introducción}
 \PARstart{E}{n} la actualidad, la gran difusión de los dispositivos móviles nos
 permite llevar la información importante siempre con nosotros. Además, es muy
-común utilizar nuestros celulares, PDAs, GPS para obtener %\emph{obtener}
+común utilizar nues\-tros celulares, PDAs, GPS para obtener
 información desde cualquier lugar donde estemos, gracias a la proliferación de
 redes de datos inalámbricas. Dado que una gran parte de estos dispositivos
 posee una cámara
 digital, surge la idea de utilizarla junto con las conexiones de datos para
 obtener información acerca del lugar donde nos encontramos. Se presenta aquí
-un método que combina técnicas de Procesamiento Digital de Imágenes orientadas
-en este sentido, que permite la
+un método que combina técnicas de Procesa\-mien\-to Digital de Imágenes
+orientadas en este sentido, que permite la
 identificación de edificios, monumentos y otros puntos de interés, a partir
 de una fotografía capturada con un dispositivo móvil.
 %
@@ -79,7 +67,7 @@ de una fotografía capturada con un dispositivo móvil.
 %
 \section{Método propuesto}
 En el método propuesto se pone énfasis en la etapa de
-extracción de características de la imagen, considerando
+extracción de carac\-te\-rís\-ti\-cas de la imagen, considerando
 un método trivial de clasificación.
 %\subsection{Extracción de características}
 La extracción de características se realiza %\tachar{\tachar{en este trabajo}}
@@ -123,7 +111,7 @@ pasos:
       \end{cases}
       \end{equation}
       {donde $I=I(x,y)$ es el valor de la intensidad en el punto $(x,y)$.}
-\item Con la imagen de bordes umbralizada se calcula la transformada de
+\item Con la imagen de bordes umbralizada se calcula la trans\-forma\-da de
       Hough para rectas.
 \item Se aplica un escalado (submuestreo) a la transformada obtenida, llevándola
       a un tamaño pequeño
@@ -174,7 +162,7 @@ Así, se ha obtenido un vector de 9 valores que caracterizan % histogramas de la
 a la imagen entera.
 
 Con la idea de incorporar características locales,
-se subdivide la imagen en cuatro
+se sub\-di\-vi\-de la imagen en cuatro
 cuadrantes y se obtienen, para cada uno, las mismas medidas que se calcularon
 para  la imagen entera. Como resultado, se obtiene un vector de 45
 características asociado a cada imagen.
@@ -196,10 +184,15 @@ con la misma etiqueta, y a partir de ellas se genera un
 ``prototipo'', que surge de promediar estas características.
 
 La clasificación de las imágenes consiste en
-obtener la etiqueta del prototipo cuyas características
-minimicen el error cuadrático medio con las de
-la imagen a identificar.
-\resalt{agregar formula del ECM y referencial al parrafo de arriba}
+obtener la e\-ti\-que\-ta del prototipo $p_{\T{ganador}}$ cuyas características
+minimicen el error cuadrático medio con las de la imagen a identificar:
+\begin{equation}
+  p_{\T{ganador}}=\arg \min_i\left\{ \frac{1}{\sum N_j}
+                \sum_{j=1}^K\sum_{n=0}^{N_j}(t_j[n]-p_{ij}[n])^2\right\}
+\end{equation}
+donde $t_j$ es el $j$-ésimo vector de características extraído de la imagen, con
+longitud $N_j$, y $p_{ij}$ es el $j$-ésimo vector de características del
+$i$-ésimo prototipo generado en el entrenamiento, también de longitud $N_j$.
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,18 +211,13 @@ estatuas y edificios en diferentes lugares de la ciudad de Santa Fe (Argentina).
 {Se obtuvieron 195 imágenes, 13 por cada uno de los 15 prototipos diferentes en
 total.}
 Se muestran en la figura \ref{imagenes} dos ejemplos de las imágenes utlizadas.
-
-%% {Cada entrada en la base de datos se corresponde con un prototipo, el cual
-%% representa un edificio en una condición de iluminación en particular.}
-
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection{Experimentación}
 Se generaron 3 {casos} de prueba diferentes, tomando
 5 etiquetas al azar (no repetidas) para cada {uno}.
-Para la prueba del método {en cada caso}
-se utilizó validación cruzada,
+Para la prueba del método {en cada caso} se utilizó validación cruzada,
 entrenando la base de datos con 10 imágenes por etiqueta, y dejando las 3
 imágenes restantes para la prueba.
 
@@ -265,13 +253,13 @@ considerando como error a cada prueba en que la imagen es mal etiquetada.
 Cabe destacar que la clasificación se realiza en términos de clases, que
 representan a un edificio/monumento en cualquier condición de iluminación
 (puede haber varias etiquetas/prototipos que corresponden a la misma clase),
-luego no es un error que la imagen de prueba se identifique con la etiqueta
-incorrecta si la clase es acertada.
+luego no es un error que la imagen de prueba se etiquete en forma incorrecta
+si la clase es la acertada.
 Por ejemplo, no es error si la imagen de un monumento tomada de día es
-identificada como la del mismo monumento, pero tomada de noche.
+etiquetada como la del mismo monumento, pero tomada de noche.
 Esta consideración se hace debido a que la detección de bordes elimina la
 información de iluminación de la imagen, y está claro que no influye
-en la clasificación por histograma, ya que éste varía significativamente
+en la técnica por histograma, ya que éste varía significativamente
 entre las versiones de día y noche; en particular, la media y mediana tendrán
 valores bastante menores en la imagen nocturna que en aquella tomada de día.
 Esto es además consistente con el objetivo del método, que es la correcta
@@ -281,8 +269,7 @@ condiciones (etiqueta) en que se toma la imagen.
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection{Resultados}
-Los resultados de las pruebas con {la técnica} de Hough
-se muestran en la figura
+Los resultados de las pruebas con {la técnica} de Hough se muestran en la figura
 \ref{graficaerror}. Se ha tomado un rango de valores representativos de $U$
 y $N$ basados en pruebas previas, donde hemos identificado regiones de mínimo
 error para $U~\in(60,120)$ y $N~\in(20,60)$.
@@ -299,20 +286,18 @@ para un umbral $U = 100$ y unos $N = 30$ máximos (en promedio).
 \end{figure}
 
 En la tabla \ref{tablaerrores} se presentan los resultados para
-{los casos de prueba} de 5 etiquetas
-{y para el caso de} 15 etiquetas.
+{los casos de prueba} de 5 etiquetas {y para el caso de} 15 etiquetas.
 %
 %Cabe aclarar que en el primer caso se tomó un promedio de los errores
 %sobre el conjunto.
 %
 \begin{table}
-\caption{Tasas de error para {las técnicas de
-extracción de características}.}
+\caption{Tasas de error para {las técnicas de extracción de características}.}
 \begin{center}\begin{tabular}{ccc}
 \hline \emph{{Técnica}} & \emph{5 etiquetas} & \emph{15 etiquetas}\\
 \hline Histogramas & 0\% & 0\%\\
 \hline Hough & 35.5\% & 60.43\%\\
-\hline Ambas & 2.22\% & 4.17\%\\
+\hline Histogramas+Hough & 2.22\% & 4.17\%\\
 \hline
 \end{tabular}\end{center}
 \label{tablaerrores}
@@ -333,12 +318,13 @@ A pesar de la muy buena performance de la técnica de histograma, debemos tener
 presente que las  imágenes de entrenamiento/prueba han sido obtenidas
 en todos los casos a partir de una secuencia tomada en el
 lapso de unos minutos, con el mismo dispositivo, lo cual implica que las
-condiciones de iluminación en cada clase son prácticamente iguales.
+condiciones de iluminación en cada etiqueta --con la que luego se generan
+los prototipos-- son prácticamente iguales.
 
 Los histogramas miden la distribución estadística de los diferentes niveles
 de intensidad presentes en la imagen, luego están estrechamente relacionados
 con las condiciones de iluminación de la escena. Por este motivo, tenemos
-que los histogramas entre las imágenes de entrenamiento/prueba son,
+que los histogramas entre las imágenes de entrenamiento/prueba son
 similares, lo cual explica el buen funcionamiento de este método.
 
 Se ha probado la técnica de histogramas sobre el canal I del espacio de color
@@ -355,15 +341,16 @@ histogramas borrosos presentado en \cite{Konstantinidis2005375}.
 
 Respecto de la extracción de características mediante la transformada de Hough,
 vemos que el rendimiento no es tan bueno como en la técnica de histogramas,
-sin embargo en varios casos ha sido capaz de identificar correctamente edificios
-a pesar de las diferentes condiciones de iluminación (día y noche), lo cual
-es un resultado alentador.
+sin embargo en varios casos ha sido capaz de identificar correctamente
+e\-di\-fi\-cios a pesar de las diferentes condiciones de
+ iluminación (día y noche), lo cual es un resultado alentador.
 
 No se puede evitar la mención al costo computacional del proceso, que aunque
 no es tan elevado como para considerar impráctico el método, sí será una
 limitante al considerar implementaciones en tiempo real o de alta velocidad
-de respuesta: en una computadora promedio el cálculo se realiza en 1-2 segundos,
-luego es esperable que este tiempo se triplique en un dispositivo móvil.
+de respuesta: en una computadora promedio el cálculo se realiza en 1--2
+segundos, luego es esperable que este tiempo se triplique en un
+dispositivo móvil.
 
 Se deberá considerar la utilización de un mejor detector de bordes, como el
 propuesto por Canny \cite{canny},
@@ -409,10 +396,9 @@ investigando y lograr un método más robusto:
       pre-procesamiento en las imágenes.
 \item Aplicación de técnicas de \eng{warping} y otras transformaciones en busca
       de lograr invarianza respecto de rotación y escalado de la imagen.
-\item Desarrollo de técnicas de extracción de características más
-      \Tachar{robustas}\iins{refinadas}.
-\item Desarrollo de una implementación óptima para dispositivos móviles con
-      poder de procesamiento limitado.
+\item Desarrollo de técnicas de extracción de características más {refinadas}.
+\item Desarrollo de una implementación óptima para dis\-po\-si\-ti\-vos
+      móviles con poder de procesamiento limitado.
 \end{itemize}
 \nocite{*}
 \bibliographystyle{tfmpd}
