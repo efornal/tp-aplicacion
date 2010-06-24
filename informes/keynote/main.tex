@@ -7,9 +7,10 @@
 %
 
 %\usetheme{Warsaw}
-\usetheme{Marburg}
-%\usetheme{Antibes}
+%\usetheme{Marburg}
+\usetheme{Antibes}
 %\usetheme{Berlin}
+%\usetheme{classic}
 %\usetheme{Darmstadt}
 %\usetheme{Montpellier}
 %\usetheme{Goettingen}
@@ -66,7 +67,7 @@ con dispositivos móviles}
 %
 \subsection{Estadísticas del Histograma}
 \begin{frame}{Técnica 2: Estadísticas del histograma}
-   \includegraphics[width=7cm]{img/ext-histog}
+  \includegraphics[width=7cm]{img/ext-histog}
 \end{frame}
 \begin{frame}{Técnica 2: Estadísticas del histograma}
   \includegraphics[width=10cm]{../diagramas/procesoestadisticas}
@@ -110,7 +111,7 @@ con dispositivos móviles}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Pruebas}
 %
-\subsection{Armado Base de Datos}
+%\subsection{Armado Base de Datos}
 \begin{frame}{Armado de la base de datos}
   \begin{itemize}
   \item Imágenes de 640x480
@@ -119,7 +120,7 @@ con dispositivos móviles}
   \end{itemize}
 \end{frame}
 %
-\subsection{Conjunto de Imágenes}
+%\subsection{Conjunto de Imágenes}
 \begin{frame}{Base de datos}
   \includegraphics[width=10cm]{img/mosaico.png}
 \end{frame}
@@ -128,7 +129,7 @@ con dispositivos móviles}
   \includegraphics[width=10cm]{img/pruebas.png}
 \end{frame}
 %
-\subsection{Sólo con técnica de T. de Hough}
+%\subsection{Sólo con técnica de T. de Hough}
 \begin{frame}{Obtención de parámetros óptimos para Hough}
   Determinación de umbral y cantidad de máximos a utilizar
   \begin{center}
@@ -136,23 +137,18 @@ con dispositivos móviles}
   \end{center}
 \end{frame}
 %
-\subsection{Sólo con técnica de histograma}
+%\subsection{Sólo con técnica de histograma}
 \begin{frame}{Prueba del método}
+Se generan 3 particiones con 5 etiquetas c/u y se prueba:
   \begin{itemize}
   \item Utilizando la técnica de Hough sola
   \item Utilizando la técnica de histogramas
   \item Utilizando Hough e histogramas con igual ponderación
   \end{itemize}
+También se prueba para la base de datos completa
 \end{frame}
 %
-\subsection{Hough+Histogramas}
-\begin{frame}{Hough+Histogramas}
-  \begin{itemize}
-  \item Igual ponderación
-  \end{itemize}
-\end{frame}
-%
-\subsection{Cómo se hicieron?}
+%\subsection{Cómo se hicieron?}
 \begin{frame}{Procedimiento}
   \begin{center}
     \includegraphics[width=10cm]{../diagramas/generacion-prototipos}
