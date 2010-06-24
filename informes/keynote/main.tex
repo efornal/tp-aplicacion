@@ -31,7 +31,7 @@ Identificar edificios y monumentos a partir de fotografías
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Outline]{Herramientas}
 
-\begin{frame}{Dos técnicas:}
+\begin{frame}{Técnicas:}
 \begin{itemize}
 \item<1-> Transformada de Hough
 \item<2-> Histograma
@@ -43,36 +43,101 @@ Identificar edificios y monumentos a partir de fotografías
 
 \begin{frame}{Transformada de Hough}
   \includegraphics[width=9cm]{../diagramas/procesohough}
+
+  \begin{itemize}
+  \item[]
+    \begin{equation*}
+      \label{umbral}
+      f(I)=
+      \begin{cases}
+      0, & I\leq U\\
+      255, & I > U
+      \end{cases}
+      \end{equation*}
+  \item 60 características
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Histograma}
   \includegraphics[width=9cm]{../diagramas/procesoestadisticas}
+  \begin{itemize}
+  \item 45 características
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Outline]{Métodos}
 
 \begin{frame}{Entrenamiento}
+  \begin{itemize}
+  \item Etiquetado de imágenes
+  \item Generación de prototipos
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Clasificación}
-  \begin{align*}
-    MSE = \frac{1}{MN} \sum_x\sum_y [ f(x,y) - g(x,y) ]^{2}
-  \end{align*}
+  \begin{itemize}
+  \item Error cuadrático medio
+    \begin{align*}
+      MSE = \frac{1}{MN} \sum_x\sum_y [ f(x,y) - g(x,y) ]^{2}
+    \end{align*}
+  \item Obtención de la Clase
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Outline]{Pruebas}
 
-\begin{frame}{Pruebas}
+\begin{frame}{Armado Base de Datos}
+  \begin{itemize}
+  \item Imágenes de 640x480
+  \item Obtenidas con celular
+  \item Diurnas y nocturnas
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Sólo técnica de Hough}
+  \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
+\end{frame}
+
+\begin{frame}{Sólo técnica de histograma}
+\end{frame}
+
+\begin{frame}{Ambas técnicas}
+  \begin{itemize}
+  \item Igual ponderación
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Cómo se hicieron}
+  \begin{itemize}
+  \item grafica con generacion prototipo de 5 imagenes la q hicimo en pizarron
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Outline]{Resultados}
 
 \begin{frame}{Resultados}
-  \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
+  Se considera la tasa de error según:
+  \begin{equation*}
+    E_{\%}=100\cdot\frac{\T{número de errores}}{\T{número de pruebas}},
+  \end{equation*}
+
+
+  Tasas de error para las técnicas de extracción de características
+  \begin{center}\begin{tabular}{ccc}
+      \hline \emph{{Técnica}} & \emph{5 etiquetas} & \emph{15 etiquetas}\\
+      \hline Histogramas & 0\% & 0\%\\
+      \hline Hough & 35.5\% & 60.43\%\\
+      \hline Ambas & 2.22\% & 4.17\%\\
+      \hline
+  \end{tabular}\end{center}
+  \label{tablaerrores}
+
+
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section[Outline]{Conclusiones}
