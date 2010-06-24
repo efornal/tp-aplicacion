@@ -84,7 +84,7 @@ mediante dos técnicas diferentes:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsubsection{Extracción de características mediante Transformada de Hough}
-La transformada de Hough nos permite visualizar, a partir de una imagen de
+La transformada de Hough nos permite vi\-sua\-li\-zar, a partir de una imagen de
 bordes, los parámetros de aquellas rectas\footnote{El procedimiento es general,
 sirve para cualquier geometría que se pueda expresar en términos de sus
 parámetros. En este trabajo, se utiliza el espacio
@@ -104,8 +104,8 @@ pasos:
       \end{equation}
       donde $G_x$, $G_y$ son el resultado de aplicar los o\-pe\-ra\-do\-res
       gradiente  de Sobel \cite{gonzalez+woods} (fig. \ref{masksobel}) a la
-      imagen.
-      Finalmente se umbraliza esta imagen de bordes utilizando un parámetro $U$:
+      imagen. Finalmente, se umbraliza esta imagen de bordes utilizando un
+      parámetro $U$:
       \begin{equation}
       \label{umbral}
       f(I)=
@@ -115,12 +115,11 @@ pasos:
       \end{cases}
       \end{equation}
       {donde $I=I(x,y)$ es el valor de la intensidad en el punto $(x,y)$.}
-\item Con la imagen de bordes umbralizada se calcula la trans\-forma\-da de
+\item Con la imagen de bordes umbralizada, se calcula la trans\-for\-ma\-da de
       Hough para rectas.
 \item Se aplica un escalado (submuestreo) a la transformada obtenida, llevándola
-      a un tamaño pequeño
-      para obtener mayor tolerancia tanto en el parámetro angular
-      $\theta$ como en el de distancia $\rho$.
+      a un tamaño pequeño, para obtener mayor tolerancia tanto en el parámetro
+      angular $\theta$ como en el de distancia $\rho$.
 \item Se toman los $N$ máximos de esta transformada y se guardan en el vector de
       características sus coordenadas $(\rho,\theta)$, mapeadas al rango
       $[-1,1]$, obteniendo así un vector de $2N$ valores.
@@ -189,7 +188,8 @@ con la misma etiqueta, y a partir de ellas se genera un
 ``prototipo'', que surge de promediar estas características.
 
 La clasificación de las imágenes consiste en
-obtener la e\-ti\-que\-ta del prototipo $p_{\T{ganador}}$ cuyas características
+obtener, primero, la e\-ti\-que\-ta del prototipo $p_{\T{ganador}}$
+cuyas características
 minimicen el error cuadrático medio con las de la imagen a identificar:
 \begin{equation}
   p_{\T{ganador}}=\arg \min_i\left\{ \frac{1}{\sum N_j}
@@ -198,6 +198,8 @@ minimicen el error cuadrático medio con las de la imagen a identificar:
 donde $t_j$ es el $j$-ésimo vector de características extraído de la imagen, con
 longitud $N_j$, y $p_{ij}$ es el $j$-ésimo vector de características del
 $i$-ésimo prototipo generado en el entrenamiento, también de longitud $N_j$.
+A partir de la etiqueta del prototipo ganador, se obtiene la clase a
+la que pertenece la imagen.%Una vez obtenida la etiqueta del prototipo, se 
 %
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -223,7 +225,7 @@ Se muestran en la figura \ref{imagenes} dos ejemplos de las imágenes utlizadas.
 \subsection*{Experimentación}
 Se generaron 3 particiones de la base de datos, tomando
 5 etiquetas al azar (no repetidas) en cada caso.
-Para la prueba del método {en cada caso} se utilizó validación cruzada,
+Para la prueba del método, {en cada caso} se utilizó validación cruzada,
 entrenando la base de datos con 10 imágenes por etiqueta, y dejando las 3
 imágenes restantes para la prueba.
 
@@ -236,11 +238,11 @@ imágenes restantes para la prueba.
 \end{figure}
 
 Se clasificó utilizando extracción de características mediante
-transformada de Hough y mediante histogramas por separado.
-Para la técnica de Hough se probaron diferentes valores de $U$ (el umbral
+transformada de Hough y con la técnica de histogramas por separado.
+Para la técnica de Hough, se probaron diferentes valores de $U$ (el umbral
 aplicado a la imagen de bordes) y $N$ (el número de máximos considerados
 en el espacio de la transformada de Hough); mientras que,
-para el método de histograma se consideró el histograma y los perfiles
+para la extracción mediante histograma se consideró el histograma y los perfiles
 del canal de intensidad en el espacio de colores HSI.
 
 Luego se evaluó el rendimiento del método utilizando todas las características
@@ -255,23 +257,22 @@ Se considera la tasa de error ($\%$) del método según:
 \begin{equation}
 E_\%=100\cdot\frac{\T{número de errores}}{\T{número de pruebas}},
 \end{equation}
-considerando como error a cada prueba en que la imagen es mal etiquetada.
-
-Cabe destacar que la clasificación se realiza en términos de clases, que
-representan a un edificio/monumento en cualquier condición de iluminación
-(puede haber varias etiquetas/prototipos que corresponden a la misma clase),
-luego no es un error que la imagen de prueba se etiquete en forma incorrecta
-si la clase es la acertada.
-Por ejemplo, no es error si la imagen de un monumento tomada de día es
-etiquetada como la del mismo monumento, pero tomada de noche.
-Esta consideración se hace debido a que la detección de bordes elimina la
-información de iluminación de la imagen, y está claro que no influye
-en la técnica por histograma, ya que éste varía significativamente
-entre las versiones de día y noche; en particular, la media y mediana tendrán
-valores bastante menores en la imagen nocturna que en aquella tomada de día.
-Esto es además consistente con el objetivo del método, que es la correcta
-identificación de la clase (clasificación), independientemente de las
-condiciones (etiqueta) en que se toma la imagen.
+considerando como error a cada prueba en que la imagen es mal clasificada.
+%% Cabe destacar que la clasificación se realiza en términos de clases, que
+%% representan a un edificio/monumento en cualquier condición de iluminación
+%% (puede haber varias etiquetas/prototipos que corresponden a la misma clase),
+%% luego no es un error que la imagen de prueba se etiquete en forma incorrecta
+%% si la clase es la acertada.
+%% Por ejemplo, no es error si la imagen de un monumento tomada de día es
+%% etiquetada como la del mismo monumento, pero tomada de noche.
+%% Esta consideración se hace debido a que la detección de bordes elimina la
+%% información de iluminación de la imagen, y está claro que no influye
+%% en la técnica por histograma, ya que éste varía significativamente
+%% entre las versiones de día y noche; en particular, la media y mediana tendrán
+%% valores bastante menores en la imagen nocturna que en aquella tomada de día.
+%% Esto es además consistente con el objetivo del método, que es la correcta
+%% identificación de la clase (clasificación), independientemente de las
+%% condiciones (etiqueta) en que se toma la imagen.
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -318,7 +319,7 @@ asignándole un peso equivalente a cada una.
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \subsection*{Discusión}
-A pesar de la muy buena performance de la técnica de histograma, debemos tener
+A pesar de la muy buena performance de la técnica de histograma, hay que tener
 presente que las  imágenes de entrenamiento/prueba han sido obtenidas
 en todos los casos a partir de una secuencia tomada en el
 lapso de unos minutos, con el mismo dispositivo, lo cual implica que las
@@ -327,12 +328,12 @@ los prototipos-- son prácticamente iguales.
 
 Los histogramas miden la distribución estadística de los diferentes niveles
 de intensidad presentes en la imagen, luego están estrechamente relacionados
-con las condiciones de iluminación de la escena. Por este motivo, tenemos
+con las condiciones de iluminación de la escena. Por este motivo, se tiene
 que los histogramas entre las imágenes de entrenamiento/prueba son
 similares, lo cual explica el buen funcionamiento de este método.
 
 Se ha probado la técnica de histogramas sobre el canal I del espacio de color
-HSI; por lo antes expuesto, debemos tener en cuenta consideraciones similares
+HSI; por lo antes expuesto, se deberán tener en cuenta consideraciones similares
 para el resto de los canales de la imagen.
 
 En general, se deberá poner énfasis en definir técnicas
@@ -347,7 +348,7 @@ en los canales H ó V, o el filtrado homomórfico, nos permitirán lograr una
 mayor independencia respecto de las condiciones de iluminación.
 
 Respecto de la extracción de características mediante la transformada de Hough,
-vemos que el rendimiento no es tan bueno como en la técnica de histogramas,
+se ve que el rendimiento no es tan bueno como en la técnica de histogramas,
 sin embargo en varios casos ha sido capaz de identificar correctamente
 e\-di\-fi\-cios a pesar de las diferentes condiciones de
 iluminación (día y noche), lo cual es un resultado alentador.
