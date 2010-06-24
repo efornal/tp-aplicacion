@@ -23,7 +23,8 @@ con dispositivos móviles}
 \section{Objetivo}
 \begin{frame}
   \frametitle{Objetivo}
-  Identificar edificios y monumentos a partir de fotografías
+  Identificar edificios y monumentos a partir de fotos sacadas
+  con el móvil.
 \end{frame}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -59,12 +60,13 @@ con dispositivos móviles}
 %
 \subsection{Estadísticas del Histograma}
 \begin{frame}{Técnica 2: Estadísticas del histograma}
- \begin{center}
-   \includegraphics[width=9cm]{../diagramas/procesoestadisticas}
- \end{center}
- \begin{itemize}
- \item Salida: vector de 45 características
- \end{itemize} 
+  \includegraphics[width=7cm]{img/ext-histog}
+\end{frame}
+\begin{frame}{Técnica 2: Estadísticas del histograma}
+  \includegraphics[width=10cm]{../diagramas/procesoestadisticas}
+  \begin{itemize}
+  \item Salida: vector de 45 características
+  \end{itemize}
 \end{frame}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,22 +75,29 @@ con dispositivos móviles}
 \subsection{Entrenamiento}
 \begin{frame}{Entrenamiento}
   \begin{itemize}
-  \item Extracción de características: a partir de cada imagen junto a su etiqueta
-  \item Etiquetado de imágenes: asignación de nombre a cada imagen
-  \item Generación de prototipos: promediado de caracteristicas de las 10 
-    imágenes de cada etiqueta
+  %% \item Extracción de características: a partir de cada imagen junto a su etiqueta
+  %% \item Etiquetado de imágenes: asignación de nombre a cada imagen
+  %% \item Generación de prototipos: promediado de caracteristicas de las 10
+  %%   imágenes de cada etiqueta
+  \item Entrada: base de datos de imágenes etiquetadas
+  \item Se generan ``prototipos'' que promedian las características de las
+    imágenes con igual etiqueta
   \end{itemize}
 \end{frame}
 %
 \subsection{Clasificación}
 \begin{frame}{Clasificación}
   \begin{itemize}
-  \item Prototipo cuyas características minimicen el Error cuadrático medio:
+  \item Entrada: imagen a clasificar
+  \item Se calculan las características de la imagen a clasificar
+  \item Se etiqueta según el prototipo que minimice el MSE entre sus
+    características y las de la imagen:
 \begin{equation}
   p_{\T{ganador}}=\arg \min_i\left\{ \frac{1}{\sum N_j}
                 \sum_{j=1}^K\sum_{n=1}^{N_j}(t_j[n]-p_{ij}[n])^2\right\}
 \end{equation}
-\item Obtención de la Clase
+\item Donde $p_i$ será el prototipo ganador
+\item Con la etiqueta del prototipo, se encuentra la clase
   \end{itemize}
 \end{frame}
 %
@@ -96,25 +105,25 @@ con dispositivos móviles}
 \section{Pruebas}
 %
 \subsection{Armado Base de Datos}
-\begin{frame}{Armado Base de Datos}
+\begin{frame}{Armado de la base de datos}
   \begin{itemize}
   \item Imágenes de 640x480
   \item Obtenidas con celular
-  \item Diurnas y nocturnas
+  \item Diferentes condiciones de iluminación: día, noche, interiores
   \end{itemize}
 \end{frame}
 %
 \subsection{Conjunto de Imágenes}
-\begin{frame}{Clases}
+\begin{frame}{Base de datos}
   \includegraphics[width=10cm]{img/mosaico.png}
 \end{frame}
 %
-\begin{frame}{Imágenes de prueba}
+\begin{frame}{Imágenes de prueba (validación)}
   \includegraphics[width=10cm]{img/pruebas.png}
 \end{frame}
 %
 \subsection{Sólo con técnica de T. de Hough}
-\begin{frame}{Sólo con la técnica de Hough}
+\begin{frame}{Obtención de parámetros óptimos para Hough}
   Determinación de umbral y cantidad de máximos a utilizar
   \begin{center}
     \includegraphics[width=9cm]{../diagramas/estadistica_noche_iguales}
@@ -122,7 +131,12 @@ con dispositivos móviles}
 \end{frame}
 %
 \subsection{Sólo con técnica de histograma}
-\begin{frame}{Sólo con la técnica de histograma}
+\begin{frame}{Prueba del método}
+  \begin{itemize}
+  \item Utilizando la técnica de Hough sola
+  \item Utilizando la técnica de histogramas
+  \item Utilizando Hough e histogramas con igual ponderación
+  \end{itemize}
 \end{frame}
 %
 \subsection{Hough+Histogramas}
