@@ -12,6 +12,7 @@
 #include <CImg.h>
 #include <glob.h>
 #include <regex.h>
+#include <fstream>
 
 using namespace std;
 using namespace cimg_library;
@@ -100,8 +101,7 @@ class ComparadorImagenes {
 	int etiquetas_de_nombre_arch(const vector<string> &noms,
 	    vector<string> & etiqs);
 
-	// guarda los prototipos generados en archivos tipo imagenes
-	int guardar_prototipos(const char* directorio);
+	int guardar_caracteristicas_csv(const char* arch_salida);
 
 	// dado un indice de la base, devuelve el nombre
 	string nombre(int indice) {
@@ -594,26 +594,28 @@ double ComparadorImagenes<T>::error_clasificacion(const char* directorio,
 }
 
 /**
- * guardar_prototipos()
- * guarda los prototipos generados a disco
- * @FIXME no anda!!!!!!!
+ * guardar_caracteristicas_csv()
+ * guarda las características de la imagen en un CSV nomarch,etiqueta,vcaracts
  */
 template<class T>
-int ComparadorImagenes<T>::guardar_prototipos(const char* directorio) {
+int ComparadorImagenes<T>::guardar_caracteristicas_csv(const char* arch_salida){
+  ofstream salida(arch_salida);
 
-  for (unsigned p = 0; p < prototipos.size(); p++) {
+  // guardo el "encabezado" del csv
+  salida<<"nombre"<<","<<"etiq";
+  for (unsigned i=0; i<n_caracteristicas; i++)
+    for (unsigned j=0; j<caracteristicas[0][i].width(); j++)
+      salida<<","<<"c"<<i<<"-"<<j;
+  salida<<endl;
 
-	prototipos[p][0].save_jpeg(string(string(directorio) + string(
-	    "estadistica_") + string(etiqueta(p)) + string(".jpg")).c_str());
-	prototipos[p][1].save_jpeg(string(string(directorio) + string("hough_")
-	    + string(etiqueta(p)) + string(".jpg")).c_str());
-	printf("gen prototipo: %s \n", string(string(directorio) + string(
-	    "estadistica_") + string(etiqueta(p)) + string(".jpg")).c_str());
-	printf("gen prototipo: %s \n", string(string(directorio) + string("hough_")
-	    + string(etiqueta(p)) + string(".jpg")).c_str());
-
+  for (unsigned p=0; p<n_imagenes ; p++) {
+  salida<<nombres_imagenes[p]<<","<<clases_imagenes[p];
+  for (unsigned i=0; i<n_caracteristicas; i++)
+    for (unsigned j=0; j<caracteristicas[p][i].width(); j++)
+      salida<<","<<(double)caracteristicas[p][i][j];
+  salida<<endl;
   }
-
+  salida.close();
   return 0;
 }
 
