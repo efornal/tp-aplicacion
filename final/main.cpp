@@ -22,6 +22,8 @@ int main(int argc, char **argv) {
   t = comp.calcular_caracteristicas ();
   printf( "Se han calculado %d caracteristicas de las imagenes de la base.\n", t );
 
+  comp.guardar_caracteristicas_csv( "caracts.csv" );
+
   comp.ponderacion(0) =  1.0;
   comp.ponderacion(1) = 1.5;
   printf("ponderaciones: %f %f\n", comp.ponderacion(0), comp.ponderacion(1) );
