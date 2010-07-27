@@ -101,7 +101,7 @@ class ComparadorImagenes {
 	int etiquetas_de_nombre_arch(const vector<string> &noms,
 	    vector<string> & etiqs);
 
-	int guardar_caracteristicas_csv(const char* arch_salida);
+	int guardar_caracteristicas_csv(const char* arch_salida, int primera, int ultima);
 
 	// dado un indice de la base, devuelve el nombre
 	string nombre(int indice) {
@@ -595,25 +595,38 @@ double ComparadorImagenes<T>::error_clasificacion(const char* directorio,
 
 /**
  * guardar_caracteristicas_csv()
- * guarda las características de la imagen en un CSV nomarch,etiqueta,vcaracts
+ * guarda las características de la imagen en un CSV etiqueta,[vcaracts]
  */
 template<class T>
-int ComparadorImagenes<T>::guardar_caracteristicas_csv(const char* arch_salida){
+int ComparadorImagenes<T>::guardar_caracteristicas_csv(const char* arch_salida,
+						       int primera = 0,
+						       int ultima = -1) {
+  if (primera < 0)
+    primera = 0;
+ 
+ if (primera >= n_caracteristicas)
+    primera = n_caracteristicas-1;
+
+  if (ultima < 0 || ultima >= n_caracteristicas)
+    ultima = n_caracteristicas-1;
+
   ofstream salida(arch_salida);
 
   // guardo el "encabezado" del csv
-  salida<<"nombre"<<","<<"etiq";
-  for (unsigned i=0; i<n_caracteristicas; i++)
+  // salida<<"nombre"<<",";
+  salida<<"etiq";
+  for (unsigned i=primera; i<=ultima; i++)
     for (unsigned j=0; j<caracteristicas[0][i].width(); j++)
       salida<<","<<"c"<<i<<"-"<<j;
   salida<<endl;
 
   for (unsigned p=0; p<n_imagenes ; p++) {
-  salida<<nombres_imagenes[p]<<","<<clases_imagenes[p];
-  for (unsigned i=0; i<n_caracteristicas; i++)
-    for (unsigned j=0; j<caracteristicas[p][i].width(); j++)
-      salida<<","<<(double)caracteristicas[p][i][j];
-  salida<<endl;
+    // salida<<nombres_imagenes[p]<<",";
+    salida<<clases_imagenes[p];
+    for (unsigned i=primera; i<=ultima; i++)
+      for (unsigned j=0; j<caracteristicas[p][i].width(); j++)
+	salida<<","<<(double)caracteristicas[p][i][j];
+    salida<<endl;
   }
   salida.close();
   return 0;
