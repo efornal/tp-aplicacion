@@ -21,17 +21,17 @@ int main(int argc, char **argv) {
 
   vector<string> base_dir, prueba_dir;
 
-  base_dir.push_back("./imagenes/base1/");
-  prueba_dir.push_back("./imagenes/prueba1/");
+  base_dir.push_back("./gamma/imagenes/base/");
+  prueba_dir.push_back("./gamma/imagenes/prueba/");
 
-  base_dir.push_back("./imagenes/base2/");
-  prueba_dir.push_back("./imagenes/prueba2/");
+  // base_dir.push_back("./imagenes/base2/");
+  // prueba_dir.push_back("./imagenes/prueba2/");
 
-  base_dir.push_back("./imagenes/base3/");
-  prueba_dir.push_back("./imagenes/prueba3/");
+  // base_dir.push_back("./imagenes/base3/");
+  // prueba_dir.push_back("./imagenes/prueba3/");
 
-  base_dir.push_back("./imagenes/todas_las_bases/");
-  prueba_dir.push_back("./imagenes/todas_las_pruebas/");
+  // base_dir.push_back("./imagenes/todas_las_bases/");
+  // prueba_dir.push_back("./imagenes/todas_las_pruebas/");
 
 
   vector<double> error;
